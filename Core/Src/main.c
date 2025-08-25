@@ -39,6 +39,7 @@
 #include "u8x8.h"
 #include "u8g2_stm32_hal.h"
 #include "DS3231.h"
+#include "app_display.h"
 
 /* USER CODE END Includes */
 
@@ -61,15 +62,12 @@
 
 /* USER CODE BEGIN PV */
 u8g2_t u8g2;
-
-Time_t current_time;
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-void draw_clock_interface(u8g2_t *u8g2, Time_t *time);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -112,19 +110,10 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   UART_Printf_Init();
-  // 初始化OLED
 	u8g2Init(&u8g2);
   DS3231_Init(&hi2c1);
    
-  uint8_t first_run_flag = AT24C32_ReadByte(0x0000);
-  if (first_run_flag != 0xAA) {
-      // 如果是第一次运行
-      Time_t initial_time = {17, 42, 20, 2025, 8, 25, 1}; 
-      DS3231_SetTime(&initial_time);
-        
-      // 在EEPROM中写入标志位，表示已经初始化过了
-      AT24C32_WriteByte(0x0000, 0xAA); 
-  }
+
 
   /* USER CODE END 2 */
 
@@ -133,29 +122,13 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
-        /* --- 逻辑处理 --- */
-        // 从DS3231获取当前时间
-        DS3231_GetTime(&current_time);
-        
-        // 从DS3231获取当前温度
-        float temperature = DS3231_GetTemperature();
-
-        // 读写EEPROM示例：保存一个开机次数计数器
-
+      
 
         /* --- 显示处理 --- */
-        char buffer[32];
         u8g2_FirstPage(&u8g2);
         do {
             // 使用从RTC读到的current_time来绘制时钟界面
-            draw_clock_interface(&u8g2, &current_time);
-
-            // 在屏幕底部显示温度和开机次数
-            u8g2_SetFont(&u8g2, u8g2_font_5x7_tf);
-            sprintf(buffer, "T:%.2fC", temperature);
-            u8g2_DrawStr(&u8g2, 2, 62, buffer);
-
+            draw_clock_interface(&u8g2);
         } while (u8g2_NextPage(&u8g2));
         
         HAL_Delay(1000); // 每秒刷新一次
@@ -206,35 +179,7 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void draw_clock_interface(u8g2_t *u8g2, Time_t *time)
-{
-    char buffer[32]; // 用于格式化字符串的缓冲区
 
-    /* --- 1. 绘制时间 --- */
-    // 选择一个大号、清晰的数字字体
-    u8g2_SetFont(u8g2, u8g2_font_logisoso24_tn);
-    // 格式化时间字符串，例如 "10:08:45"，%02d可以确保数字不足两位时前面补0
-    sprintf(buffer, "%02d:%02d:%02d", time->hour, time->minute, time->second);
-    // 计算字符串宽度以实现水平居中
-    u8g2_uint_t time_width = u8g2_GetStrWidth(u8g2, buffer);
-    u8g2_DrawStr(u8g2, (128 - time_width) / 2, 28, buffer);
-
-    /* --- 2. 绘制分割线 --- */
-    u8g2_DrawHLine(u8g2, 0, 36, 128);
-
-    /* --- 3. 绘制日期和星期 --- */
-    // 选择一个小一点的字体
-    u8g2_SetFont(u8g2, u8g2_font_6x10_tf);
-    const char *week_str[] = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
-    // 绘制星期
-    u8g2_DrawStr(u8g2, 2, 50, week_str[time->week]);
-    // 绘制日期
-    sprintf(buffer, "%04d-%02d-%02d", time->year, time->month, time->day);
-    u8g2_uint_t date_width = u8g2_GetStrWidth(u8g2, buffer);
-    u8g2_DrawStr(u8g2, (128 - date_width - 2), 50, buffer);
-
-
-}
 /* USER CODE END 4 */
 
 /**

@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xB</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;..\Hardware;..\Hardware\OLED;..\Hardware\OLED\u8g2</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;..\Hardware;..\Hardware\OLED;..\Hardware\OLED\u8g2;..\App</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -946,6 +946,46 @@
               <FileName>u8x8_u16toa.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\OLED\u8g2\u8x8_u16toa.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>App</GroupName>
+          <Files>
+            <File>
+              <FileName>app_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\App\app_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>app_display.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\app_display.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_display.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\App\app_display.h</FilePath>
+            </File>
+            <File>
+              <FileName>app_main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\app_main.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_settings.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\app_settings.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_settings.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\App\app_settings.h</FilePath>
+            </File>
+            <File>
+              <FileName>app_type.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\App\app_type.h</FilePath>
             </File>
           </Files>
         </Group>
