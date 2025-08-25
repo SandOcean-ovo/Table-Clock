@@ -1,0 +1,89 @@
+# STM32项目 .gitignore 文件
+# 作者: Sandocean
+# 日期: 2025-08-25
+
+# ===== VSCode 设置文件夹 =====
+.vscode/
+.vscode-oss/
+
+# ===== 编译输出和调试文件 =====
+# MDK-ARM 编译输出
+MDK-ARM/*.o
+MDK-ARM/*.d
+MDK-ARM/*.crf
+MDK-ARM/*.lst
+MDK-ARM/*.map
+MDK-ARM/*.hex
+MDK-ARM/*.bin
+MDK-ARM/*.elf
+MDK-ARM/*.axf
+MDK-ARM/*.uvguix.*
+MDK-ARM/*.uvoptx.bak
+MDK-ARM/*.uvprojx.bak
+MDK-ARM/Debug/
+MDK-ARM/Release/
+MDK-ARM/Objects/
+MDK-ARM/Listings/
+
+# ===== 通用编译输出 =====
+*.o
+*.d
+*.elf
+*.hex
+*.bin
+*.map
+*.lst
+*.crf
+*.uvguix.*
+*.uvoptx.bak
+*.uvprojx.bak
+
+# ===== 调试和临时文件 =====
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ===== 构建目录 =====
+build/
+debug/
+release/
+obj/
+bin/
+
+# ===== 日志文件 =====
+*.log
+*.tmp
+
+# ===== 备份文件 =====
+*.bak
+*.backup
+*.old
+
+# ===== 系统文件 =====
+desktop.ini
+$RECYCLE.BIN/
+
+# ===== 其他IDE文件 =====
+.idea/
+*.workspace
+*.project
+*.cproject
+
+# ===== 依赖和库文件 =====
+lib/
+libs/
+vendor/
+
+# ===== U8g2图形库 =====
+u8g2/
+u8g2.h
+u8g2.c
+u8g2_port.h
+u8g2_port.c
+
+# ===== 测试和临时文件 =====
+test/
+temp/
+tmp/ 
