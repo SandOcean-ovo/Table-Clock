@@ -30,7 +30,7 @@ void draw_clock_interface(u8g2_t *u8g2)
     /* --- 3. 绘制日期和星期 --- */
     // 选择一个小一点的字体
     u8g2_SetFont(u8g2, DATE_TEMP_FONT);
-    const char *week_str[] = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
+    const char *week_str[] = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
     // 绘制星期
     u8g2_DrawStr(u8g2, 2, 50, week_str[current_time.week - 1]); // 注意：week是1-7，数组索引是0-6
     // 绘制日期

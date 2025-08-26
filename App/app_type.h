@@ -15,49 +15,34 @@
 
 
 typedef enum {
+    // --- 主界面 ---
+    UI_STATE_HOME = 0,
 
-    MENU_CLOCK = 0,      // 主界面 - 时钟显示
+    // --- 一级菜单 ---
+    UI_STATE_MAIN_MENU,
 
-    /* 主菜单 */
-    MENU_DISPLAY,    // 显示子菜单
-    MENU_TIME_SET,       // 时间设置
-    MENU_SYSTEM_INFO,    // 系统信息
+    // --- 二级菜单 ---
+    UI_STATE_DISPLAY_MENU,
+    UI_STATE_TIME_MENU,
+    UI_STATE_INFO_PAGE, // 信息页不是菜单，但也是一个独立状态
 
-    /* 显示子菜单 */
-    MENU_DISPLAY_LANGUAGE,    // 语言选择
-    MENU_DISPLAY_THEME,         // 主题选择
-    MENU_DISPLAY_AUTO_OFF,      // 自动关机设置
+    // --- 三级菜单/设置页 ---
+    UI_STATE_DISPLAY_LANGUAGE,
+    UI_STATE_DISPLAY_AUTOSLEEP,
+    UI_STATE_TIME_SET_DATE,
+    UI_STATE_TIME_SET_TIME,
+    UI_STATE_TIME_SET_DST,
 
-    /* 语言选择 */
-    MENU_LANGUAGE_CN,    // 中文
-    MENU_LANGUAGE_EN,    // 英文
+    // --- 关键：通用的动画过渡状态 ---
+    UI_STATE_TRANSITION
 
-    /* 主题选择 */
-    MENU_THEME_CLASSIC,    // 经典主题
-    MENU_THEME_CYBERPUNK,  // 赛博朋克主题
-
-    /* 自动关机设置 */
-    MENU_AUTO_OFF_OFF,    // 关闭自动关机
-    MENU_AUTO_OFF_5,      // 5分钟自动关机
-    MENU_AUTO_OFF_10,     // 10分钟自动关机
-    MENU_AUTO_OFF_20,     // 20分钟自动关机
-
-    /* 时间设置 */
-    MENU_TIME_SET_YEAR,    // 设置年份
-    MENU_TIME_SET_MONTH,   // 设置月份
-    MENU_TIME_SET_DAY,     // 设置日期
-    MENU_TIME_SET_HOUR,    // 设置小时
-    MENU_TIME_SET_MINUTE,  // 设置分钟
-    MENU_TIME_SET_SECOND,  // 设置秒数
-
-} MenuState_t; /* 菜单状态类型 */
+} UI_State_t;
 
 
 
 typedef struct {
     uint32_t magic_number;
     uint8_t language;
-    uint8_t theme;
     uint8_t auto_off;
 
     uint8_t checksum;

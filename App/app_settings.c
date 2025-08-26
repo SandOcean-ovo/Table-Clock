@@ -42,7 +42,6 @@ void app_settings_init(void)
 {
     settings.magic_number = APP_SETTINGS_MAGIC_NUMBER;
     settings.language = 0;
-    settings.theme = 0;
     settings.auto_off = 0;
     settings.checksum = __checksum(&settings);
 }
