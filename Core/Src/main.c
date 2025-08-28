@@ -61,7 +61,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-u8g2_t u8g2;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -108,6 +108,7 @@ int main(void)
   MX_I2C1_Init();
   MX_TIM3_Init();
   MX_USART1_UART_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   UART_Printf_Init();
 	u8g2Init(&u8g2);
@@ -122,19 +123,12 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-      
-
-        /* --- 显示处理 --- */
-        u8g2_FirstPage(&u8g2);
-        do {
-            // 使用从RTC读到的current_time来绘制时钟界面
-            draw_clock_interface(&u8g2);
-        } while (u8g2_NextPage(&u8g2));
-        
-        HAL_Delay(1000); // 每秒刷新一次
-
 
     /* USER CODE BEGIN 3 */
+    u8g2_FirstPage(&u8g2);
+    do {
+        draw_clock_interface(&u8g2);
+    } while (u8g2_NextPage(&u8g2));
   }
   /* USER CODE END 3 */
 }

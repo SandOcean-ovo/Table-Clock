@@ -1,20 +1,17 @@
 /**
  * @file app_settings.c
- * @brief 应用设置函数
- * @details 本文件定义了应用设置函数
+ * @brief 应用程序设置管理模块
+ * @details 此文件实现了应用程序设置管理功能，包括设置数据的加载、保存和校验和验证。
  * @author SandOcean
  * @date 2025-08-25
  * @version 1.0
  */
 
-#ifndef __APP_SETTINGS_C
-#define __APP_SETTINGS_C
-
 #include "app_settings.h"
 
-#define APP_SETTINGS_MAGIC_NUMBER 0xDEADBEEF
-
 static Settings_t settings;
+
+// --- 模块私有函数 ---
 
 static uint8_t __checksum(Settings_t *settings)
 {
@@ -29,14 +26,16 @@ static uint8_t __checksum(Settings_t *settings)
 
 static void settings_save(Settings_t *settings)
 {
-    AT24C32_WritePage(0, (uint8_t*)&settings, sizeof(Settings_t));
+    AT24C32_WritePage(APP_SETTINGS_ADDRESS, (uint8_t*)&settings, sizeof(Settings_t));
 }
 
 
 static void settings_load(Settings_t *settings)
 {
-    AT24C32_ReadPage(0, (uint8_t*)&settings, sizeof(Settings_t));
+    AT24C32_ReadPage(APP_SETTINGS_ADDRESS, (uint8_t*)&settings, sizeof(Settings_t));
 }
+
+// --- 公共函数实现 ---
 
 void app_settings_init(void)
 {
@@ -69,4 +68,4 @@ void app_settings_save(Settings_t *settings)
 }
 
 
-#endif
+

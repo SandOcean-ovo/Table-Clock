@@ -22,6 +22,12 @@
 #define CLOCK_FONT u8g2_font_logisoso24_tn
 #define DATE_TEMP_FONT u8g2_font_6x10_tf
 
+extern u8g2_t u8g2;
+
+void app_display_init(void);
+
+void draw_info_page(u8g2_t *u8g2);
+
 void draw_clock_interface(u8g2_t *u8g2);
 
 

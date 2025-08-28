@@ -15,6 +15,9 @@
 #include "DS3231.h"
 #include "stdint.h"
 
+#define APP_SETTINGS_ADDRESS      0x0010      /**< 设置信息在AT24C32中存储的起始地址 */
+#define APP_SETTINGS_MAGIC_NUMBER 0xDEADBEEF  /**< 设置数据的魔法数，用于验证数据有效性 */
+
 /**
  * @brief 初始化应用设置
  * @details 初始化默认设置值，包括语言、主题、自动关机等参数。

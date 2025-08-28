@@ -17,7 +17,7 @@
 // 定义一个静态的I2C句柄指针，用于驱动内部使用
 static I2C_HandleTypeDef *ds3231_i2c;
 
-// --- 私有辅助函数 ---
+// --- 模块私有函数 ---
 
 // 十进制转BCD码
 static uint8_t decToBcd(int val)

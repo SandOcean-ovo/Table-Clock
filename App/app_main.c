@@ -1,5 +1,5 @@
 /**
- * @file app_main.h
+ * @file app_main.c
  * @brief 应用主函数
  * @details 本文件定义了应用的主函数
  * @author SandOcean
