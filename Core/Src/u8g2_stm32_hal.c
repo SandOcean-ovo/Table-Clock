@@ -13,6 +13,8 @@
 
 #include "u8g2_stm32_hal.h"
 
+u8g2_t u8g2; // 全局U8g2实例
+
 // U8g2和HAL库之间I2C通信的桥梁
 uint8_t u8x8_byte_stm32_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr) 
 {
@@ -94,6 +96,7 @@ uint8_t u8x8_stm32_gpio_and_delay(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, vo
 
 void u8g2Init(u8g2_t *u8g2)
 {
+    HAL_Delay(150); // 确保显示器上电稳定
 	u8g2_Setup_ssd1306_i2c_128x64_noname_f(u8g2, U8G2_R0, u8x8_byte_stm32_hw_i2c, u8x8_stm32_gpio_and_delay);  // 初始化 u8g2 结构体
     u8g2_SetI2CAddress(u8g2, 0x78); // 设置I2C地址
 	u8g2_InitDisplay(u8g2); // 根据所选的芯片进行初始化工作，初始化完成后，显示器处于关闭状态

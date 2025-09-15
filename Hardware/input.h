@@ -75,5 +75,14 @@ void input_init(TIM_HandleTypeDef *htim_encoder, TIM_HandleTypeDef *htim_scan);
  */
 uint8_t input_get_event(Input_Event_Data_t *event);
 
+/**
+ * @brief 输入扫描定时器的中断处理函数。
+ * @details 这个函数应该在全局的 HAL_TIM_PeriodElapsedCallback 中被调用。
+ *          它会检查传入的定时器句柄是否是用于输入扫描的定时器，
+ *          如果是，则执行按键和编码器的扫描任务。
+ * @param[in] htim HAL库传递的中断定时器句柄指针。
+ */
+void input_scan_timer_irq_handler(TIM_HandleTypeDef *htim);
+
 
 #endif /* __INPUT_H */

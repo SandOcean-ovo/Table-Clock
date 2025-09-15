@@ -16,8 +16,7 @@
 /* 应用信息 */
 #define APP_NAME "TableClock"
 #define APP_AUTHOR "SandOcean"
-#define APP_DESCRIPTION "A table clock application"
-#define APP_COPYRIGHT "Copyright (c) 2025 SandOcean"
+#define APP_COPYRIGHT "Copyright (c) 2025"
 #define APP_VERSION_MAJOR "1"
 #define APP_VERSION_MINOR "0"
 #define APP_VERSION_PATCH "0"

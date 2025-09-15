@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xB</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../Hardware;../Hardware/OLED;../Hardware/OLED/u8g2;../App</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../Hardware;../Hardware/OLED;../Hardware/OLED/u8g2;../App;..\App\UI_pages</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -712,6 +712,26 @@
               <FileType>5</FileType>
               <FilePath>..\Hardware\uart.h</FilePath>
             </File>
+            <File>
+              <FileName>input.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\input.c</FilePath>
+            </File>
+            <File>
+              <FileName>input.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\input.h</FilePath>
+            </File>
+            <File>
+              <FileName>AHT20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\AHT20.c</FilePath>
+            </File>
+            <File>
+              <FileName>AHT20.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\AHT20.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -986,6 +1006,46 @@
               <FileName>app_type.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\App\app_type.h</FilePath>
+            </File>
+            <File>
+              <FileName>page_auto_off.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\UI_pages\page_auto_off.c</FilePath>
+            </File>
+            <File>
+              <FileName>page_info.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\UI_pages\page_info.c</FilePath>
+            </File>
+            <File>
+              <FileName>page_language.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\UI_pages\page_language.c</FilePath>
+            </File>
+            <File>
+              <FileName>page_main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\UI_pages\page_main.c</FilePath>
+            </File>
+            <File>
+              <FileName>page_main_menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\UI_pages\page_main_menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>page_time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\UI_pages\page_time.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_input.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\app_input.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_input.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\App\app_input.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -26,13 +26,13 @@ static uint8_t __checksum(Settings_t *settings)
 
 static void settings_save(Settings_t *settings)
 {
-    AT24C32_WritePage(APP_SETTINGS_ADDRESS, (uint8_t*)&settings, sizeof(Settings_t));
+    AT24C32_WritePage(APP_SETTINGS_ADDRESS, (uint8_t*)settings, sizeof(Settings_t));
 }
 
 
 static void settings_load(Settings_t *settings)
 {
-    AT24C32_ReadPage(APP_SETTINGS_ADDRESS, (uint8_t*)&settings, sizeof(Settings_t));
+    AT24C32_ReadPage(APP_SETTINGS_ADDRESS, (uint8_t*)settings, sizeof(Settings_t));
 }
 
 // --- 公共函数实现 ---
@@ -62,7 +62,7 @@ uint8_t app_settings_load(Settings_t *settings)
 
 void app_settings_save(Settings_t *settings)
 {
-    settings->magic_number != APP_SETTINGS_MAGIC_NUMBER;
+    settings->magic_number = APP_SETTINGS_MAGIC_NUMBER;
     settings->checksum = __checksum(settings);
     settings_save(settings);
 }

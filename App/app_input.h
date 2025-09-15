@@ -9,3 +9,12 @@
 
 #ifndef __APP_INPUT_H
 #define __APP_INPUT_H
+
+#include "main.h"
+#include "app_config.h"
+#include "app_type.h"
+#include "input.h"
+
+
+
+#endif

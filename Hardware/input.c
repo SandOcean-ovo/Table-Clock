@@ -138,9 +138,9 @@ void Keys_Update(void)
     Key_Update(&Key_Encoder, INPUT_EVENT_ENCODER_PRESSED);
 }
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+void input_scan_timer_irq_handler(TIM_HandleTypeDef *htim)
 {
-    if (htim->Instance == TIM2) // 确保是我们的输入扫描定时器
+    if (htim == g_htim_scan)
     {
         // 1. 更新系统时间戳
         input_tick();

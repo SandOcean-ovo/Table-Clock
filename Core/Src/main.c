@@ -61,7 +61,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+Time_t current_time;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -110,10 +110,14 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  UART_Printf_Init();
 	u8g2Init(&u8g2);
+  u8g2_ClearBuffer(&u8g2);
+  u8g2_SendBuffer(&u8g2);
   DS3231_Init(&hi2c1);
-   
+  AHT20_Init(&hi2c1);
+  Page_Manager_Init(&u8g2);
+  input_init(&htim3, &htim2);
+
 
 
   /* USER CODE END 2 */
@@ -125,10 +129,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    u8g2_FirstPage(&u8g2);
-    do {
-        draw_clock_interface(&u8g2);
-    } while (u8g2_NextPage(&u8g2));
+    Page_Manager_Loop();
+
+
   }
   /* USER CODE END 3 */
 }

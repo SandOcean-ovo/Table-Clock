@@ -27,6 +27,8 @@
 "table clock\system_stm32f1xx.o"
 "table clock\ds3231.o"
 "table clock\uart.o"
+"table clock\input.o"
+"table clock\aht20.o"
 "table clock\mui.o"
 "table clock\mui_u8g2.o"
 "table clock\u8g2_arc.o"
@@ -72,6 +74,13 @@
 "table clock\app_display.o"
 "table clock\app_main.o"
 "table clock\app_settings.o"
+"table clock\page_auto_off.o"
+"table clock\page_info.o"
+"table clock\page_language.o"
+"table clock\page_main.o"
+"table clock\page_main_menu.o"
+"table clock\page_time.o"
+"table clock\app_input.o"
 --library_type=microlib --strict --scatter "Table Clock\Table Clock.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

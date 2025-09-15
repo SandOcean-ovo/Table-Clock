@@ -11,11 +11,13 @@
  * @version 1.0
  */
 
-#ifndef U8G2_STM32_HAL_H
-#define U8G2_STM32_HAL_H
+#ifndef __U8G2_STM32_HAL_H
+#define __U8G2_STM32_HAL_H
 
 #include "u8g2.h"
 #include "main.h"
+
+extern u8g2_t u8g2; // 全局U8g2实例
 
 /**
  * @brief U8g2的GPIO和延时回调函数

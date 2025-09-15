@@ -8,87 +8,185 @@
  */
 
 #include "app_display.h"
-
-u8g2_t u8g2;
-
-// --- 模块私有函数 ---
-
-void draw_clock_interface(u8g2_t *u8g2)
-{
-    char buffer[32]; // 用于格式化字符串的缓冲区
-    static Time_t current_time;
-
-    DS3231_GetTime(&current_time);
-    /* --- 1. 绘制时间 --- */
-    // 选择一个大号、清晰的数字字体
-    u8g2_SetFont(u8g2, CLOCK_FONT);
-    // 格式化时间字符串，例如 "10:08:45"，%02d可以确保数字不足两位时前面补0
-    sprintf(buffer, "%02d:%02d:%02d", current_time.hour, current_time.minute, current_time.second);
-    // 计算字符串宽度以实现水平居中
-    u8g2_uint_t time_width = u8g2_GetStrWidth(u8g2, buffer);
-    u8g2_DrawStr(u8g2, (128 - time_width) / 2, 28, buffer);
-
-    /* --- 2. 绘制分割线 --- */
-    u8g2_DrawHLine(u8g2, 0, 36, 128);
-
-    /* --- 3. 绘制日期和星期 --- */
-    // 选择一个小一点的字体
-    u8g2_SetFont(u8g2, DATE_TEMP_FONT);
-    const char *week_str[] = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
-    // 绘制星期
-    u8g2_DrawStr(u8g2, 2, 50, week_str[current_time.week - 1]); // 注意：week是1-7，数组索引是0-6
-    // 绘制日期
-    sprintf(buffer, "%04d-%02d-%02d", current_time.year, current_time.month, current_time.day);
-    u8g2_uint_t date_width = u8g2_GetStrWidth(u8g2, buffer);
-    u8g2_DrawStr(u8g2, (128 - date_width - 2), 50, buffer);
-
-    /* --- 4. 绘制温度 --- */
-    sprintf(buffer, "T:%.1fC", DS3231_GetTemperature());
-    u8g2_DrawStr(u8g2, 2, 62, buffer);
-}
+#include "u8g2_stm32_hal.h"
+#include <string.h>
+#include "input.h"
 
 void draw_info_page(u8g2_t *u8g2) 
 {
-    static uint32_t last_anim_tick = 0;
-    static int current_line = 0;      // 当前动画进行到第几行
-    const int total_lines = 10;       // 动画总共有多少行/步骤
 
-
-    // --- 动画结束后的最终页面 ---
-    
     /* 1. 标题和Logo */
-    u8g2_SetFont(u8g2, u8g2_font_unifont_t_symbols); // 符号字体
-    u8g2_DrawGlyph(u8g2, 0, 12, 0x2194); // 一个双向箭头符号作为Logo
+    u8g2_SetFont(u8g2, u8g2_font_open_iconic_app_2x_t); // 符号字体
+    u8g2_DrawGlyph(u8g2, 0, 16, 0x0045); // 一个时钟符号作为Logo
     u8g2_SetFont(u8g2, u8g2_font_profont12_tf);
-    u8g2_DrawStr(u8g2, 18, 12, APP_NAME);
-    u8g2_DrawHLine(u8g2, 0, 15, 128);
+    u8g2_DrawStr(u8g2, 22, 14, APP_NAME);
+    u8g2_DrawHLine(u8g2, 0, 18, 128);
 
     /* 2. 基本信息 */
-    // char buffer[40];
     u8g2_SetFont(u8g2, u8g2_font_profont10_tf);
-    u8g2_DrawStr(u8g2, 0, 28, "FIRMWARE: " APP_VERSION);
+    u8g2_DrawStr(u8g2, 0, 28, "Firmware: " APP_VERSION);
     
-    // 使用编译时宏，信息自动更新！
-    u8g2_DrawStr(u8g2, 0, 38, "BUILD: " __DATE__);
-    u8g2_DrawStr(u8g2, 0, 48, "AUTHOR: " APP_AUTHOR);
-
-    /* 3. 硬件信息 (展示你的技术细节) */
-    u8g2_DrawStr(u8g2, 0, 58, "MCU: STM32F103 @72MHz");
-
-    /* 4. GitHub链接 (最重要的部分！) */
-    // 制作一个闪烁的提示符，吸引注意力
-    if ((HAL_GetTick() / 500) % 2) {
-        u8g2_DrawStr(u8g2, 0, 64, ">");
-    }
-    u8g2_SetFont(u8g2, u8g2_font_u8glib_4_tf); // 用一个很小的字体显示链接
-    u8g2_DrawStr(u8g2, 0, 64, "GITHUB.COM/YOUR_USERNAME/YOUR_REPO");
+    u8g2_DrawStr(u8g2, 0, 48, APP_COPYRIGHT);
+    u8g2_DrawStr(u8g2, 0, 58, APP_AUTHOR);
 
 }
 
+// ====================================================================
+//            Part 1: 页面管理器内部状态 (Manager Internals)
+// ====================================================================
 
-// --- 公共函数实现 ---
+// 管理器自身的状态
+typedef enum {
+    MANAGER_STATE_IDLE,     // 静止状态，按页面的刷新率工作
+    MANAGER_STATE_ANIMATING // 动画状态，以最快速度工作
+} Manager_State_e;
 
-void app_display_init(void)
+/**
+ * @brief 页面管理器内部状态结构体
+ */
+static struct {
+    u8g2_t* u8g2;                   // 指向u8g2实例的指针
+    Page_Base* current_page;        // 指向当前活动页面的指针
+
+    // --- 动画相关状态 ---
+    Manager_State_e state;          // 管理器当前状态
+    Page_Base* page_from;           // 动画的来源页面
+    Page_Base* page_to;             // 动画的目标页面
+    uint32_t anim_start_time;       // 动画开始的时间戳
+    uint32_t anim_duration;         // 动画总时长
+    
+    // --- 页面历史堆栈 ---
+    // ... (您的历史堆栈代码) ...
+} g_page_manager;
+
+// ====================================================================
+//            Part 2: 页面具体实现 (Page Implementations)
+// ====================================================================
+// ... (所有页面的 draw, loop, action 函数和 g_page_... 定义保持不变) ...
+
+// ====================================================================
+//            Part 3: 页面管理器API实现 (Manager API)
+// ====================================================================
+
+// 初始化函数
+void Page_Manager_Init(u8g2_t* u8g2_ptr) {
+    g_page_manager.u8g2 = u8g2_ptr;
+
+    // 设置初始页面
+    g_page_manager.current_page = &g_page_main;
+    if (g_page_manager.current_page->enter) {
+        g_page_manager.current_page->enter(g_page_manager.current_page);
+    }
+}
+
+/**
+ * @brief 切换到指定的页面 (带动画)
+ * @param new_page 目标页面
+ */
+void Switch_Page(Page_Base* new_page)
 {
-    u8g2Init(&u8g2);
+    if (!new_page || new_page == g_page_manager.current_page || g_page_manager.state == MANAGER_STATE_ANIMATING) {
+        return;
+    }
+
+    // 调用旧页面的退出函数
+    if (g_page_manager.current_page && g_page_manager.current_page->exit) {
+        g_page_manager.current_page->exit(g_page_manager.current_page);
+    }
+
+    // --- 启动动画 ---
+    g_page_manager.page_from = g_page_manager.current_page;
+    g_page_manager.page_to = new_page;
+    g_page_manager.anim_start_time = HAL_GetTick();
+    g_page_manager.anim_duration = 250; // 动画持续250ms
+    g_page_manager.state = MANAGER_STATE_ANIMATING; // 进入动画状态
+    
+    // 注意：不再在这里切换 current_page 和调用 enter 函数，这些都推迟到动画结束后
+}
+
+/**
+ * @brief 页面管理器的主循环函数 (升级版)
+ */
+void Page_Manager_Loop(void)
+{
+    // 1. 优先处理动画状态
+    if (g_page_manager.state == MANAGER_STATE_ANIMATING) {
+        uint32_t elapsed = HAL_GetTick() - g_page_manager.anim_start_time;
+
+        // --- 动画结束 ---
+        if (elapsed >= g_page_manager.anim_duration) {
+            g_page_manager.state = MANAGER_STATE_IDLE; // 恢复静止状态
+            g_page_manager.current_page = g_page_manager.page_to; // 正式切换页面
+            
+            // 调用新页面的进入函数
+            if (g_page_manager.current_page && g_page_manager.current_page->enter) {
+                g_page_manager.current_page->enter(g_page_manager.current_page);
+            }
+            // 动画结束后，立即强制刷新一次最终画面
+            if (g_page_manager.current_page && g_page_manager.current_page->draw) {
+                 u8g2_FirstPage(g_page_manager.u8g2);
+                 do {
+                     g_page_manager.current_page->draw(g_page_manager.current_page, g_page_manager.u8g2, 0, 0);
+                 } while (u8g2_NextPage(g_page_manager.u8g2));
+            }
+            return; // 本次循环结束
+        }
+
+        // --- 动画进行中 ---
+        float progress = (float)elapsed / g_page_manager.anim_duration;
+        int16_t screen_width = u8g2_GetDisplayWidth(g_page_manager.u8g2);
+        int16_t from_x = -(int16_t)(screen_width * progress);
+        int16_t to_x = screen_width - (int16_t)(screen_width * progress);
+
+        // 同时绘制旧页面和新页面，并施加位移
+        u8g2_FirstPage(g_page_manager.u8g2);
+        do {
+            if (g_page_manager.page_from && g_page_manager.page_from->draw) {
+                g_page_manager.page_from->draw(g_page_manager.page_from, g_page_manager.u8g2, from_x, 0);
+            }
+            if (g_page_manager.page_to && g_page_manager.page_to->draw) {
+                g_page_manager.page_to->draw(g_page_manager.page_to, g_page_manager.u8g2, to_x, 0);
+            }
+        } while (u8g2_NextPage(g_page_manager.u8g2));
+
+    } 
+    // 2. 如果是静止状态，则按原计划工作
+    else { 
+        Page_Base* current = g_page_manager.current_page;
+        if (!current) return;
+
+        // 处理输入事件
+        Input_Event_Data_t event;
+        if (input_get_event(&event)) {
+            if (current->action) {
+                // 传递整个事件结构体的指针！
+                current->action(current, g_page_manager.u8g2, &event);
+            }
+        }
+
+        // 调用当前页面的循环逻辑
+        if (current->loop) {
+            current->loop(current);
+        }
+
+        // 根据页面的 refresh_rate_ms 判断是否需要重绘
+        uint32_t now = HAL_GetTick();
+        if (now - current->last_refresh_time >= current->refresh_rate_ms) {
+            current->last_refresh_time = now;
+            
+            if (current->draw) {
+                u8g2_FirstPage(g_page_manager.u8g2);
+                do {
+                    current->draw(current, g_page_manager.u8g2, 0, 0);
+                } while (u8g2_NextPage(g_page_manager.u8g2));
+            }
+        }
+    }
+}
+
+// 返回功能
+void Go_Back_Page(void) {
+    if (g_page_manager.current_page && g_page_manager.current_page->parent_page) {
+        Switch_Page(g_page_manager.current_page->parent_page);
+    }
 }
