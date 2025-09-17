@@ -1,46 +1,57 @@
 /**
- * @file page_main.c
- * @brief 主页面实现文件
- * @details 本文件定义了主页面的行为，包括显示时间、日期、温湿度等信息。
- * @author SandOcean
- * @date 2025-09-15
- * @version 1.0
+ * @file      page_main.c
+ * @brief     主页面实现文件
+ * @details   本文件定义了主页面的行为，包括显示时间、日期、温湿度等信息。 
+ * @author    SandOcean
+ * @date      2025-09-17
+ * @version   1.1
+ * @copyright Copyright (c) 2025 SandOcean
  */
 
 #include "app_display.h"
+#include "app_main.h" // 包含 app_main.h 以访问全局标志
 #include "DS3231.h"
 #include "AHT20.h"
 #include "input.h" 
+#include <stdio.h>
 
-// 1. 定义页面私有数据结构体
+/* Private types -------------------------------------------------------------*/
+/**
+ * @brief 主页面的私有数据结构体
+ */
 typedef struct
 {
-    Page_Base base; // 必须包含基类作为第一个成员
+    Page_Base base; ///< 必须包含基类作为第一个成员
     // 私有数据: 用于存储需要显示的内容
-    char time_str[12];
-    char date_str[12];
-    char week_str[5];
-    char temp_humi_str[20];
+    char time_str[12];      ///< 格式化的时间字符串
+    char date_str[12];      ///< 格式化的日期字符串
+    char week_str[5];       ///< 格式化的星期字符串
+    char temp_humi_str[20]; ///< 格式化的温湿度字符串
 
-    Time_t current_time;
-    float current_temp;
-    float current_humi;
-    uint32_t last_update_time; 
+    Time_t current_time;    ///< 当前时间数据
+    float current_temp;     ///< 当前温度数据
+    float current_humi;     ///< 当前湿度数据
+    uint32_t last_update_time; ///< 上次更新温湿度的时间戳
+
+    // 新增成员，用于处理设置加载失败的提示
+    bool show_error_msg;
+    uint32_t error_msg_start_time;
 
 } Page_main_Data;
 
-// 2. 声明本页面的函数
+/* Private function prototypes -----------------------------------------------*/
 static void Page_main_Enter(Page_Base *page);
 static void Page_main_Loop(Page_Base *page);
 static void Page_main_Draw(Page_Base *page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset);
 static void Page_main_Action(Page_Base *page, u8g2_t *u8g2, const Input_Event_Data_t* event);
 
-// 3. 定义页面全局实例
-// 注意：这里我们只定义一个 Page_Base 实例。
-// Page_main_Data 实例将在 Page_Manager 中管理或作为静态变量。
-// 为了简单起见，我们先用一个静态全局变量。
-static Page_main_Data g_page_main_data;
+/* Private variables ---------------------------------------------------------*/
+static Page_main_Data g_page_main_data; ///< 主页面的数据实例
 
+/* Public variables ----------------------------------------------------------*/
+/**
+ * @brief 主页面的全局实例
+ */
 Page_Base g_page_main = {
     .enter = Page_main_Enter,
     .exit = NULL,
@@ -52,29 +63,48 @@ Page_Base g_page_main = {
     .refresh_rate_ms = 100, // 100ms刷新一次足够了
     .last_refresh_time = 0};
 
-// 4. 函数具体实现
+/* Function implementations --------------------------------------------------*/
+/**
+ * @brief 主页面进入函数
+ * @param page 指向页面基类的指针
+ */
 static void Page_main_Enter(Page_Base *page)
 {
     Page_main_Data *data = &g_page_main_data;
     data->last_update_time = 0; // 强制在每次进入主页时都立即刷新一次温湿度
 
-    // 立即执行一次数据更新逻辑
-    Page_main_Loop(page);
+    // 检查设置加载失败的全局标志
+    if (g_settings_load_failed == true) {
+        data->show_error_msg = true;
+        data->error_msg_start_time = HAL_GetTick();
+        // 将全局标志复位，这样下次返回主页时就不会再显示
+        g_settings_load_failed = false; 
+    } else {
+        data->show_error_msg = false;
+    }
+
+    Page_main_Loop(page); // 立即执行一次循环以填充数据
 }
 
 /**
  * @brief 主页面的逻辑循环函数
- * @details 只负责更新数据，不负责绘制
+ * @details 负责更新时间和温湿度等数据。
+ * @param page 指向页面基类的指针
  */
 static void Page_main_Loop(Page_Base *page)
 {
-    // 将通用的 page 指针转换为本页面专属的数据指针
     Page_main_Data *data = &g_page_main_data;
 
-    // 获取硬件数据
+    // 如果正在显示错误消息，检查是否超过3秒
+    if (data->show_error_msg) {
+        if (HAL_GetTick() - data->error_msg_start_time > 3000) {
+            data->show_error_msg = false; // 3秒后停止显示
+        }
+    }
+
     DS3231_GetTime(&data->current_time);
 
-    // 【修改】使用数据结构中的变量，并优化逻辑
+    // 每30秒更新一次温湿度
     if (data->last_update_time == 0 || HAL_GetTick() - data->last_update_time > 30000)
     {
         data->last_update_time = HAL_GetTick();
@@ -86,7 +116,6 @@ static void Page_main_Loop(Page_Base *page)
     sprintf(data->date_str, "%04d-%02d-%02d", data->current_time.year, data->current_time.month, data->current_time.day);
 
     const char *week_str_map[] = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
-    // 注意：DS3231的星期范围可能是1-7，请确保 week 成员的值与数组索引对应
     if (data->current_time.week >= 1 && data->current_time.week <= 7) {
         strcpy(data->week_str, week_str_map[data->current_time.week - 1]);
     }
@@ -96,36 +125,60 @@ static void Page_main_Loop(Page_Base *page)
 
 /**
  * @brief 主页面的绘制函数
- * @details 只负责绘制，不处理逻辑
+ * @param page 指向页面基类的指针
+ * @param u8g2 指向u8g2实例的指针
+ * @param x_offset 屏幕的X方向偏移
+ * @param y_offset 屏幕的Y方向偏移
  */
 static void Page_main_Draw(Page_Base *page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset)
 {
-    // 将通用的 page 指针转换为本页面专属的数据指针
     Page_main_Data *data = &g_page_main_data;
 
-    /* --- 1. 绘制时间 --- */
+    /* 绘制时间 */
     u8g2_SetFont(u8g2, CLOCK_FONT);
     u8g2_uint_t time_width = u8g2_GetStrWidth(u8g2, data->time_str);
     u8g2_DrawStr(u8g2, (128 - time_width) / 2 + x_offset, 28 + y_offset, data->time_str);
 
-    /* --- 2. 绘制分割线 --- */
+    /* 绘制分割线 */
     u8g2_DrawHLine(u8g2, 0 + x_offset, 36 + y_offset, 128);
 
-    /* --- 3. 绘制日期和星期 --- */
+    /* 绘制日期和星期 */
     u8g2_SetFont(u8g2, DATE_TEMP_FONT);
     u8g2_DrawStr(u8g2, 2 + x_offset, 50 + y_offset, data->week_str);
     u8g2_uint_t date_width = u8g2_GetStrWidth(u8g2, data->date_str);
     u8g2_DrawStr(u8g2, (128 - date_width - 2) + x_offset, 50 + y_offset, data->date_str);
 
-    /* --- 4. 绘制温度和湿度 --- */
+    /* 绘制温度和湿度 */
     u8g2_DrawStr(u8g2, 2 + x_offset, 62 + y_offset, data->temp_humi_str);
+
+    /* 如果需要，在最上层绘制错误信息弹窗 */
+    if (data->show_error_msg) {
+        const char* msg = "Setting load failed";
+        u8g2_SetFont(u8g2, PROMPT_FONT); // 假设 PROMPT_FONT 是一个已定义的字体
+        uint16_t msg_w = u8g2_GetStrWidth(u8g2, msg);
+        uint16_t box_w = msg_w + 10;
+        uint16_t box_h = 16;
+        uint16_t box_x = (u8g2_GetDisplayWidth(u8g2) - box_w) / 2;
+        uint16_t box_y = (u8g2_GetDisplayHeight(u8g2) - box_h) / 2;
+
+        u8g2_SetDrawColor(u8g2, 0); // 绘制黑色背景
+        u8g2_DrawBox(u8g2, box_x, box_y, box_w, box_h);
+        u8g2_SetDrawColor(u8g2, 1); // 绘制白色边框和文字
+        u8g2_DrawFrame(u8g2, box_x, box_y, box_w, box_h);
+        u8g2_DrawStr(u8g2, box_x + 5, box_y + 12, msg);
+    }
 }
 
+/**
+ * @brief 主页面的事件处理函数
+ * @param page 指向页面基类的指针
+ * @param u8g2 指向u8g2实例的指针
+ * @param event 指向输入事件数据的指针
+ */
 static void Page_main_Action(Page_Base *page, u8g2_t *u8g2, const Input_Event_Data_t* event)
 {
     if (event->event == INPUT_EVENT_COMFIRM_PRESSED)
     {
-        // 假设 g_page_main_menu 已经在 app_display.h 中声明
         Switch_Page(&g_page_main_menu); // 切换到菜单页
     }
 }

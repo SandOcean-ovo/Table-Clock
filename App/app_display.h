@@ -1,11 +1,11 @@
 /**
- * @file app_display.h
- * @brief 页面管理器和UI框架的头文件
- * @details 定义了页面基类、页面函数指针、全局页面实例以及页面管理器的外部接口。
- *          这是整个UI系统的核心驱动。
- * @author SandOcean
- * @date 2025-09-09
- * @version 1.1
+ * @file      app_display.h
+ * @brief     页面管理器和UI框架的头文件
+ * @details   定义了页面基类、页面函数指针、全局页面实例以及页面管理器的外部接口。这是整个UI系统的核心驱动。
+ * @author    SandOcean
+ * @date      2025-09-09
+ * @version   1.1
+ * @copyright Copyright (c) 2025 SandOcean
  */
 
 #ifndef __APP_DISPLAY_H
@@ -150,6 +150,13 @@ void Switch_Page(Page_Base* new_page);
  * @details 如果当前页面没有定义父页面，则此函数无效。
  */
 void Go_Back_Page(void);
+
+/**
+ * @brief 强制返回到主页面
+ * @details 清空所有页面历史记录，并立即将当前页面设置为主页面，无切换动画。
+ *          主要用于自动熄屏后恢复等场景。
+ */
+void Page_Manager_Go_Home(void);
 
 /** @} */
 

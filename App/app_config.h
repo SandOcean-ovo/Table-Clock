@@ -1,10 +1,11 @@
 /**
- * @file app_config.h
- * @brief 配置头文件
- * @details 本文件定义了项目的配置参数，包含应用信息和语言选项。
- * @author SandOcean
- * @date 2025-08-25
- * @version 1.0
+ * @file      app_config.h
+ * @brief     配置头文件
+ * @details   本文件定义了项目的配置参数，包含应用信息和语言选项。
+ * @author    SandOcean
+ * @date      2025-08-25
+ * @version   1.0
+ * @copyright Copyright (c) 2025 SandOcean
  */ 
 
 #ifndef __APP_CONFIG_H
@@ -17,9 +18,9 @@
 #define APP_NAME "TableClock"
 #define APP_AUTHOR "SandOcean."
 #define APP_COPYRIGHT "Copyright (c) 2025"
-#define APP_VERSION_MAJOR "0"
-#define APP_VERSION_MINOR "1"
-#define APP_VERSION_PATCH "5"
+#define APP_VERSION_MAJOR "1"
+#define APP_VERSION_MINOR "0"
+#define APP_VERSION_PATCH "0"
 #define APP_VERSION APP_VERSION_MAJOR "." APP_VERSION_MINOR "." APP_VERSION_PATCH
 
 

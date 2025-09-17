@@ -1,11 +1,12 @@
 /**
- * @file app_display.c
- * @brief 应用显示函数
- * @details 本文件定义了应用的显示功能
- * @author SandOcean
- * @date 2025-08-25
- * @version 1.0
- */
+ * @file      app_display.c
+ * @brief     显示头文件
+ * @details   本文件定义了项目的显示框架，搭建了多级页面的显示结构。
+ * @author    SandOcean
+ * @date      2025-08-25
+ * @version   1.0
+ * @copyright Copyright (c) 2025 SandOcean
+ */ 
 
 #include "app_display.h"
 #include "u8g2_stm32_hal.h"
@@ -184,5 +185,35 @@ void Go_Back_Page(void) {
         // (我们需要一个不带压栈功能的内部切换函数)
         // 让我们为此创建一个内部函数 _Switch_Page_Internal
         _Switch_Page_Internal(last_page, false); // false 表示不记录这次返回操作到历史
+    }
+}
+
+/**
+ * @brief 强制返回到主页面
+ * @details 清空所有页面历史记录，并立即将当前页面设置为主页面，无切换动画。
+ *          主要用于自动熄屏后恢复等场景。
+ */
+void Page_Manager_Go_Home(void)
+{
+    // 如果当前已经在主页且没有动画，则无需操作
+    if (g_page_manager.current_page == &g_page_main && g_page_manager.state == MANAGER_STATE_IDLE) {
+        return;
+    }
+
+    // 1. 调用当前页面的退出函数（如果存在）
+    if (g_page_manager.current_page && g_page_manager.current_page->exit) {
+        g_page_manager.current_page->exit(g_page_manager.current_page);
+    }
+
+    // 2. 清空页面历史堆栈
+    g_page_manager.history_depth = 0;
+
+    // 3. 直接切换到主页面
+    g_page_manager.current_page = &g_page_main;
+    g_page_manager.state = MANAGER_STATE_IDLE; // 确保管理器处于静止状态
+
+    // 4. 调用主页面的进入函数（如果存在）
+    if (g_page_manager.current_page->enter) {
+        g_page_manager.current_page->enter(g_page_manager.current_page);
     }
 }

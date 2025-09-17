@@ -1,10 +1,11 @@
 /**
- * @file app_type.h
- * @brief 应用类型头文件
- * @details 本文件定义了应用层使用的数据结构
- * @author SandOcean
- * @date 2025-08-25
- * @version 1.0
+ * @file      app_type.h
+ * @brief     应用类型头文件
+ * @details   本文件定义了应用层使用的数据结构
+ * @author    SandOcean
+ * @date      2025-08-25
+ * @version   1.0
+ * @copyright Copyright (c) 2025 SandOcean
  */
 
 #ifndef __APP_TYPE_H

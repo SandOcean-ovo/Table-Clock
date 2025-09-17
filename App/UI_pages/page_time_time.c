@@ -1,10 +1,11 @@
 /**
- * @file page_time_time.c
- * @brief 时间设置页面（老虎机动画）
- * @details 使用老虎机式动画来设置时、分、秒。
- * @author SandOcean
- * @date 2025-09-17
- * @version 1.0
+ * @file      page_time_time.c
+ * @brief     时间设置页面
+ * @details   使用老虎机式动画来设置时、分、秒。
+ * @author    SandOcean
+ * @date      2025-09-17
+ * @version   1.0
+ * @copyright Copyright (c) 2025 SandOcean
  */
 
 #include "app_display.h"
@@ -14,48 +15,57 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-// --- 1. 页面私有定义 ---
-#define TIME_SLOT_ITEM_COUNT 3
-#define TIME_SLOT_ITEM_HEIGHT 22
-#define TIME_SLOT_Y_CENTER 32
+/* Private defines -----------------------------------------------------------*/
+#define TIME_SLOT_ITEM_COUNT 3      ///< 可设置项数量 (时/分/秒)
+#define TIME_SLOT_ITEM_HEIGHT 22    ///< 老虎机动画中每个数字占据的高度
+#define TIME_SLOT_Y_CENTER 32       ///< 聚焦时老虎机的中心Y坐标
 
-// --- 2. 定义页面状态和数据结构 ---
+/* Private types -------------------------------------------------------------*/
+/**
+ * @brief 时间设置页面的动画状态枚举
+ */
 typedef enum {
-    TIME_STATE_ENTERING,
-    TIME_STATE_ZOOMING_IN,
-    TIME_STATE_FOCUSED,
-    TIME_STATE_ZOOMING_OUT,
-    TIME_STATE_SWITCHING,
-    TIME_STATE_SLOT_ROLLING,
-    TIME_STATE_SHOW_MSG
+    TIME_STATE_ENTERING,        ///< 初始显示状态
+    TIME_STATE_ZOOMING_IN,      ///< 放大动画状态
+    TIME_STATE_FOCUSED,         ///< 聚焦交互状态
+    TIME_STATE_ZOOMING_OUT,     ///< 缩小动画状态
+    TIME_STATE_SWITCHING,       ///< 准备切换焦点状态
+    TIME_STATE_SLOT_ROLLING,    ///< 老虎机滚动动画状态
+    TIME_STATE_SHOW_MSG         ///< 显示反馈信息状态
 } Time_Set_State_e;
 
+/**
+ * @brief 时间设置页面的私有数据结构体
+ */
 typedef struct {
-    Time_t temp_time;
-    int8_t focus_index; // 0=时, 1=分, 2=秒
-    Time_Set_State_e state;
+    Time_t temp_time;           ///< 用于编辑的临时时间数据
+    int8_t focus_index;         ///< 当前焦点: 0=时, 1=分, 2=秒
+    Time_Set_State_e state;     ///< 页面动画状态
 
-    uint32_t anim_start_time;
-    float anim_progress;
+    uint32_t anim_start_time;   ///< 通用动画起始时间戳
+    float anim_progress;        ///< 通用动画进度 (0.0 to 1.0)
 
-    float slot_anim_y_offset;
-    int16_t slot_anim_direction;
-    uint32_t slot_anim_start_time;
+    float slot_anim_y_offset;   ///< 老虎机滚动动画的Y轴偏移
+    int16_t slot_anim_direction;///< 老虎机滚动方向
+    uint32_t slot_anim_start_time; ///< 老虎机滚动动画起始时间戳
 
-    const char* msg_text;
-    uint32_t msg_start_time;
+    const char* msg_text;       ///< 指向要显示的反馈信息字符串
+    uint32_t msg_start_time;    ///< 反馈信息显示的开始时间戳
 } Page_Time_Time_Data_t;
 
-// --- 3. 声明并初始化页面私有数据 ---
-static Page_Time_Time_Data_t g_page_data;
+/* Private variables ---------------------------------------------------------*/
+static Page_Time_Time_Data_t g_page_data; ///< 时间设置页面的数据实例
 
-// --- 4. 声明本页面的函数 ---
+/* Private function prototypes -----------------------------------------------*/
 static void Page_Enter(Page_Base* page);
 static void Page_Loop(Page_Base* page);
 static void Page_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset);
 static void Page_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event);
 
-// --- 5. 定义页面全局实例 ---
+/* Public variables ----------------------------------------------------------*/
+/**
+ * @brief 时间设置页面的全局实例
+ */
 Page_Base g_page_time_time = {
     .enter = Page_Enter,
     .exit = NULL,
@@ -67,9 +77,16 @@ Page_Base g_page_time_time = {
     .last_refresh_time = 0,
 };
 
-// --- 6. 函数具体实现 ---
+/* Function implementations --------------------------------------------------*/
+/**
+ * @brief 辅助函数：线性插值
+ */
 static float lerp(float a, float b, float t) { return a + t * (b - a); }
 
+/**
+ * @brief 页面进入函数
+ * @param page 指向页面基类的指针
+ */
 static void Page_Enter(Page_Base* page) {
     DS3231_GetTime(&g_page_data.temp_time);
     g_page_data.focus_index = 0;
@@ -79,6 +96,10 @@ static void Page_Enter(Page_Base* page) {
     g_page_data.slot_anim_y_offset = 0;
 }
 
+/**
+ * @brief 页面循环逻辑函数 (驱动动画)
+ * @param page 指向页面基类的指针
+ */
 static void Page_Loop(Page_Base* page) {
     uint32_t elapsed = HAL_GetTick() - g_page_data.anim_start_time;
     switch (g_page_data.state) {
@@ -134,6 +155,13 @@ static void Page_Loop(Page_Base* page) {
     }
 }
 
+/**
+ * @brief 页面绘制函数
+ * @param page 指向页面基类的指针
+ * @param u8g2 指向u8g2实例的指针
+ * @param x_offset 屏幕的X方向偏移
+ * @param y_offset 屏幕的Y方向偏移
+ */
 static void Page_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset) {
     float p = g_page_data.anim_progress;
     p = p < 0.5 ? 2 * p * p : 1 - pow(-2 * p + 2, 2) / 2;
@@ -237,6 +265,12 @@ static void Page_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y
     }
 }
 
+/**
+ * @brief 页面输入事件处理函数
+ * @param page 指向页面基类的指针
+ * @param u8g2 指向u8g2实例的指针
+ * @param event 指向输入事件数据的指针
+ */
 static void Page_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event) {
     if (g_page_data.state != TIME_STATE_FOCUSED) {
         if (event->event == INPUT_EVENT_BACK_PRESSED) Go_Back_Page();

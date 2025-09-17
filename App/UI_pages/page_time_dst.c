@@ -1,10 +1,11 @@
 /**
- * @file page_time_dst.c
- * @brief 夏令时设置页面
- * @details 本文件定义了“夏令时”设置菜单，用于开启或关闭夏令时功能。
- * @author SandOcean
- * @date 2025-09-17
- * @version 1.0
+ * @file      page_time_dst.c
+ * @brief     夏令时设置页面
+ * @details   本文件定义了“夏令时”设置菜单，用于开启或关闭夏令时功能，并实现了带动画的菜单交互。
+ * @version   1.0
+ * @date      2025-09-17
+ * @author    SandOcean
+ * @copyright Copyright (c) 2025 SandOcean
  */
 
 #include "app_display.h"
@@ -12,51 +13,57 @@
 #include "app_config.h"
 #include "app_settings.h"
 
-// --- 1. 页面私有定义 ---
-#define DST_ITEM_COUNT 2
-#define DST_ITEM_HEIGHT 16
-#define DST_TOP_Y 16
-#define DST_LEFT_X 5
-#define DST_WIDTH 118
+/* Private defines -----------------------------------------------------------*/
+#define DST_ITEM_COUNT 2        ///< 菜单项数量
+#define DST_ITEM_HEIGHT 16      ///< 每个菜单项的像素高度
+#define DST_TOP_Y 16            ///< 菜单列表顶部的Y坐标
+#define DST_LEFT_X 5            ///< 菜单列表左侧的X坐标
+#define DST_WIDTH 118           ///< 菜单列表的像素宽度
 
-// 菜单项的字符串
+/* Private variables ---------------------------------------------------------*/
+///< 菜单项文本数组
 static const char* menu_items[DST_ITEM_COUNT] = {
     "Off",
     "On"
 };
 
-// 菜单状态
+/**
+ * @brief 菜单状态枚举
+ */
 typedef enum {
-    DST_STATE_IDLE,
-    DST_STATE_ANIMATING,
-    DST_STATE_SHOW_MSG
+    DST_STATE_IDLE,         ///< 空闲状态
+    DST_STATE_ANIMATING,    ///< 动画播放中状态
+    DST_STATE_SHOW_MSG      ///< 显示反馈信息状态
 } Dst_State_e;
 
-// --- 2. 定义页面私有数据结构体 ---
+/**
+ * @brief 夏令时设置页面的私有数据结构体
+ */
 typedef struct {
-    Page_Base base; // 必须包含基类作为第一个成员
-    // 私有数据
-    int8_t selected_index;
-    Dst_State_e state;
-    float anim_current_y;
-    int16_t anim_start_y;
-    int16_t anim_target_y;
-    uint32_t anim_start_time;
-    uint32_t anim_duration;
-    uint32_t msg_start_time;
-    const char* msg_text;
+    Page_Base base;             ///< 必须包含基类作为第一个成员
+    int8_t selected_index;      ///< 当前选中的菜单项索引
+    Dst_State_e state;          ///< 菜单的动画状态
+    float anim_current_y;       ///< 高亮框当前的Y坐标 (用于动画插值)
+    int16_t anim_start_y;       ///< 高亮框动画的起始Y坐标
+    int16_t anim_target_y;      ///< 高亮框动画的目标Y坐标
+    uint32_t anim_start_time;   ///< 动画开始的系统时间
+    uint32_t anim_duration;     ///< 动画持续时间 (ms)
+    uint32_t msg_start_time;    ///< 反馈信息显示的开始时间戳
+    const char* msg_text;       ///< 指向要显示的反馈信息字符串
 } Page_Dst_Data_t;
 
-// --- 3. 声明并初始化页面私有数据 ---
-static Page_Dst_Data_t g_page_dst_data;
+static Page_Dst_Data_t g_page_dst_data; ///< 夏令时设置页面的数据实例
 
-// --- 4. 声明本页面的函数 ---
+/* Private function prototypes -----------------------------------------------*/
 static void Page_Dst_Enter(Page_Base* page);
 static void Page_Dst_Loop(Page_Base* page);
 static void Page_Dst_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset);
 static void Page_Dst_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event);
 
-// --- 5. 定义页面全局实例 ---
+/* Public variables ----------------------------------------------------------*/
+/**
+ * @brief 夏令时设置页面的全局实例
+ */
 Page_Base g_page_time_dst = {
     .enter = Page_Dst_Enter,
     .exit = NULL,
@@ -68,8 +75,12 @@ Page_Base g_page_time_dst = {
     .last_refresh_time = 0
 };
 
-// --- 6. 函数具体实现 ---
+/* Function implementations --------------------------------------------------*/
 
+/**
+ * @brief 页面进入函数
+ * @param page 指向页面基类的指针
+ */
 static void Page_Dst_Enter(Page_Base* page) {
     Page_Dst_Data_t* data = &g_page_dst_data;
     data->state = DST_STATE_IDLE;
@@ -84,6 +95,10 @@ static void Page_Dst_Enter(Page_Base* page) {
     data->anim_start_y = initial_y;
 }
 
+/**
+ * @brief 页面循环逻辑函数 (处理动画和消息显示)
+ * @param page 指向页面基类的指针
+ */
 static void Page_Dst_Loop(Page_Base* page) {
     Page_Dst_Data_t* data = &g_page_dst_data;
 
@@ -109,6 +124,13 @@ static void Page_Dst_Loop(Page_Base* page) {
     }
 }
 
+/**
+ * @brief 页面绘制函数
+ * @param page 指向页面基类的指针
+ * @param u8g2 指向u8g2实例的指针
+ * @param x_offset 屏幕的X方向偏移
+ * @param y_offset 屏幕的Y方向偏移
+ */
 static void Page_Dst_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset) {
     Page_Dst_Data_t* data = &g_page_dst_data;
 
@@ -156,6 +178,12 @@ static void Page_Dst_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16
     }
 }
 
+/**
+ * @brief 页面输入事件处理函数
+ * @param page 指向页面基类的指针
+ * @param u8g2 指向u8g2实例的指针
+ * @param event 指向输入事件数据的指针
+ */
 static void Page_Dst_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event) {
     Page_Dst_Data_t* data = &g_page_dst_data;
 

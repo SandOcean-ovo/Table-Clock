@@ -1,56 +1,64 @@
 /**
- * @file page_time_set.c
- * @brief 时间与日期设置子菜单页面
- * @details 本文件定义了“时间与日期”设置的子菜单，包含“Date”, "Time", "DST"选项。
- * @author SandOcean
- * @date 2025-09-17
- * @version 1.0
+ * @file      page_time_set.c
+ * @brief     时间与日期设置子菜单页面
+ * @details   本文件定义了“时间与日期”设置的子菜单，包含“Date”, "Time", "DST"选项，并实现了带动画的菜单交互。
+ * @author    SandOcean
+ * @date      2025-09-17
+ * @version   1.0
+ * @copyright Copyright (c) 2025 SandOcean
  */
 
 #include "app_display.h"
 #include "input.h"
 
-// --- 1. 页面私有定义 ---
-#define TIME_SET_ITEM_COUNT 3
-#define TIME_SET_ITEM_HEIGHT 16
-#define TIME_SET_TOP_Y 8
-#define TIME_SET_LEFT_X 5
-#define TIME_SET_WIDTH 118
+/* Private defines -----------------------------------------------------------*/
+#define TIME_SET_ITEM_COUNT 3       ///< 菜单项数量
+#define TIME_SET_ITEM_HEIGHT 16     ///< 每个菜单项的像素高度
+#define TIME_SET_TOP_Y 8            ///< 菜单列表顶部的Y坐标
+#define TIME_SET_LEFT_X 5           ///< 菜单列表左侧的X坐标
+#define TIME_SET_WIDTH 118          ///< 菜单列表的像素宽度
 
-// 菜单项的字符串
+/* Private variables ---------------------------------------------------------*/
+///< 菜单项文本数组
 static const char* menu_items[TIME_SET_ITEM_COUNT] = {
     "Date",
     "Time",
     "DST" // Daylight Saving Time
 };
 
-// 菜单动画状态
+/**
+ * @brief 菜单动画状态枚举
+ */
 typedef enum {
-    TIME_SET_STATE_IDLE,
-    TIME_SET_STATE_ANIMATING
+    TIME_SET_STATE_IDLE,        ///< 空闲状态
+    TIME_SET_STATE_ANIMATING    ///< 动画播放中状态
 } Time_Set_State_e;
 
-// --- 2. 定义页面私有数据结构体 ---
+/**
+ * @brief 时间设置子菜单页面的私有数据结构体
+ */
 typedef struct {
-    int8_t selected_index;
-    Time_Set_State_e state;
-    float anim_current_y;
-    int16_t anim_start_y;
-    int16_t anim_target_y;
-    uint32_t anim_start_time;
-    uint32_t anim_duration;
+    int8_t selected_index;      ///< 当前选中的菜单项索引
+    Time_Set_State_e state;     ///< 菜单的动画状态
+    float anim_current_y;       ///< 高亮框当前的Y坐标 (用于动画插值)
+    int16_t anim_start_y;       ///< 高亮框动画的起始Y坐标
+    int16_t anim_target_y;      ///< 高亮框动画的目标Y坐标
+    uint32_t anim_start_time;   ///< 动画开始的系统时间
+    uint32_t anim_duration;     ///< 动画持续时间 (ms)
 } Page_Time_Set_Data_t;
 
-// --- 3. 声明并初始化页面私有数据 ---
-static Page_Time_Set_Data_t g_page_time_set_data;
+static Page_Time_Set_Data_t g_page_time_set_data; ///< 时间设置子菜单页面的数据实例
 
-// --- 4. 声明本页面的函数 ---
+/* Private function prototypes -----------------------------------------------*/
 static void Page_Time_Set_Enter(Page_Base* page);
 static void Page_Time_Set_Loop(Page_Base* page);
 static void Page_Time_Set_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset);
 static void Page_Time_Set_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event);
 
-// --- 5. 定义页面全局实例 ---
+/* Public variables ----------------------------------------------------------*/
+/**
+ * @brief 时间设置子菜单页面的全局实例
+ */
 Page_Base g_page_time_set = {
     .enter = Page_Time_Set_Enter,
     .exit = NULL,
@@ -62,8 +70,12 @@ Page_Base g_page_time_set = {
     .last_refresh_time = 0
 };
 
-// --- 6. 函数具体实现 ---
+/* Function implementations --------------------------------------------------*/
 
+/**
+ * @brief 页面进入函数
+ * @param page 指向页面基类的指针
+ */
 static void Page_Time_Set_Enter(Page_Base* page) {
     Page_Time_Set_Data_t* data = &g_page_time_set_data;
     data->state = TIME_SET_STATE_IDLE;
@@ -75,6 +87,10 @@ static void Page_Time_Set_Enter(Page_Base* page) {
     data->anim_start_y = initial_y;
 }
 
+/**
+ * @brief 页面循环逻辑函数 (处理动画)
+ * @param page 指向页面基类的指针
+ */
 static void Page_Time_Set_Loop(Page_Base* page) {
     Page_Time_Set_Data_t* data = &g_page_time_set_data;
 
@@ -92,6 +108,13 @@ static void Page_Time_Set_Loop(Page_Base* page) {
     }
 }
 
+/**
+ * @brief 页面绘制函数
+ * @param page 指向页面基类的指针
+ * @param u8g2 指向u8g2实例的指针
+ * @param x_offset 屏幕的X方向偏移
+ * @param y_offset 屏幕的Y方向偏移
+ */
 static void Page_Time_Set_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset) {
     Page_Time_Set_Data_t* data = &g_page_time_set_data;
 
@@ -118,6 +141,12 @@ static void Page_Time_Set_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, 
     u8g2_SetDrawColor(u8g2, 1);
 }
 
+/**
+ * @brief 页面输入事件处理函数
+ * @param page 指向页面基类的指针
+ * @param u8g2 指向u8g2实例的指针
+ * @param event 指向输入事件数据的指针
+ */
 static void Page_Time_Set_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event) {
     Page_Time_Set_Data_t* data = &g_page_time_set_data;
 

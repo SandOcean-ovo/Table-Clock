@@ -22,7 +22,7 @@
 
 #define DS3231_ADDRESS 0xD0
 
-#define AT24C32_ADDRESS 0xAE
+#define AT24C32_ADDRESS (0x57 << 1)
 
 /**
  * @brief 时间结构体定义

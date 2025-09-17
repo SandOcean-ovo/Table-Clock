@@ -135,58 +135,44 @@ uint8_t AT24C32_ReadByte(uint16_t mem_addr)
 
 HAL_StatusTypeDef AT24C32_WritePage(uint16_t mem_addr, uint8_t *data, uint16_t size)
 {
-    // AT24C32页大小为32字节，地址范围0x0000-0x0FFF
     const uint16_t PAGE_SIZE = 32;
-    const uint16_t MAX_ADDRESS = 0x0FFF;
+    HAL_StatusTypeDef status = HAL_OK;
     
-    // 检查地址是否超出范围
-    if (mem_addr > MAX_ADDRESS) {
-        return HAL_ERROR;
-    }
-    
-    // 计算当前页的起始地址和结束地址
-    uint16_t page_start = (mem_addr / PAGE_SIZE) * PAGE_SIZE;
-    uint16_t page_end = page_start + PAGE_SIZE - 1;
-    
-    // 检查是否会跨页
-    if (mem_addr + size - 1 > page_end) {
-        // 跨页情况：计算当前页可写入的字节数
-        uint16_t bytes_in_current_page = page_end - mem_addr + 1;
+    uint16_t bytes_remaining = size;
+    uint16_t current_addr = mem_addr;
+    uint8_t *data_ptr = data;
+
+    // 循环写入，直到所有字节都写入完毕
+    while (bytes_remaining > 0)
+    {
+        // 1. 计算当前页还剩下多少空间
+        uint16_t bytes_to_page_end = PAGE_SIZE - (current_addr % PAGE_SIZE);
+
+        // 2. 计算本次实际要写入的字节数
+        //    取“剩余字节数”和“到页末尾的字节数”中的较小值
+        uint16_t chunk_size = (bytes_remaining < bytes_to_page_end) ? bytes_remaining : bytes_to_page_end;
+
+        // 3. 执行单页内的写入操作
+        status = HAL_I2C_Mem_Write(ds3231_i2c, AT24C32_ADDRESS, current_addr, 
+                                   I2C_MEMADD_SIZE_16BIT, data_ptr, chunk_size, 1000);
         
-        // 先写入当前页可容纳的数据
-        HAL_StatusTypeDef status = HAL_I2C_Mem_Write(ds3231_i2c, AT24C32_ADDRESS, mem_addr, 
-                                                    I2C_MEMADD_SIZE_16BIT, data, bytes_in_current_page, 1000);
+        // 4. 如果任何一次写入失败，立即中止并返回错误
         if (status != HAL_OK) {
             return status;
         }
+
+        // 5. 等待EEPROM内部写周期完成 (非常重要)
         HAL_Delay(5);
-        
-        // 如果还有剩余数据，写入下一页
-        if (bytes_in_current_page < size) {
-            uint16_t remaining_bytes = size - bytes_in_current_page;
-            uint16_t next_page_addr = page_end + 1;
-            
-            // 检查下一页地址是否有效
-            if (next_page_addr <= MAX_ADDRESS) {
-                status = HAL_I2C_Mem_Write(ds3231_i2c, AT24C32_ADDRESS, next_page_addr, 
-                                          I2C_MEMADD_SIZE_16BIT, data + bytes_in_current_page, remaining_bytes, 1000);
-                HAL_Delay(5);
-                return status;
-            } else {
-                return HAL_ERROR; // 下一页地址超出范围
-            }
-        }
-        
-        return HAL_OK;
-    } else {
-        // 不跨页：直接写入
-        if (size > PAGE_SIZE) size = PAGE_SIZE; // 限制单次写入不超过页大小
-        HAL_StatusTypeDef status = HAL_I2C_Mem_Write(ds3231_i2c, AT24C32_ADDRESS, mem_addr, 
-                                                    I2C_MEMADD_SIZE_16BIT, data, size, 1000);
-        HAL_Delay(5);
-        return status;
+
+        // 6. 更新变量，为下一次循环做准备
+        bytes_remaining -= chunk_size;
+        current_addr += chunk_size;
+        data_ptr += chunk_size;
     }
+
+    return HAL_OK;
 }
+
 
 HAL_StatusTypeDef AT24C32_ReadPage(uint16_t mem_addr, uint8_t *data, uint16_t size)
 {
