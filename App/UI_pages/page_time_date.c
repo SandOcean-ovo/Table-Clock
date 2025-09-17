@@ -88,10 +88,10 @@ Page_Base g_page_time_date = {
 
 /**
  * @brief 辅助函数：线性插值
- * @param a 起始值
- * @param b 结束值
- * @param t 插值进度 (0.0 to 1.0)
- * @return 插值结果
+ * @param[in] a 起始值
+ * @param[in] b 结束值
+ * @param[in] t 插值进度 (0.0 to 1.0)
+ * @return float - 插值结果。
  */
 static float lerp(float a, float b, float t) {
     return a + t * (b - a);
@@ -99,8 +99,10 @@ static float lerp(float a, float b, float t) {
 
 /**
  * @brief 辅助函数：判断是否为闰年
- * @param year 年份
- * @return 如果是闰年返回true，否则返回false
+ * @param[in] year 年份
+ * @return bool
+ *      - @retval true 是闰年。
+ *      - @retval false 不是闰年。
  */
 static bool is_leap_year(uint16_t year) {
     return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
@@ -108,9 +110,9 @@ static bool is_leap_year(uint16_t year) {
 
 /**
  * @brief 辅助函数：获取指定月份的最大天数
- * @param year 年份
- * @param month 月份
- * @return 该月份的最大天数
+ * @param[in] year 年份
+ * @param[in] month 月份
+ * @return uint8_t - 该月份的最大天数。
  */
 static uint8_t get_max_days_in_month(uint16_t year, uint8_t month) {
     if (month == 2) {
@@ -124,7 +126,8 @@ static uint8_t get_max_days_in_month(uint16_t year, uint8_t month) {
 
 /**
  * @brief 页面进入函数
- * @param page 指向页面基类的指针
+ * @param[in] page 指向页面基类的指针
+ * @return 无
  */
 static void Page_Enter(Page_Base* page) {
     DS3231_GetTime(&g_page_data.temp_date);
@@ -139,7 +142,8 @@ static void Page_Enter(Page_Base* page) {
 
 /**
  * @brief 页面退出函数
- * @param page 指向页面基类的指针
+ * @param[in] page 指向页面基类的指针
+ * @return 无
  */
 static void Page_Exit(Page_Base* page) {
     // 退出时的清理逻辑 (如果需要)
@@ -147,7 +151,8 @@ static void Page_Exit(Page_Base* page) {
 
 /**
  * @brief 页面循环逻辑函数 (驱动动画)
- * @param page 指向页面基类的指针
+ * @param[in] page 指向页面基类的指针
+ * @return 无
  */
 static void Page_Loop(Page_Base* page) {
     uint32_t elapsed = HAL_GetTick() - g_page_data.anim_start_time;
@@ -214,10 +219,11 @@ static void Page_Loop(Page_Base* page) {
 
 /**
  * @brief 页面绘制函数
- * @param page 指向页面基类的指针
- * @param u8g2 指向u8g2实例的指针
- * @param x_offset 屏幕的X方向偏移
- * @param y_offset 屏幕的Y方向偏移
+ * @param[in] page 指向页面基类的指针
+ * @param[in] u8g2 指向u8g2实例的指针
+ * @param[in] x_offset 屏幕的X方向偏移
+ * @param[in] y_offset 屏幕的Y方向偏移
+ * @return 无
  */
 static void Page_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset) {
     float p = g_page_data.anim_progress;
@@ -333,9 +339,10 @@ static void Page_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y
 
 /**
  * @brief 页面输入事件处理函数
- * @param page 指向页面基类的指针
- * @param u8g2 指向u8g2实例的指针
- * @param event 指向输入事件数据的指针
+ * @param[in] page 指向页面基类的指针
+ * @param[in] u8g2 指向u8g2实例的指针
+ * @param[in] event 指向输入事件数据的指针
+ * @return 无
  */
 static void Page_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event) {
     if (g_page_data.state != DATE_STATE_FOCUSED) {

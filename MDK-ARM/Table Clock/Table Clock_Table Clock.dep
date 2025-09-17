@@ -72,21 +72,21 @@ I (../Core/Inc/i2c.h)(0x68A19EBC)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (../Core/Inc/usart.h)(0x68A58E9C)
 I (../Core/Inc/gpio.h)(0x68A19EBC)
-I (../App/app_main.h)(0x68CAA0F6)
+I (../App/app_main.h)(0x68CAAE22)
 I (../App/app_config.h)(0x68CA92A6)
 I (../App/app_type.h)(0x68CA9448)
-I (../Hardware/input.h)(0x68CA988A)
+I (../Hardware/input.h)(0x68CABB9F)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Hardware/OLED/u8g2/u8g2.h)(0x68C81B21)
 I (../Hardware/OLED/u8g2/u8x8.h)(0x68A42B2E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588B8344)
-I (../App/app_display.h)(0x68CA9A1E)
-I (../Hardware/DS3231.h)(0x68CAA62B)
+I (../App/app_display.h)(0x68CAAE6B)
+I (../Hardware/DS3231.h)(0x68CAB68C)
 I (../Hardware/AHT20.h)(0x68CA7A90)
 I (../Core/Inc/u8g2_stm32_hal.h)(0x68CA7A62)
-I (../App/app_settings.h)(0x68CAA6ED)
+I (../App/app_settings.h)(0x68CAADEB)
 F (../Core/Src/gpio.c)(0x68B00AE6)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\gpio.o" --omf_browse "table clock\gpio.crf" --depend "table clock\gpio.d")
 I (../Core/Inc/gpio.h)(0x68A19EBC)
 I (../Core/Inc/main.h)(0x68AEE592)
@@ -273,7 +273,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (../Core/Inc/stm32f1xx_it.h)(0x68B006B7)
-I (../Hardware/input.h)(0x68CA988A)
+I (../Hardware/input.h)(0x68CABB9F)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 F (../Core/Src/stm32f1xx_hal_msp.c)(0x68A19EBC)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\stm32f1xx_hal_msp.o" --omf_browse "table clock\stm32f1xx_hal_msp.crf" --depend "table clock\stm32f1xx_hal_msp.d")
@@ -770,8 +770,8 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
-F (..\Hardware\DS3231.c)(0x68CAA51F)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\ds3231.o" --omf_browse "table clock\ds3231.crf" --depend "table clock\ds3231.d")
-I (..\Hardware\DS3231.h)(0x68CAA62B)
+F (..\Hardware\DS3231.c)(0x68CAB70B)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\ds3231.o" --omf_browse "table clock\ds3231.crf" --depend "table clock\ds3231.d")
+I (..\Hardware\DS3231.h)(0x68CAB68C)
 I (../Core/Inc/main.h)(0x68AEE592)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x684401D1)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68A58E9D)
@@ -802,7 +802,8 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (../Core/Inc/i2c.h)(0x68A19EBC)
-F (..\Hardware\DS3231.h)(0x68CAA62B)()
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588B8344)
+F (..\Hardware\DS3231.h)(0x68CAB68C)()
 F (..\Hardware\uart.c)(0x68AC2A23)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\uart.o" --omf_browse "table clock\uart.crf" --depend "table clock\uart.d")
 I (..\Hardware\uart.h)(0x68AC2A25)
 I (../Core/Inc/main.h)(0x68AEE592)
@@ -838,8 +839,8 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
 I (../Core/Inc/usart.h)(0x68A58E9C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 F (..\Hardware\uart.h)(0x68AC2A25)()
-F (..\Hardware\input.c)(0x68CA98E8)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\input.o" --omf_browse "table clock\input.crf" --depend "table clock\input.d")
-I (..\Hardware\input.h)(0x68CA988A)
+F (..\Hardware\input.c)(0x68CABBB3)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\input.o" --omf_browse "table clock\input.crf" --depend "table clock\input.d")
+I (..\Hardware\input.h)(0x68CABB9F)
 I (../Core/Inc/main.h)(0x68AEE592)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x684401D1)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68A58E9D)
@@ -871,7 +872,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
-F (..\Hardware\input.h)(0x68CA988A)()
+F (..\Hardware\input.h)(0x68CABB9F)()
 F (..\Hardware\AHT20.c)(0x68C00C9C)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\aht20.o" --omf_browse "table clock\aht20.crf" --depend "table clock\aht20.d")
 I (..\Hardware\AHT20.h)(0x68CA7A90)
 I (../Core/Inc/main.h)(0x68AEE592)
@@ -1193,8 +1194,8 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x588B8344)
 F (..\App\app_config.h)(0x68CA92A6)()
-F (..\App\app_display.c)(0x68CA9971)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\app_display.o" --omf_browse "table clock\app_display.crf" --depend "table clock\app_display.d")
-I (..\App\app_display.h)(0x68CA9A1E)
+F (..\App\app_display.c)(0x68CAAD89)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\app_display.o" --omf_browse "table clock\app_display.crf" --depend "table clock\app_display.d")
+I (..\App\app_display.h)(0x68CAAE6B)
 I (../Core/Inc/main.h)(0x68AEE592)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x684401D1)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68A58E9D)
@@ -1226,7 +1227,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (..\App\app_config.h)(0x68CA92A6)
 I (..\App\app_type.h)(0x68CA9448)
-I (../Hardware/input.h)(0x68CA988A)
+I (../Hardware/input.h)(0x68CABB9F)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Hardware/OLED/u8g2/u8g2.h)(0x68C81B21)
@@ -1234,13 +1235,13 @@ I (../Hardware/OLED/u8g2/u8x8.h)(0x68A42B2E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588B8344)
-I (../Hardware/DS3231.h)(0x68CAA62B)
+I (../Hardware/DS3231.h)(0x68CAB68C)
 I (../Core/Inc/i2c.h)(0x68A19EBC)
 I (../Hardware/AHT20.h)(0x68CA7A90)
 I (../Core/Inc/u8g2_stm32_hal.h)(0x68CA7A62)
-F (..\App\app_display.h)(0x68CA9A1E)()
+F (..\App\app_display.h)(0x68CAAE6B)()
 F (..\App\app_main.c)(0x68CAA76D)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\app_main.o" --omf_browse "table clock\app_main.crf" --depend "table clock\app_main.d")
-I (..\App\app_main.h)(0x68CAA0F6)
+I (..\App\app_main.h)(0x68CAAE22)
 I (..\App\app_config.h)(0x68CA92A6)
 I (../Core/Inc/main.h)(0x68AEE592)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x684401D1)
@@ -1272,7 +1273,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (..\App\app_type.h)(0x68CA9448)
-I (../Hardware/input.h)(0x68CA988A)
+I (../Hardware/input.h)(0x68CABB9F)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Hardware/OLED/u8g2/u8g2.h)(0x68C81B21)
@@ -1280,14 +1281,14 @@ I (../Hardware/OLED/u8g2/u8x8.h)(0x68A42B2E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588B8344)
-I (..\App\app_display.h)(0x68CA9A1E)
-I (../Hardware/DS3231.h)(0x68CAA62B)
+I (..\App\app_display.h)(0x68CAAE6B)
+I (../Hardware/DS3231.h)(0x68CAB68C)
 I (../Core/Inc/i2c.h)(0x68A19EBC)
 I (../Hardware/AHT20.h)(0x68CA7A90)
 I (../Core/Inc/u8g2_stm32_hal.h)(0x68CA7A62)
-I (..\App\app_settings.h)(0x68CAA6ED)
+I (..\App\app_settings.h)(0x68CAADEB)
 F (..\App\app_settings.c)(0x68CAA38D)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\app_settings.o" --omf_browse "table clock\app_settings.crf" --depend "table clock\app_settings.d")
-I (..\App\app_settings.h)(0x68CAA6ED)
+I (..\App\app_settings.h)(0x68CAADEB)
 I (../Core/Inc/main.h)(0x68AEE592)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x684401D1)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68A58E9D)
@@ -1318,7 +1319,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (..\App\app_type.h)(0x68CA9448)
-I (../Hardware/input.h)(0x68CA988A)
+I (../Hardware/input.h)(0x68CABB9F)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Hardware/OLED/u8g2/u8g2.h)(0x68C81B21)
@@ -1327,12 +1328,12 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588B8344)
 I (..\App\app_config.h)(0x68CA92A6)
-I (../Hardware/DS3231.h)(0x68CAA62B)
+I (../Hardware/DS3231.h)(0x68CAB68C)
 I (../Core/Inc/i2c.h)(0x68A19EBC)
-F (..\App\app_settings.h)(0x68CAA6ED)()
+F (..\App\app_settings.h)(0x68CAADEB)()
 F (..\App\app_type.h)(0x68CA9448)()
-F (..\App\UI_pages\page_auto_off.c)(0x68CA8370)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_auto_off.o" --omf_browse "table clock\page_auto_off.crf" --depend "table clock\page_auto_off.d")
-I (../App/app_display.h)(0x68CA9A1E)
+F (..\App\UI_pages\page_auto_off.c)(0x68CAADE4)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_auto_off.o" --omf_browse "table clock\page_auto_off.crf" --depend "table clock\page_auto_off.d")
+I (../App/app_display.h)(0x68CAAE6B)
 I (../Core/Inc/main.h)(0x68AEE592)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x684401D1)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68A58E9D)
@@ -1364,7 +1365,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (../App/app_config.h)(0x68CA92A6)
 I (../App/app_type.h)(0x68CA9448)
-I (../Hardware/input.h)(0x68CA988A)
+I (../Hardware/input.h)(0x68CABB9F)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Hardware/OLED/u8g2/u8g2.h)(0x68C81B21)
@@ -1372,13 +1373,13 @@ I (../Hardware/OLED/u8g2/u8x8.h)(0x68A42B2E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588B8344)
-I (../Hardware/DS3231.h)(0x68CAA62B)
+I (../Hardware/DS3231.h)(0x68CAB68C)
 I (../Core/Inc/i2c.h)(0x68A19EBC)
 I (../Hardware/AHT20.h)(0x68CA7A90)
 I (../Core/Inc/u8g2_stm32_hal.h)(0x68CA7A62)
-I (../App/app_settings.h)(0x68CAA6ED)
-F (..\App\UI_pages\page_info.c)(0x68CA922F)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_info.o" --omf_browse "table clock\page_info.crf" --depend "table clock\page_info.d")
-I (../App/app_display.h)(0x68CA9A1E)
+I (../App/app_settings.h)(0x68CAADEB)
+F (..\App\UI_pages\page_info.c)(0x68CAADC5)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_info.o" --omf_browse "table clock\page_info.crf" --depend "table clock\page_info.d")
+I (../App/app_display.h)(0x68CAAE6B)
 I (../Core/Inc/main.h)(0x68AEE592)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x684401D1)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68A58E9D)
@@ -1410,7 +1411,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (../App/app_config.h)(0x68CA92A6)
 I (../App/app_type.h)(0x68CA9448)
-I (../Hardware/input.h)(0x68CA988A)
+I (../Hardware/input.h)(0x68CABB9F)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Hardware/OLED/u8g2/u8g2.h)(0x68C81B21)
@@ -1418,12 +1419,12 @@ I (../Hardware/OLED/u8g2/u8x8.h)(0x68A42B2E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588B8344)
-I (../Hardware/DS3231.h)(0x68CAA62B)
+I (../Hardware/DS3231.h)(0x68CAB68C)
 I (../Core/Inc/i2c.h)(0x68A19EBC)
 I (../Hardware/AHT20.h)(0x68CA7A90)
 I (../Core/Inc/u8g2_stm32_hal.h)(0x68CA7A62)
-F (..\App\UI_pages\page_language.c)(0x68CA91E9)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_language.o" --omf_browse "table clock\page_language.crf" --depend "table clock\page_language.d")
-I (../App/app_display.h)(0x68CA9A1E)
+F (..\App\UI_pages\page_language.c)(0x68CABB3D)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_language.o" --omf_browse "table clock\page_language.crf" --depend "table clock\page_language.d")
+I (../App/app_display.h)(0x68CAAE6B)
 I (../Core/Inc/main.h)(0x68AEE592)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x684401D1)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68A58E9D)
@@ -1455,7 +1456,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (../App/app_config.h)(0x68CA92A6)
 I (../App/app_type.h)(0x68CA9448)
-I (../Hardware/input.h)(0x68CA988A)
+I (../Hardware/input.h)(0x68CABB9F)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Hardware/OLED/u8g2/u8g2.h)(0x68C81B21)
@@ -1463,13 +1464,13 @@ I (../Hardware/OLED/u8g2/u8x8.h)(0x68A42B2E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588B8344)
-I (../Hardware/DS3231.h)(0x68CAA62B)
+I (../Hardware/DS3231.h)(0x68CAB68C)
 I (../Core/Inc/i2c.h)(0x68A19EBC)
 I (../Hardware/AHT20.h)(0x68CA7A90)
 I (../Core/Inc/u8g2_stm32_hal.h)(0x68CA7A62)
-I (../App/app_settings.h)(0x68CAA6ED)
-F (..\App\UI_pages\page_main.c)(0x68CAA326)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_main.o" --omf_browse "table clock\page_main.crf" --depend "table clock\page_main.d")
-I (../App/app_display.h)(0x68CA9A1E)
+I (../App/app_settings.h)(0x68CAADEB)
+F (..\App\UI_pages\page_main.c)(0x68CAB730)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_main.o" --omf_browse "table clock\page_main.crf" --depend "table clock\page_main.d")
+I (../App/app_display.h)(0x68CAAE6B)
 I (../Core/Inc/main.h)(0x68AEE592)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x684401D1)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68A58E9D)
@@ -1501,7 +1502,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (../App/app_config.h)(0x68CA92A6)
 I (../App/app_type.h)(0x68CA9448)
-I (../Hardware/input.h)(0x68CA988A)
+I (../Hardware/input.h)(0x68CABB9F)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Hardware/OLED/u8g2/u8g2.h)(0x68C81B21)
@@ -1509,15 +1510,15 @@ I (../Hardware/OLED/u8g2/u8x8.h)(0x68A42B2E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588B8344)
-I (../Hardware/DS3231.h)(0x68CAA62B)
+I (../Hardware/DS3231.h)(0x68CAB68C)
 I (../Core/Inc/i2c.h)(0x68A19EBC)
 I (../Hardware/AHT20.h)(0x68CA7A90)
 I (../Core/Inc/u8g2_stm32_hal.h)(0x68CA7A62)
-I (../App/app_main.h)(0x68CAA0F6)
-I (../App/app_settings.h)(0x68CAA6ED)
+I (../App/app_main.h)(0x68CAAE22)
+I (../App/app_settings.h)(0x68CAADEB)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
-F (..\App\UI_pages\page_main_menu.c)(0x68CA923F)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_main_menu.o" --omf_browse "table clock\page_main_menu.crf" --depend "table clock\page_main_menu.d")
-I (../App/app_display.h)(0x68CA9A1E)
+F (..\App\UI_pages\page_main_menu.c)(0x68CAABA1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_main_menu.o" --omf_browse "table clock\page_main_menu.crf" --depend "table clock\page_main_menu.d")
+I (../App/app_display.h)(0x68CAAE6B)
 I (../Core/Inc/main.h)(0x68AEE592)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x684401D1)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68A58E9D)
@@ -1549,7 +1550,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (../App/app_config.h)(0x68CA92A6)
 I (../App/app_type.h)(0x68CA9448)
-I (../Hardware/input.h)(0x68CA988A)
+I (../Hardware/input.h)(0x68CABB9F)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Hardware/OLED/u8g2/u8g2.h)(0x68C81B21)
@@ -1557,12 +1558,12 @@ I (../Hardware/OLED/u8g2/u8x8.h)(0x68A42B2E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588B8344)
-I (../Hardware/DS3231.h)(0x68CAA62B)
+I (../Hardware/DS3231.h)(0x68CAB68C)
 I (../Core/Inc/i2c.h)(0x68A19EBC)
 I (../Hardware/AHT20.h)(0x68CA7A90)
 I (../Core/Inc/u8g2_stm32_hal.h)(0x68CA7A62)
-F (..\App\UI_pages\page_display.c)(0x68CA921B)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_display.o" --omf_browse "table clock\page_display.crf" --depend "table clock\page_display.d")
-I (../App/app_display.h)(0x68CA9A1E)
+F (..\App\UI_pages\page_display.c)(0x68CAAB80)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_display.o" --omf_browse "table clock\page_display.crf" --depend "table clock\page_display.d")
+I (../App/app_display.h)(0x68CAAE6B)
 I (../Core/Inc/main.h)(0x68AEE592)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x684401D1)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68A58E9D)
@@ -1594,7 +1595,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (../App/app_config.h)(0x68CA92A6)
 I (../App/app_type.h)(0x68CA9448)
-I (../Hardware/input.h)(0x68CA988A)
+I (../Hardware/input.h)(0x68CABB9F)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Hardware/OLED/u8g2/u8g2.h)(0x68C81B21)
@@ -1602,12 +1603,12 @@ I (../Hardware/OLED/u8g2/u8x8.h)(0x68A42B2E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588B8344)
-I (../Hardware/DS3231.h)(0x68CAA62B)
+I (../Hardware/DS3231.h)(0x68CAB68C)
 I (../Core/Inc/i2c.h)(0x68A19EBC)
 I (../Hardware/AHT20.h)(0x68CA7A90)
 I (../Core/Inc/u8g2_stm32_hal.h)(0x68CA7A62)
-F (..\App\UI_pages\page_time_date.c)(0x68CA925E)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_time_date.o" --omf_browse "table clock\page_time_date.crf" --depend "table clock\page_time_date.d")
-I (../App/app_display.h)(0x68CA9A1E)
+F (..\App\UI_pages\page_time_date.c)(0x68CAADAA)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_time_date.o" --omf_browse "table clock\page_time_date.crf" --depend "table clock\page_time_date.d")
+I (../App/app_display.h)(0x68CAAE6B)
 I (../Core/Inc/main.h)(0x68AEE592)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x684401D1)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68A58E9D)
@@ -1639,7 +1640,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (../App/app_config.h)(0x68CA92A6)
 I (../App/app_type.h)(0x68CA9448)
-I (../Hardware/input.h)(0x68CA988A)
+I (../Hardware/input.h)(0x68CABB9F)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Hardware/OLED/u8g2/u8g2.h)(0x68C81B21)
@@ -1647,13 +1648,13 @@ I (../Hardware/OLED/u8g2/u8x8.h)(0x68A42B2E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588B8344)
-I (../Hardware/DS3231.h)(0x68CAA62B)
+I (../Hardware/DS3231.h)(0x68CAB68C)
 I (../Core/Inc/i2c.h)(0x68A19EBC)
 I (../Hardware/AHT20.h)(0x68CA7A90)
 I (../Core/Inc/u8g2_stm32_hal.h)(0x68CA7A62)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
 F (..\App\UI_pages\page_time_dst.c)(0x68CA9273)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_time_dst.o" --omf_browse "table clock\page_time_dst.crf" --depend "table clock\page_time_dst.d")
-I (../App/app_display.h)(0x68CA9A1E)
+I (../App/app_display.h)(0x68CAAE6B)
 I (../Core/Inc/main.h)(0x68AEE592)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x684401D1)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68A58E9D)
@@ -1685,7 +1686,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (../App/app_config.h)(0x68CA92A6)
 I (../App/app_type.h)(0x68CA9448)
-I (../Hardware/input.h)(0x68CA988A)
+I (../Hardware/input.h)(0x68CABB9F)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Hardware/OLED/u8g2/u8g2.h)(0x68C81B21)
@@ -1693,13 +1694,13 @@ I (../Hardware/OLED/u8g2/u8x8.h)(0x68A42B2E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588B8344)
-I (../Hardware/DS3231.h)(0x68CAA62B)
+I (../Hardware/DS3231.h)(0x68CAB68C)
 I (../Core/Inc/i2c.h)(0x68A19EBC)
 I (../Hardware/AHT20.h)(0x68CA7A90)
 I (../Core/Inc/u8g2_stm32_hal.h)(0x68CA7A62)
-I (../App/app_settings.h)(0x68CAA6ED)
+I (../App/app_settings.h)(0x68CAADEB)
 F (..\App\UI_pages\page_time_set.c)(0x68CA9284)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_time_set.o" --omf_browse "table clock\page_time_set.crf" --depend "table clock\page_time_set.d")
-I (../App/app_display.h)(0x68CA9A1E)
+I (../App/app_display.h)(0x68CAAE6B)
 I (../Core/Inc/main.h)(0x68AEE592)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x684401D1)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68A58E9D)
@@ -1731,7 +1732,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (../App/app_config.h)(0x68CA92A6)
 I (../App/app_type.h)(0x68CA9448)
-I (../Hardware/input.h)(0x68CA988A)
+I (../Hardware/input.h)(0x68CABB9F)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Hardware/OLED/u8g2/u8g2.h)(0x68C81B21)
@@ -1739,12 +1740,12 @@ I (../Hardware/OLED/u8g2/u8x8.h)(0x68A42B2E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588B8344)
-I (../Hardware/DS3231.h)(0x68CAA62B)
+I (../Hardware/DS3231.h)(0x68CAB68C)
 I (../Core/Inc/i2c.h)(0x68A19EBC)
 I (../Hardware/AHT20.h)(0x68CA7A90)
 I (../Core/Inc/u8g2_stm32_hal.h)(0x68CA7A62)
-F (..\App\UI_pages\page_time_time.c)(0x68CA9293)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_time_time.o" --omf_browse "table clock\page_time_time.crf" --depend "table clock\page_time_time.d")
-I (../App/app_display.h)(0x68CA9A1E)
+F (..\App\UI_pages\page_time_time.c)(0x68CAAD9A)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Hardware -I ../Hardware/OLED -I ../Hardware/OLED/u8g2 -I ../App -I ..\App\UI_pages-I.\RTE\_Table_Clock-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\6.2.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="542" -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o "table clock\page_time_time.o" --omf_browse "table clock\page_time_time.crf" --depend "table clock\page_time_time.d")
+I (../App/app_display.h)(0x68CAAE6B)
 I (../Core/Inc/main.h)(0x68AEE592)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x684401D1)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68A58E9D)
@@ -1776,7 +1777,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x684401D1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x684401D1)
 I (../App/app_config.h)(0x68CA92A6)
 I (../App/app_type.h)(0x68CA9448)
-I (../Hardware/input.h)(0x68CA988A)
+I (../Hardware/input.h)(0x68CABB9F)
 I (../Core/Inc/tim.h)(0x68B006B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (../Hardware/OLED/u8g2/u8g2.h)(0x68C81B21)
@@ -1784,7 +1785,7 @@ I (../Hardware/OLED/u8g2/u8x8.h)(0x68A42B2E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588B8344)
-I (../Hardware/DS3231.h)(0x68CAA62B)
+I (../Hardware/DS3231.h)(0x68CAB68C)
 I (../Core/Inc/i2c.h)(0x68A19EBC)
 I (../Hardware/AHT20.h)(0x68CA7A90)
 I (../Core/Inc/u8g2_stm32_hal.h)(0x68CA7A62)

@@ -32,7 +32,7 @@
  */
 static const char* menu_items[LANGUAGE_ITEM_COUNT] = {
     "English",
-    "Chinese"
+    "Chinese(Sim)"
 };
 
 /**
@@ -91,7 +91,7 @@ Page_Base g_page_language = {
  * @brief  页面进入函数
  * @details 当切换到此页面时被调用，用于初始化页面数据和状态。
  * @param  page: 指向页面基类的指针 (未使用)
- * @retval 无
+ * @return 无
  */
 static void Page_Language_Enter(Page_Base* page) {
     Page_Language_Data_t* data = &g_page_language_data;
@@ -109,7 +109,7 @@ static void Page_Language_Enter(Page_Base* page) {
  * @brief  页面循环函数
  * @details 在每次页面刷新时被调用，用于处理动画更新和状态切换。
  * @param  page: 指向页面基类的指针 (未使用)
- * @retval 无
+ * @return 无
  */
 static void Page_Language_Loop(Page_Base* page) {
     Page_Language_Data_t* data = &g_page_language_data;
@@ -143,7 +143,7 @@ static void Page_Language_Loop(Page_Base* page) {
  * @param  u8g2: 指向 u8g2 实例的指针
  * @param  x_offset: 屏幕的X方向偏移 (未使用)
  * @param  y_offset: 屏幕的Y方向偏移 (未使用)
- * @retval 无
+ * @return 无
  */
 static void Page_Language_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset) {
     Page_Language_Data_t* data = &g_page_language_data;
@@ -168,17 +168,43 @@ static void Page_Language_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, 
 
     if (data->state == LANGUAGE_STATE_SHOW_MSG) {
         u8g2_SetFont(u8g2, PROMPT_FONT);
-        uint16_t msg_w = u8g2_GetStrWidth(u8g2, data->msg_text);
-        uint16_t box_w = msg_w + 10;
-        uint16_t box_h = 16;
-        uint16_t box_x = (u8g2_GetDisplayWidth(u8g2) - box_w) / 2;
-        uint16_t box_y = (u8g2_GetDisplayHeight(u8g2) - box_h) / 2;
+        
+        // --- 彩蛋双行显示逻辑 ---
+        if (data->selected_index == 1) { 
+            const char* msg_line1 = "my Chinese is poor";
+            const char* msg_line2 = "       T_T"; // 第二行文字 这里偷个懒，前面用空格填上
+            
+            uint16_t msg_w1 = u8g2_GetStrWidth(u8g2, msg_line1);
+            uint16_t msg_w2 = u8g2_GetStrWidth(u8g2, msg_line2);
+            uint16_t max_w = (msg_w1 > msg_w2) ? msg_w1 : msg_w2;
 
-        u8g2_SetDrawColor(u8g2, 0);
-        u8g2_DrawBox(u8g2, box_x, box_y, box_w, box_h);
-        u8g2_SetDrawColor(u8g2, 1);
-        u8g2_DrawFrame(u8g2, box_x, box_y, box_w, box_h);
-        u8g2_DrawStr(u8g2, box_x + 5, box_y + 12, data->msg_text);
+            uint16_t box_w = max_w + 10;
+            uint16_t box_h = 28; // 增加高度以容纳两行文字
+            uint16_t box_x = (u8g2_GetDisplayWidth(u8g2) - box_w) / 2;
+            uint16_t box_y = (u8g2_GetDisplayHeight(u8g2) - box_h) / 2;
+
+            u8g2_SetDrawColor(u8g2, 0);
+            u8g2_DrawBox(u8g2, box_x, box_y, box_w, box_h);
+            u8g2_SetDrawColor(u8g2, 1);
+            u8g2_DrawFrame(u8g2, box_x, box_y, box_w, box_h);
+            
+            // 分别绘制两行文字
+            u8g2_DrawStr(u8g2, box_x + 5, box_y + 10, msg_line1);
+            u8g2_DrawStr(u8g2, box_x + 5, box_y + 22, msg_line2);
+
+        } else { // --- 其他单行消息的逻辑 ---
+            uint16_t msg_w = u8g2_GetStrWidth(u8g2, data->msg_text);
+            uint16_t box_w = msg_w + 10;
+            uint16_t box_h = 16;
+            uint16_t box_x = (u8g2_GetDisplayWidth(u8g2) - box_w) / 2;
+            uint16_t box_y = (u8g2_GetDisplayHeight(u8g2) - box_h) / 2;
+
+            u8g2_SetDrawColor(u8g2, 0);
+            u8g2_DrawBox(u8g2, box_x, box_y, box_w, box_h);
+            u8g2_SetDrawColor(u8g2, 1);
+            u8g2_DrawFrame(u8g2, box_x, box_y, box_w, box_h);
+            u8g2_DrawStr(u8g2, box_x + 5, box_y + 12, data->msg_text);
+        }
     }
 }
 
@@ -188,7 +214,7 @@ static void Page_Language_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, 
  * @param  page: 指向页面基类的指针 (未使用)
  * @param  u8g2: 指向 u8g2 实例的指针 (未使用)
  * @param  event: 指向输入事件数据的指针
- * @retval 无
+ * @return 无
  */
 static void Page_Language_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event) {
     Page_Language_Data_t* data = &g_page_language_data;
@@ -214,12 +240,20 @@ static void Page_Language_Action(Page_Base* page, u8g2_t *u8g2, const Input_Even
             break;
         }
         case INPUT_EVENT_COMFIRM_PRESSED:
-            g_app_settings.language = data->selected_index;
-            if (app_settings_save(&g_app_settings)) {
-                data->msg_text = "Settings Saved!";
+            // 判断用户选择的是哪个选项
+            if (data->selected_index == 1) { // 索引 1 是 "Chinese(Sim)"
+                // --- 彩蛋逻辑 ---
+                data->msg_text = "my Chinese is poor";
             } else {
-                data->msg_text = "Save Failed!";
+                // --- 正常保存逻辑 (选择 English) ---
+                g_app_settings.language = data->selected_index;
+                if (app_settings_save(&g_app_settings)) {
+                    data->msg_text = "Settings Saved!";
+                } else {
+                    data->msg_text = "Save Failed!";
+                }
             }
+            // 统一进入显示消息状态
             data->state = LANGUAGE_STATE_SHOW_MSG;
             data->msg_start_time = HAL_GetTick();
             break;

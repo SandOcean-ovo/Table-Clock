@@ -74,6 +74,7 @@ Page_Base g_page_display = {
 /**
  * @brief 页面进入函数
  * @param page 指向页面基类的指针
+ * @return 无
  */
 static void Page_Display_Enter(Page_Base* page) {
     Page_Display_Data_t* data = &g_page_display_data;
@@ -89,6 +90,7 @@ static void Page_Display_Enter(Page_Base* page) {
 /**
  * @brief 页面循环逻辑函数 (处理动画)
  * @param page 指向页面基类的指针
+ * @return 无
  */
 static void Page_Display_Loop(Page_Base* page) {
     Page_Display_Data_t* data = &g_page_display_data;
@@ -118,6 +120,7 @@ static void Page_Display_Loop(Page_Base* page) {
  * @param u8g2 指向u8g2实例的指针
  * @param x_offset 屏幕的X方向偏移
  * @param y_offset 屏幕的Y方向偏移
+ * @return 无
  */
 static void Page_Display_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset) {
     Page_Display_Data_t* data = &g_page_display_data;
@@ -155,6 +158,7 @@ static void Page_Display_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, i
  * @param page 指向页面基类的指针
  * @param u8g2 指向u8g2实例的指针
  * @param event 指向输入事件数据的指针
+ * @return 无
  */
 static void Page_Display_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event) {
     Page_Display_Data_t* data = &g_page_display_data;

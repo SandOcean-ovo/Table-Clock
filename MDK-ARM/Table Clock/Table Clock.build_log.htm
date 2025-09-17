@@ -27,14 +27,69 @@ Project File Date:  09/17/2025
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Table Clock'
+compiling stm32f1xx_it.c...
+compiling input.c...
+compiling page_language.c...
+compiling app_settings.c...
+compiling app_display.c...
+..\App\app_display.c(244): warning:  #1-D: last line of file ends without a newline
+   */
+..\App\app_display.c: 1 warning, 0 errors
+compiling page_time_date.c...
+..\App\UI_pages\page_time_date.c(230): warning:  #223-D: function "pow" declared implicitly
+      p = p < 0.5 ? 2 * p * p : 1 - pow(-2 * p + 2, 2) / 2;
+..\App\UI_pages\page_time_date.c(393): warning:  #1182-D: a declaration cannot have a label
+              Time_t now; 
+..\App\UI_pages\page_time_date.c(409): warning:  #1-D: last line of file ends without a newline
+  }
+..\App\UI_pages\page_time_date.c(148): warning:  #177-D: function "Page_Exit"  was declared but never referenced
+  static void Page_Exit(Page_Base* page) {
+..\App\UI_pages\page_time_date.c: 4 warnings, 0 errors
+compiling page_time_dst.c...
+..\App\UI_pages\page_time_dst.c(228): warning:  #1-D: last line of file ends without a newline
+  }
+..\App\UI_pages\page_time_dst.c: 1 warning, 0 errors
+compiling page_time_set.c...
+..\App\UI_pages\page_time_set.c(194): warning:  #1-D: last line of file ends without a newline
+  }
+..\App\UI_pages\page_time_set.c: 1 warning, 0 errors
 compiling app_main.c...
 ..\App\app_main.c(119): warning:  #1-D: last line of file ends without a newline
   }
 ..\App\app_main.c: 1 warning, 0 errors
+compiling page_info.c...
+..\App\UI_pages\page_info.c(87): warning:  #1-D: last line of file ends without a newline
+  }
+..\App\UI_pages\page_info.c: 1 warning, 0 errors
+compiling page_display.c...
+..\App\UI_pages\page_display.c(209): warning:  #1-D: last line of file ends without a newline
+  }
+..\App\UI_pages\page_display.c: 1 warning, 0 errors
+compiling page_main_menu.c...
+..\App\UI_pages\page_main_menu.c(191): warning:  #1-D: last line of file ends without a newline
+  }
+..\App\UI_pages\page_main_menu.c: 1 warning, 0 errors
+compiling page_auto_off.c...
+..\App\UI_pages\page_auto_off.c(276): warning:  #188-D: enumerated type mixed with another type
+              g_app_settings.auto_off = data->selected_index;
+..\App\UI_pages\page_auto_off.c: 1 warning, 0 errors
+compiling main.c...
+compiling page_main.c...
+..\App\UI_pages\page_main.c(188): warning:  #1-D: last line of file ends without a newline
+  }
+..\App\UI_pages\page_main.c: 1 warning, 0 errors
+compiling page_time_time.c...
+..\App\UI_pages\page_time_time.c(174): warning:  #223-D: function "pow" declared implicitly
+      p = p < 0.5 ? 2 * p * p : 1 - pow(-2 * p + 2, 2) / 2;
+..\App\UI_pages\page_time_time.c(312): warning:  #1182-D: a declaration cannot have a label
+              Time_t now;
+..\App\UI_pages\page_time_time.c(328): warning:  #1-D: last line of file ends without a newline
+  }
+..\App\UI_pages\page_time_time.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=31784 RO-data=14904 RW-data=540 ZI-data=3348  
+Program Size: Code=32060 RO-data=14908 RW-data=536 ZI-data=3344  
 FromELF: creating hex file...
-"Table Clock\Table Clock.axf" - 0 Error(s), 1 Warning(s).
+"Table Clock\Table Clock.axf" - 0 Error(s), 16 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -58,7 +113,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE@6.1.1
       Include file:  CMSIS/Core/Include/tz_context.h
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:06
 </pre>
 </body>
 </html>

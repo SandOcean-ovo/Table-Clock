@@ -66,7 +66,8 @@ Page_Base g_page_main = {
 /* Function implementations --------------------------------------------------*/
 /**
  * @brief 主页面进入函数
- * @param page 指向页面基类的指针
+ * @param[in] page 指向页面基类的指针
+ * @return 无
  */
 static void Page_main_Enter(Page_Base *page)
 {
@@ -89,7 +90,8 @@ static void Page_main_Enter(Page_Base *page)
 /**
  * @brief 主页面的逻辑循环函数
  * @details 负责更新时间和温湿度等数据。
- * @param page 指向页面基类的指针
+ * @param[in] page 指向页面基类的指针
+ * @return 无
  */
 static void Page_main_Loop(Page_Base *page)
 {
@@ -102,7 +104,7 @@ static void Page_main_Loop(Page_Base *page)
         }
     }
 
-    DS3231_GetTime(&data->current_time);
+    DS3231_DST_GetTime(&data->current_time, g_app_settings.dst_enabled);
 
     // 每30秒更新一次温湿度
     if (data->last_update_time == 0 || HAL_GetTick() - data->last_update_time > 30000)
@@ -125,10 +127,11 @@ static void Page_main_Loop(Page_Base *page)
 
 /**
  * @brief 主页面的绘制函数
- * @param page 指向页面基类的指针
- * @param u8g2 指向u8g2实例的指针
- * @param x_offset 屏幕的X方向偏移
- * @param y_offset 屏幕的Y方向偏移
+ * @param[in] page 指向页面基类的指针
+ * @param[in] u8g2 指向u8g2实例的指针
+ * @param[in] x_offset 屏幕的X方向偏移
+ * @param[in] y_offset 屏幕的Y方向偏移
+ * @return 无
  */
 static void Page_main_Draw(Page_Base *page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset)
 {
@@ -171,9 +174,10 @@ static void Page_main_Draw(Page_Base *page, u8g2_t *u8g2, int16_t x_offset, int1
 
 /**
  * @brief 主页面的事件处理函数
- * @param page 指向页面基类的指针
- * @param u8g2 指向u8g2实例的指针
- * @param event 指向输入事件数据的指针
+ * @param[in] page 指向页面基类的指针
+ * @param[in] u8g2 指向u8g2实例的指针
+ * @param[in] event 指向输入事件数据的指针
+ * @return 无
  */
 static void Page_main_Action(Page_Base *page, u8g2_t *u8g2, const Input_Event_Data_t* event)
 {

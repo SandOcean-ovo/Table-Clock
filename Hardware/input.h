@@ -18,8 +18,6 @@
 #define INPUT_KEY_DEBOUNCE 2 ///< 按键消抖所需的连续扫描次数
 #define INPUT_FIFO_SIZE    16 ///< 输入事件FIFO队列的大小
 
-extern uint32_t g_last_interaction_time; ///< 记录最后一次用户交互的系统时间
-
 /**
  * @brief 定义了所有可能的输入事件类型
  */
@@ -72,7 +70,9 @@ void input_init(TIM_HandleTypeDef *htim_encoder, TIM_HandleTypeDef *htim_scan);
 /**
  * @brief 从FIFO队列中获取一个输入事件
  * @param[out] event 指向 Input_Event_Data_t 结构体的指针，用于存储获取到的事件数据。
- * @return 如果成功获取到事件则返回1，如果队列为空则返回0。
+ * @return uint8_t
+ *      - @retval 1 成功获取到事件。
+ *      - @retval 0 队列为空。
  */
 uint8_t input_get_event(Input_Event_Data_t *event);
 
@@ -88,13 +88,13 @@ void input_scan_timer_irq_handler(TIM_HandleTypeDef *htim);
 
 /**
  * @brief 获取队列中是否有未处理的输入事件
- * @return 返回队列中未处理事件的个数。 
+ * @return uint8_t - 返回队列中未处理事件的个数。
  */
 uint8_t input_count_events(void);
 
 /**
  * @brief 清空输入事件队列
- * @return 无 
+ * @return 无
  */
 void input_clear_events(void);
 

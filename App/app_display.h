@@ -30,12 +30,12 @@
 #define MENU_FONT u8g2_font_ncenB10_tr   /**< 菜单选项使用的字体 */
 #define INFO_FONT_SMALL u8g2_font_profont12_tf  /**< 关于页面使用的小字体 */
 #define INFO_FONT_BIG u8g2_font_t0_15_tf /**< 关于页面使用的字体 */
-#define DATE_FONT_LABEL u8g2_font_profont12_tf
-#define DATE_FONT_VALUE_SMALL u8g2_font_ncenB14_tr
-#define DATE_FONT_VALUE_LARGE u8g2_font_inb16_mr
-#define TIME_FONT_LABEL u8g2_font_profont12_tf
-#define TIME_FONT_VALUE_SMALL u8g2_font_ncenB14_tr
-#define TIME_FONT_VALUE_LARGE u8g2_font_inb16_mr
+#define DATE_FONT_LABEL u8g2_font_profont12_tf /**< 日期设置页面标签使用的字体 */
+#define DATE_FONT_VALUE_SMALL u8g2_font_ncenB14_tr /**< 日期设置页面值使用的小字体 */
+#define DATE_FONT_VALUE_LARGE u8g2_font_inb16_mr /**< 日期设置页面值使用的大字体 */
+#define TIME_FONT_LABEL u8g2_font_profont12_tf /**< 时间设置页面标签使用的字体 */
+#define TIME_FONT_VALUE_SMALL u8g2_font_ncenB14_tr /**< 时间设置页面值使用的小字体 */
+#define TIME_FONT_VALUE_LARGE u8g2_font_inb16_mr /**< 时间设置页面值使用的大字体 */
 #define PROMPT_FONT u8g2_font_profont12_tf /**< 用于显示提示信息的字体 */
 /** @} */
 
@@ -131,12 +131,6 @@ void Page_Manager_Init(u8g2_t* u8g2_ptr);
  * @details 此函数应在main的while(1)中被反复调用。它负责驱动当前页面的loop和draw。
  */
 void Page_Manager_Loop(void);
-
-// /**
-//  * @brief 向页面管理器传递一个动作或事件
-//  * @param[in] action_type 动作类型，通常来自输入模块的事件枚举
-//  */
-// void Page_Manager_Action(uint8_t action_type);
 
 /**
  * @brief 切换到指定的页面

@@ -18,11 +18,17 @@
 
 #include "main.h"
 #include "i2c.h"
-#include "stdint.h"
+#include <stdint.h>
+#include <stdbool.h>
 
+/* Private defines ------------------------------- */
 #define DS3231_ADDRESS 0xD0
-
 #define AT24C32_ADDRESS (0x57 << 1)
+
+#define DST_START_MONTH 3   ///< 夏令时开始月份 (3月)
+#define DST_START_DAY   10  ///< 夏令时开始日期 (10日)
+#define DST_END_MONTH   11  ///< 夏令时结束月份 (11月)
+#define DST_END_DAY     3   ///< 夏令时结束日期 (3日)
 
 /**
  * @brief 时间结构体定义
@@ -57,6 +63,15 @@ void DS3231_SetTime(Time_t *time);
  * @param time 指向Time_t结构体的指针，用于存储读取的时间信息
  */
 void DS3231_GetTime(Time_t *time);
+
+/**
+ * @brief 获取应用了夏令时规则的时间
+ * @details 如果夏令时被启用且当前日期在夏令时区间内，
+ *          此函数将在标准时间的基础上将小时数加一。
+ * @param[out] time 指向Time_t结构体的指针，用于存储最终的时间信息
+ * @param[in] dst_enabled 一个布尔值，指示是否应启用夏令时计算
+ */
+void DS3231_DST_GetTime(Time_t *time, bool dst_enabled);
 
 /**
  * @brief 获取DS3231内部温度传感器的温度值

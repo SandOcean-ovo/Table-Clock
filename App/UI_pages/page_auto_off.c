@@ -93,8 +93,8 @@ Page_Base g_page_auto_off = {
 /**
  * @brief  页面进入函数
  * @details 当切换到此页面时被调用，用于初始化页面数据和状态。
- * @param  page: 指向页面基类的指针 (未使用)
- * @retval 无
+ * @param[in] page 指向页面基类的指针 (未使用)
+ * @return 无
  */
 static void Page_Auto_Off_Enter(Page_Base* page) {
     Page_Auto_Off_Data_t* data = &g_page_auto_off_data;
@@ -118,8 +118,8 @@ static void Page_Auto_Off_Enter(Page_Base* page) {
 /**
  * @brief  页面循环函数
  * @details 在每次页面刷新时被调用，用于处理动画更新和状态切换。
- * @param  page: 指向页面基类的指针 (未使用)
- * @retval 无
+ * @param[in] page 指向页面基类的指针 (未使用)
+ * @return 无
  */
 static void Page_Auto_Off_Loop(Page_Base* page) {
     Page_Auto_Off_Data_t* data = &g_page_auto_off_data;
@@ -154,11 +154,11 @@ static void Page_Auto_Off_Loop(Page_Base* page) {
 /**
  * @brief  页面绘制函数
  * @details 负责在屏幕上绘制所有UI元素，包括菜单列表、高亮框和反馈信息。
- * @param  page: 指向页面基类的指针 (未使用)
- * @param  u8g2: 指向 u8g2 实例的指针
- * @param  x_offset: 屏幕的X方向偏移 (未使用)
- * @param  y_offset: 屏幕的Y方向偏移 (未使用)
- * @retval 无
+ * @param[in] page 指向页面基类的指针 (未使用)
+ * @param[in] u8g2 指向 u8g2 实例的指针
+ * @param[in] x_offset 屏幕的X方向偏移 (未使用)
+ * @param[in] y_offset 屏幕的Y方向偏移 (未使用)
+ * @return 无
  */
 static void Page_Auto_Off_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset) {
     Page_Auto_Off_Data_t* data = &g_page_auto_off_data;
@@ -215,10 +215,10 @@ static void Page_Auto_Off_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, 
 /**
  * @brief  页面事件处理函数
  * @details 处理来自输入设备的事件，如旋钮旋转、按键按下等。
- * @param  page: 指向页面基类的指针 (未使用)
- * @param  u8g2: 指向 u8g2 实例的指针 (未使用)
- * @param  event: 指向输入事件数据的指针
- * @retval 无
+ * @param[in] page 指向页面基类的指针 (未使用)
+ * @param[in] u8g2 指向 u8g2 实例的指针 (未使用)
+ * @param[in] event 指向输入事件数据的指针
+ * @return 无
  */
 static void Page_Auto_Off_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event) {
     Page_Auto_Off_Data_t* data = &g_page_auto_off_data;

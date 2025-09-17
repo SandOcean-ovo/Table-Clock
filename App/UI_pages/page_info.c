@@ -36,7 +36,8 @@ Page_Base g_page_info = {
 
 /**
  * @brief 关于页面进入函数
- * @param page 指向页面基类的指针 (未使用)
+ * @param[in] page 指向页面基类的指针 (未使用)
+ * @return 无
  */
 static void Page_Info_Enter(Page_Base* page) {
     // 静态页面，进入时无需任何操作
@@ -44,10 +45,11 @@ static void Page_Info_Enter(Page_Base* page) {
 
 /**
  * @brief 关于页面绘制函数
- * @param page 指向页面基类的指针 (未使用)
- * @param u8g2 指向u8g2实例的指针
- * @param x_offset 屏幕的X方向偏移
- * @param y_offset 屏幕的Y方向偏移
+ * @param[in] page 指向页面基类的指针 (未使用)
+ * @param[in] u8g2 指向u8g2实例的指针
+ * @param[in] x_offset 屏幕的X方向偏移
+ * @param[in] y_offset 屏幕的Y方向偏移
+ * @return 无
  */
 static void Page_Info_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset) {
     /* 标题和Logo */
@@ -67,9 +69,10 @@ static void Page_Info_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int1
 /**
  * @brief 关于页面事件处理函数
  * @details 在关于页面，任何按键都视为返回操作。
- * @param page 指向页面基类的指针 (未使用)
- * @param u8g2 指向u8g2实例的指针 (未使用)
- * @param event 指向输入事件数据的指针
+ * @param[in] page 指向页面基类的指针 (未使用)
+ * @param[in] u8g2 指向u8g2实例的指针 (未使用)
+ * @param[in] event 指向输入事件数据的指针
+ * @return 无
  */
 static void Page_Info_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event) {
     switch (event->event) {

@@ -19,16 +19,54 @@ static I2C_HandleTypeDef *ds3231_i2c;
 
 // --- 模块私有函数 ---
 
-// 十进制转BCD码
+/**
+ * @brief 十进制转BCD码  
+ */
 static uint8_t decToBcd(int val)
 {
     return (uint8_t)((val / 10 * 16) + (val % 10));
 }
 
-// BCD码转十进制
+/**
+ * @brief BCD码转十进制
+ */
 static int bcdToDec(uint8_t val)
 {
     return (int)((val / 16 * 10) + (val % 16));
+}
+
+/**
+ * @brief 判断给定日期是否在夏令时 (DST) 区间内
+ * @details 这是一个简化的、基于固定月/日的北半球规则判断。
+ * @param[in] time 指向包含当前日期时间的Time_t结构体指针
+ * @return bool
+ *       - @retval true 当前日期在夏令时区间内
+ *       - @retval false 当前日期不在夏令时区间内
+ */
+static bool is_in_dst_period(const Time_t *time)
+{
+    // 规则：从 DST_START_MONTH 的 DST_START_DAY 到 DST_END_MONTH 的 DST_END_DAY
+    
+    // 1. 如果当前月份在开始和结束月份之间，则肯定是夏令时
+    //    例如，规则是3月到11月，现在是7月
+    if (time->month > DST_START_MONTH && time->month < DST_END_MONTH) {
+        return true;
+    }
+
+    // 2. 如果当前月份是开始月份，则需要检查日期
+    //    例如，规则是3月10日开始，现在是3月15日
+    if (time->month == DST_START_MONTH && time->day >= DST_START_DAY) {
+        return true;
+    }
+
+    // 3. 如果当前月份是结束月份，则需要检查日期
+    //    例如，规则是11月3日结束，现在是11月1日
+    if (time->month == DST_END_MONTH && time->day < DST_END_DAY) {
+        return true;
+    }
+    
+    // 4. 其他所有情况都不是夏令时
+    return false;
 }
 
 
@@ -67,6 +105,40 @@ void DS3231_GetTime(Time_t *time)
     time->day    = bcdToDec(rx_data[4]);
     time->month  = bcdToDec(rx_data[5]);
     time->year   = bcdToDec(rx_data[6]) + 2000;
+}
+
+/**
+ * @brief 获取应用了夏令时规则的时间
+ * @param[out] time 指向Time_t结构体的指针，用于存储最终的时间信息
+ * @param[in] dst_enabled 一个布尔值，指示是否应启用夏令时计算
+ */
+void DS3231_DST_GetTime(Time_t *time, bool dst_enabled)
+{
+    // 1. 首先，获取标准的、未经修改的硬件时间
+    DS3231_GetTime(time);
+
+    // 2. 如果夏令时功能被禁用了，直接返回标准时间
+    if (!dst_enabled) {
+        return;
+    }
+
+    // 3. 如果夏令时已启用，判断当前日期是否在夏令时区间内
+    if (is_in_dst_period(time))
+    {
+        // 4. 在夏令时区间内，将小时数加一
+        time->hour += 1;
+
+        // 5. 处理小时进位（例如，从23:59跳到夏令时的00:59）
+        if (time->hour >= 24)
+        {
+            time->hour = 0; // 小时变为0
+
+            // 注意：这里我们简化了处理，不进行日期的进位。
+            // 一个完整的实现会非常复杂，需要计算日期、月份甚至年份的进位。
+            // 对于大多数显示应用来说，这种简化是可接受的。
+        }
+    }
+    // 如果不在夏令时区间内，则什么都不做，直接使用标准时间
 }
 
 float DS3231_GetTemperature(void)

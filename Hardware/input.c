@@ -1,7 +1,7 @@
 /**
  * @file input.c
- * @brief 输入处理模块实现文件
- * @details 本文件实现了按键和旋转编码器的事件检测、消抖及FIFO队列管理。
+ * @brief 输入函数
+ * @details 本文件定义了输入功能
  * @author SandOcean
  * @date 2025-08-26
  * @version 1.0
@@ -21,7 +21,6 @@ static TIM_HandleTypeDef *g_htim_scan = NULL;    ///< 用于按键扫描的定�
 static volatile int32_t last_encoder_count = 0; ///< 上一次读取的编码器计数值
 
 static uint32_t system_tick = 0; ///< 由input_tick更新的系统时间戳
-uint32_t g_last_interaction_time = 0;
 
 ///< 返回键对象实例
 static Key_t Key_Back = {INPUT_STATE_IDLE, 0, KEY_BCK_GPIO_Port, KEY_BCK_Pin};
@@ -46,7 +45,9 @@ static void Keys_Update(void);
  * @brief 将一个新事件推入FIFO队列
  * @param[in] event 事件类型
  * @param[in] value 事件相关的值
- * @return 如果成功推入返回1，如果队列已满则返回0。
+ * @return uint8_t
+ *      - @retval 1 成功推入。
+ *      - @retval 0 队列已满。
  */
 static uint8_t fifo_push_event(Input_Event_t event, int16_t value)
 {
@@ -64,8 +65,6 @@ static uint8_t fifo_push_event(Input_Event_t event, int16_t value)
     fifo_count++;
     
     __enable_irq();
-
-    g_last_interaction_time = system_tick; // 更新最后交互时间
     
     return 1;
 }
@@ -73,7 +72,9 @@ static uint8_t fifo_push_event(Input_Event_t event, int16_t value)
 /**
  * @brief 从FIFO队列中弹出一个事件
  * @param[out] event 用于存储弹出事件的指针
- * @return 如果成功弹出返回1，如果队列为空则返回0。
+ * @return uint8_t
+ *      - @retval 1 成功弹出。
+ *      - @retval 0 队列为空。
  */
 static uint8_t fifo_pop_event(Input_Event_Data_t *event)
 {
@@ -131,6 +132,7 @@ static void Encoder_Update(void)
  * @brief 更新单个按键的状态机
  * @param[in] key 指向要更新的按键对象
  * @param[in] press_event 该按键按下时对应的事件类型
+ * @return 无
  */
 static void Key_Update(Key_t *key, Input_Event_t press_event)
 {
@@ -195,6 +197,7 @@ void input_scan_timer_irq_handler(TIM_HandleTypeDef *htim)
  * @brief 初始化输入模块
  * @param[in] htim_encoder 编码器定时器句柄
  * @param[in] htim_scan 按键扫描定时器句柄
+ * @return 无
  */
 void input_init(TIM_HandleTypeDef *htim_encoder, TIM_HandleTypeDef *htim_scan)
 {
@@ -222,7 +225,9 @@ void input_init(TIM_HandleTypeDef *htim_encoder, TIM_HandleTypeDef *htim_scan)
 /**
  * @brief 获取一个输入事件
  * @param[out] event 用于存储事件的指针
- * @return 如果成功获取事件返回1，如果没有事件则返回0。
+ * @return uint8_t
+ *      - @retval 1 成功获取事件。
+ *      - @retval 0 没有事件。
  */
 uint8_t input_get_event(Input_Event_Data_t *event)
 {
@@ -231,7 +236,7 @@ uint8_t input_get_event(Input_Event_Data_t *event)
 
 /**
  * @brief 获取队列中是否有未处理的输入事件
- * @return 返回队列中未处理事件的个数。 
+ * @return uint8_t - 返回队列中未处理事件的个数。
  */
 uint8_t input_count_events(void)
 {
@@ -240,7 +245,7 @@ uint8_t input_count_events(void)
 
 /**
  * @brief 清空输入事件队列
- * @return 无 
+ * @return 无
  */
 void input_clear_events(void)
 {

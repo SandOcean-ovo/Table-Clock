@@ -80,12 +80,17 @@ Page_Base g_page_time_time = {
 /* Function implementations --------------------------------------------------*/
 /**
  * @brief 辅助函数：线性插值
+ * @param[in] a 起始值
+ * @param[in] b 结束值
+ * @param[in] t 插值进度 (0.0 to 1.0)
+ * @return float - 插值结果。
  */
 static float lerp(float a, float b, float t) { return a + t * (b - a); }
 
 /**
  * @brief 页面进入函数
- * @param page 指向页面基类的指针
+ * @param[in] page 指向页面基类的指针
+ * @return 无
  */
 static void Page_Enter(Page_Base* page) {
     DS3231_GetTime(&g_page_data.temp_time);
@@ -98,7 +103,8 @@ static void Page_Enter(Page_Base* page) {
 
 /**
  * @brief 页面循环逻辑函数 (驱动动画)
- * @param page 指向页面基类的指针
+ * @param[in] page 指向页面基类的指针
+ * @return 无
  */
 static void Page_Loop(Page_Base* page) {
     uint32_t elapsed = HAL_GetTick() - g_page_data.anim_start_time;
@@ -157,10 +163,11 @@ static void Page_Loop(Page_Base* page) {
 
 /**
  * @brief 页面绘制函数
- * @param page 指向页面基类的指针
- * @param u8g2 指向u8g2实例的指针
- * @param x_offset 屏幕的X方向偏移
- * @param y_offset 屏幕的Y方向偏移
+ * @param[in] page 指向页面基类的指针
+ * @param[in] u8g2 指向u8g2实例的指针
+ * @param[in] x_offset 屏幕的X方向偏移
+ * @param[in] y_offset 屏幕的Y方向偏移
+ * @return 无
  */
 static void Page_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset) {
     float p = g_page_data.anim_progress;
@@ -267,9 +274,10 @@ static void Page_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y
 
 /**
  * @brief 页面输入事件处理函数
- * @param page 指向页面基类的指针
- * @param u8g2 指向u8g2实例的指针
- * @param event 指向输入事件数据的指针
+ * @param[in] page 指向页面基类的指针
+ * @param[in] u8g2 指向u8g2实例的指针
+ * @param[in] event 指向输入事件数据的指针
+ * @return 无
  */
 static void Page_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event) {
     if (g_page_data.state != TIME_STATE_FOCUSED) {

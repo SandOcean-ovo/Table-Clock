@@ -57,20 +57,9 @@ bool app_settings_save(Settings_t *settings);
  * @param[out] settings 指向设置结构体的指针，用于存储加载的数据
  * @return bool 加载结果
  *          - @retval false 加载失败，数据无效或已损坏
- *          - @retval true 加载成功，数据有效
+*          - @retval true 加载成功，数据有效
  * @note 如果加载失败，建议调用app_settings_init()重新初始化默认设置
  */
 bool app_settings_load(Settings_t *settings);
-
-
-
-
-
-
-
-
-
-
-
 
 #endif /* __APP_SETTINGS_H */

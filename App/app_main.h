@@ -25,12 +25,14 @@ extern bool g_settings_load_failed;
 
 /**
  * @brief 所有初始化函数的整合 
+ * @return 无
  */
 void app_main_init(void);   
 
 /**
  * @brief 主循环
  * @note 该函数应在主循环中被周期性调用，以处理页面管理和输入事件。 
+ * @return 无
  */
 void app_main_loop(void);
 
