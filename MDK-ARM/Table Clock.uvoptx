@@ -1378,8 +1378,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\App\UI_pages\page_time.c</PathWithFileName>
-      <FilenameWithoutPath>page_time.c</FilenameWithoutPath>
+      <PathWithFileName>..\App\UI_pages\page_display.c</PathWithFileName>
+      <FilenameWithoutPath>page_display.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1390,20 +1390,44 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\App\app_input.c</PathWithFileName>
-      <FilenameWithoutPath>app_input.c</FilenameWithoutPath>
+      <PathWithFileName>..\App\UI_pages\page_time_date.c</PathWithFileName>
+      <FilenameWithoutPath>page_time_date.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>7</GroupNumber>
       <FileNumber>96</FileNumber>
-      <FileType>5</FileType>
+      <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\App\app_input.h</PathWithFileName>
-      <FilenameWithoutPath>app_input.h</FilenameWithoutPath>
+      <PathWithFileName>..\App\UI_pages\page_time_dst.c</PathWithFileName>
+      <FilenameWithoutPath>page_time_dst.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>7</GroupNumber>
+      <FileNumber>97</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\App\UI_pages\page_time_set.c</PathWithFileName>
+      <FilenameWithoutPath>page_time_set.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>7</GroupNumber>
+      <FileNumber>98</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\App\UI_pages\page_time_time.c</PathWithFileName>
+      <FilenameWithoutPath>page_time_time.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

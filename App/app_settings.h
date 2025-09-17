@@ -18,6 +18,10 @@
 #define APP_SETTINGS_ADDRESS      0x0010      /**< 设置信息在AT24C32中存储的起始地址 */
 #define APP_SETTINGS_MAGIC_NUMBER 0xDEADBEEF  /**< 设置数据的魔法数，用于验证数据有效性 */
 
+extern Settings_t g_app_settings;
+
+extern uint8_t g_is_screen_off;          /**< 记录屏幕当前是否已关闭 */
+
 /**
  * @brief 初始化应用设置
  * @details 初始化默认设置值，包括语言、主题、自动关机等参数。
@@ -39,7 +43,7 @@ void app_settings_init(void);
  * @note 保存前会自动计算并更新校验和
  * @return None
  */
-void app_settings_save(Settings_t *settings);
+uint8_t app_settings_save(Settings_t *settings);
 
 /**
  * @brief 从EEPROM加载应用设置

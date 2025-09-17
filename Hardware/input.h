@@ -16,7 +16,9 @@
 #include "string.h"
 
 #define INPUT_KEY_DEBOUNCE 2 /**< 按键消抖所需的连续扫描次数 */
-#define INPUT_FIFO_SIZE    32 /**< 输入事件FIFO队列的大小 */
+#define INPUT_FIFO_SIZE    16 /**< 输入事件FIFO队列的大小 */
+
+extern uint32_t g_last_interaction_time; // 记录最后一次用户交互的系统时间
 
 
 /**

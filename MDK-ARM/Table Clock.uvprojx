@@ -1033,19 +1033,29 @@
               <FilePath>..\App\UI_pages\page_main_menu.c</FilePath>
             </File>
             <File>
-              <FileName>page_time.c</FileName>
+              <FileName>page_display.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\App\UI_pages\page_time.c</FilePath>
+              <FilePath>..\App\UI_pages\page_display.c</FilePath>
             </File>
             <File>
-              <FileName>app_input.c</FileName>
+              <FileName>page_time_date.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\App\app_input.c</FilePath>
+              <FilePath>..\App\UI_pages\page_time_date.c</FilePath>
             </File>
             <File>
-              <FileName>app_input.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\App\app_input.h</FilePath>
+              <FileName>page_time_dst.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\UI_pages\page_time_dst.c</FilePath>
+            </File>
+            <File>
+              <FileName>page_time_set.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\UI_pages\page_time_set.c</FilePath>
+            </File>
+            <File>
+              <FileName>page_time_time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\UI_pages\page_time_time.c</FilePath>
             </File>
           </Files>
         </Group>

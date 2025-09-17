@@ -10,30 +10,10 @@
 #include "app_display.h"
 #include "u8g2_stm32_hal.h"
 #include <string.h>
+#include <stdbool.h>
 #include "input.h"
 
-void draw_info_page(u8g2_t *u8g2) 
-{
-
-    /* 1. 标题和Logo */
-    u8g2_SetFont(u8g2, u8g2_font_open_iconic_app_2x_t); // 符号字体
-    u8g2_DrawGlyph(u8g2, 0, 16, 0x0045); // 一个时钟符号作为Logo
-    u8g2_SetFont(u8g2, u8g2_font_profont12_tf);
-    u8g2_DrawStr(u8g2, 22, 14, APP_NAME);
-    u8g2_DrawHLine(u8g2, 0, 18, 128);
-
-    /* 2. 基本信息 */
-    u8g2_SetFont(u8g2, u8g2_font_profont10_tf);
-    u8g2_DrawStr(u8g2, 0, 28, "Firmware: " APP_VERSION);
-    
-    u8g2_DrawStr(u8g2, 0, 48, APP_COPYRIGHT);
-    u8g2_DrawStr(u8g2, 0, 58, APP_AUTHOR);
-
-}
-
-// ====================================================================
-//            Part 1: 页面管理器内部状态 (Manager Internals)
-// ====================================================================
+#define PAGE_HISTORY_MAX_DEPTH 8 // 定义堆栈最大深度
 
 // 管理器自身的状态
 typedef enum {
@@ -56,22 +36,43 @@ static struct {
     uint32_t anim_duration;         // 动画总时长
     
     // --- 页面历史堆栈 ---
-    // ... (您的历史堆栈代码) ...
+    Page_Base* history_stack[PAGE_HISTORY_MAX_DEPTH]; // 存储历史页面的数组
+    int8_t history_depth;                             // 当前堆栈深度 (或叫栈顶指针)
+
 } g_page_manager;
 
-// ====================================================================
-//            Part 2: 页面具体实现 (Page Implementations)
-// ====================================================================
-// ... (所有页面的 draw, loop, action 函数和 g_page_... 定义保持不变) ...
+static void _Switch_Page_Internal(Page_Base* new_page, bool record_history) {
+    if (!new_page || new_page == g_page_manager.current_page || g_page_manager.state == MANAGER_STATE_ANIMATING) {
+        return;
+    }
 
-// ====================================================================
-//            Part 3: 页面管理器API实现 (Manager API)
-// ====================================================================
+    if (record_history) {
+        if (g_page_manager.current_page && g_page_manager.history_depth < PAGE_HISTORY_MAX_DEPTH) {
+            g_page_manager.history_stack[g_page_manager.history_depth] = g_page_manager.current_page;
+            g_page_manager.history_depth++;
+        }
+    }
+
+    if (g_page_manager.current_page && g_page_manager.current_page->exit) {
+        g_page_manager.current_page->exit(g_page_manager.current_page);
+    }
+
+    // 在这里调用新页面的 enter 函数，解决动画过程和结束后显示不一致的问题
+    if (new_page->enter) {
+        new_page->enter(new_page);
+    }
+
+    g_page_manager.page_from = g_page_manager.current_page;
+    g_page_manager.page_to = new_page;
+    g_page_manager.anim_start_time = HAL_GetTick();
+    g_page_manager.anim_duration = 250;
+    g_page_manager.state = MANAGER_STATE_ANIMATING;
+}
 
 // 初始化函数
 void Page_Manager_Init(u8g2_t* u8g2_ptr) {
     g_page_manager.u8g2 = u8g2_ptr;
-
+    g_page_manager.history_depth = 0; // 初始化堆栈为空
     // 设置初始页面
     g_page_manager.current_page = &g_page_main;
     if (g_page_manager.current_page->enter) {
@@ -83,25 +84,8 @@ void Page_Manager_Init(u8g2_t* u8g2_ptr) {
  * @brief 切换到指定的页面 (带动画)
  * @param new_page 目标页面
  */
-void Switch_Page(Page_Base* new_page)
-{
-    if (!new_page || new_page == g_page_manager.current_page || g_page_manager.state == MANAGER_STATE_ANIMATING) {
-        return;
-    }
-
-    // 调用旧页面的退出函数
-    if (g_page_manager.current_page && g_page_manager.current_page->exit) {
-        g_page_manager.current_page->exit(g_page_manager.current_page);
-    }
-
-    // --- 启动动画 ---
-    g_page_manager.page_from = g_page_manager.current_page;
-    g_page_manager.page_to = new_page;
-    g_page_manager.anim_start_time = HAL_GetTick();
-    g_page_manager.anim_duration = 250; // 动画持续250ms
-    g_page_manager.state = MANAGER_STATE_ANIMATING; // 进入动画状态
-    
-    // 注意：不再在这里切换 current_page 和调用 enter 函数，这些都推迟到动画结束后
+void Switch_Page(Page_Base* new_page) {
+    _Switch_Page_Internal(new_page, true); // true 表示这是一次正常的、需要记录历史的跳转
 }
 
 /**
@@ -118,10 +102,8 @@ void Page_Manager_Loop(void)
             g_page_manager.state = MANAGER_STATE_IDLE; // 恢复静止状态
             g_page_manager.current_page = g_page_manager.page_to; // 正式切换页面
             
-            // 调用新页面的进入函数
-            if (g_page_manager.current_page && g_page_manager.current_page->enter) {
-                g_page_manager.current_page->enter(g_page_manager.current_page);
-            }
+            // 这里不用调用 enter，因为已经在切换时调用过了
+
             // 动画结束后，立即强制刷新一次最终画面
             if (g_page_manager.current_page && g_page_manager.current_page->draw) {
                  u8g2_FirstPage(g_page_manager.u8g2);
@@ -137,6 +119,15 @@ void Page_Manager_Loop(void)
         int16_t screen_width = u8g2_GetDisplayWidth(g_page_manager.u8g2);
         int16_t from_x = -(int16_t)(screen_width * progress);
         int16_t to_x = screen_width - (int16_t)(screen_width * progress);
+
+        // 如果起始页面有 loop 函数 (比如它是主时钟页)，就调用它
+        if (g_page_manager.page_from && g_page_manager.page_from->loop) {
+            g_page_manager.page_from->loop(g_page_manager.page_from);
+        }
+        // 如果目标页面有 loop 函数 (比如它是主时钟页)，也调用它
+        if (g_page_manager.page_to && g_page_manager.page_to->loop) {
+            g_page_manager.page_to->loop(g_page_manager.page_to);
+        }
 
         // 同时绘制旧页面和新页面，并施加位移
         u8g2_FirstPage(g_page_manager.u8g2);
@@ -184,9 +175,14 @@ void Page_Manager_Loop(void)
     }
 }
 
-// 返回功能
 void Go_Back_Page(void) {
-    if (g_page_manager.current_page && g_page_manager.current_page->parent_page) {
-        Switch_Page(g_page_manager.current_page->parent_page);
+    if (g_page_manager.history_depth > 0) {
+        g_page_manager.history_depth--;
+        Page_Base* last_page = g_page_manager.history_stack[g_page_manager.history_depth];
+        
+        // 直接切换到上一个页面，但不将它再次压栈
+        // (我们需要一个不带压栈功能的内部切换函数)
+        // 让我们为此创建一个内部函数 _Switch_Page_Internal
+        _Switch_Page_Internal(last_page, false); // false 表示不记录这次返回操作到历史
     }
 }

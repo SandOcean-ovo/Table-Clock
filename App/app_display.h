@@ -28,6 +28,15 @@
 #define CLOCK_FONT u8g2_font_logisoso24_tn /**< 主时钟界面使用的大号数字字体 */
 #define DATE_TEMP_FONT u8g2_font_6x10_tf   /**< 用于显示日期、温度等信息的小号字体 */
 #define MENU_FONT u8g2_font_ncenB10_tr   /**< 菜单选项使用的字体 */
+#define INFO_FONT_SMALL u8g2_font_profont12_tf  /**< 关于页面使用的小字体 */
+#define INFO_FONT_BIG u8g2_font_t0_15_tf /**< 关于页面使用的字体 */
+#define DATE_FONT_LABEL u8g2_font_profont12_tf
+#define DATE_FONT_VALUE_SMALL u8g2_font_ncenB14_tr
+#define DATE_FONT_VALUE_LARGE u8g2_font_inb16_mr
+#define TIME_FONT_LABEL u8g2_font_profont12_tf
+#define TIME_FONT_VALUE_SMALL u8g2_font_ncenB14_tr
+#define TIME_FONT_VALUE_LARGE u8g2_font_inb16_mr
+#define PROMPT_FONT u8g2_font_profont12_tf /**< 用于显示提示信息的字体 */
 /** @} */
 
 /**
@@ -99,10 +108,14 @@ extern Page_Base g_page_main;
 extern Page_Base g_page_main_menu;  
 extern Page_Base g_page_display; 
 extern Page_Base g_page_info; 
-extern Page_Base g_page_time; 
+extern Page_Base g_page_time_set; 
+extern Page_Base g_page_time_date; 
+extern Page_Base g_page_time_time; 
+extern Page_Base g_page_time_dst; 
 extern Page_Base g_page_language; 
 extern Page_Base g_page_auto_off;
 /** @} */
+
 
 /** @defgroup Page_Manager_API 页面管理器外部接口 */
 /** @{ */

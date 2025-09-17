@@ -49,4 +49,4 @@ void u8g2Init(u8g2_t *u8g2);
 
 extern I2C_HandleTypeDef hi2c1; 
 
-#endif // U8G2_STM32_HAL_H
+#endif /* __U8G2_STM32_HAL_H */

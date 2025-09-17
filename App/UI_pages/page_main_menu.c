@@ -15,7 +15,7 @@
 #define MENU_ITEM_COUNT 3
 #define MENU_ITEM_HEIGHT 16
 #define MENU_TOP_Y 8
-#define MENU_LEFT_X 5
+#define MENU_LEFT_X 2
 #define MENU_WIDTH 118
 
 // 1. 定义页面私有数据结构体
@@ -89,33 +89,9 @@ static void Page_main_menu_Loop(Page_Base* page) {
     }
 }
 
-// static void Page_main_menu_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset) {
-//     Page_main_menu_Data* data = &g_page_main_menu_data;
-//     const char* menu_items[] = {"Display", "Time", "Info"};
-
-//     // --- 1. 绘制反色高亮框 (动画) ---
-//     u8g2_SetDrawColor(u8g2, 1); // 设置为绘制模式
-//     u8g2_DrawBox(u8g2, MENU_LEFT_X + x_offset, (int16_t)data->anim_current_y + y_offset, MENU_WIDTH, MENU_ITEM_HEIGHT);
-
-//     // --- 2. 绘制所有菜单项 ---
-//     u8g2_SetFont(u8g2, MENU_FONT);
-//     for (int i = 0; i < MENU_ITEM_COUNT; i++) {
-//         // 判断当前项是否在高亮框内
-//         if ( ( (i * (MENU_ITEM_HEIGHT)) + MENU_TOP_Y >= (int16_t)data->anim_current_y ) &&
-//              ( (i * (MENU_ITEM_HEIGHT)) + MENU_TOP_Y < (int16_t)data->anim_current_y + MENU_ITEM_HEIGHT) )
-//         {
-//             u8g2_SetDrawColor(u8g2, 0); // 在高亮框内，用背景色(0)绘制文字
-//         } else {
-//             u8g2_SetDrawColor(u8g2, 1); // 在高亮框外，用前景色(1)绘制文字
-//         }
-//         u8g2_DrawStr(u8g2, 15 + x_offset, (i * (MENU_ITEM_HEIGHT)) + MENU_TOP_Y + 12 + y_offset, menu_items[i]);
-//     }
-//     u8g2_SetDrawColor(u8g2, 1); // 恢复默认绘制颜色
-// }
-
 static void Page_main_menu_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset) {
     Page_main_menu_Data* data = &g_page_main_menu_data;
-    const char* menu_items[] = {"Display", "Time", "Info"};
+    const char* menu_items[] = {"Display", "Time Set", "Info"};
 
     // --- 准备工作 ---
     u8g2_SetFont(u8g2, MENU_FONT);
@@ -193,8 +169,9 @@ static void Page_main_menu_Action(Page_Base* page, u8g2_t *u8g2, const Input_Eve
         }
         case INPUT_EVENT_COMFIRM_PRESSED:
             // 根据选中的是哪一项，切换到不同的子页面
-            // if (data->selected_index == 0) Switch_Page(&g_page_display_menu);
-            // ...
+            if (data->selected_index == 0) Switch_Page(&g_page_display);
+            if (data->selected_index == 1) Switch_Page(&g_page_time_set);
+            if (data->selected_index == 2) Switch_Page(&g_page_info);
             break;
         case INPUT_EVENT_BACK_PRESSED:
             Go_Back_Page(); // 使用框架提供的返回功能

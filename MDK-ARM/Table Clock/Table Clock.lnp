@@ -79,8 +79,11 @@
 "table clock\page_language.o"
 "table clock\page_main.o"
 "table clock\page_main_menu.o"
-"table clock\page_time.o"
-"table clock\app_input.o"
+"table clock\page_display.o"
+"table clock\page_time_date.o"
+"table clock\page_time_dst.o"
+"table clock\page_time_set.o"
+"table clock\page_time_time.o"
 --library_type=microlib --strict --scatter "Table Clock\Table Clock.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

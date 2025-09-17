@@ -26,20 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <stdint.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <math.h>
-#include <stdarg.h>
-#include <stddef.h>
-#include "uart.h"
-#include "u8g2.h"
-#include "u8x8.h"
-#include "u8g2_stm32_hal.h"
-#include "DS3231.h"
-#include "app_display.h"
+#include "app_main.h"
 
 /* USER CODE END Includes */
 
@@ -110,13 +97,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-	u8g2Init(&u8g2);
-  u8g2_ClearBuffer(&u8g2);
-  u8g2_SendBuffer(&u8g2);
-  DS3231_Init(&hi2c1);
-  AHT20_Init(&hi2c1);
-  Page_Manager_Init(&u8g2);
-  input_init(&htim3, &htim2);
+  app_main_init();
 
 
 
@@ -129,7 +110,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    Page_Manager_Loop();
+    app_main_loop();
 
 
   }

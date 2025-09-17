@@ -9,7 +9,16 @@
 
 #include "app_settings.h"
 
-static Settings_t settings;
+
+Settings_t g_app_settings = {
+    .magic_number = APP_SETTINGS_MAGIC_NUMBER,
+    .language = 0, // 默认语言：中文
+    .auto_off = NEVER, // 默认自动关机：关闭
+    .dst_enabled = false, // 默认夏令时：关闭
+    .checksum = 0
+};
+
+uint8_t g_is_screen_off = 0;          
 
 // --- 模块私有函数 ---
 
@@ -39,10 +48,15 @@ static void settings_load(Settings_t *settings)
 
 void app_settings_init(void)
 {
-    settings.magic_number = APP_SETTINGS_MAGIC_NUMBER;
-    settings.language = 0;
-    settings.auto_off = 0;
-    settings.checksum = __checksum(&settings);
+    if(app_settings_load(&g_app_settings) != 0) {
+        g_app_settings.magic_number = APP_SETTINGS_MAGIC_NUMBER;
+        g_app_settings.language = 0;
+        g_app_settings.auto_off = NEVER;
+        g_app_settings.checksum = __checksum(&g_app_settings);
+
+        settings_save(&g_app_settings);
+    }
+
 }
 
 uint8_t app_settings_load(Settings_t *settings)
@@ -60,11 +74,22 @@ uint8_t app_settings_load(Settings_t *settings)
     return 0; // 数据有效，加载成功
 }
 
-void app_settings_save(Settings_t *settings)
+uint8_t app_settings_save(Settings_t *settings)
 {
-    settings->magic_number = APP_SETTINGS_MAGIC_NUMBER;
+    Settings_t temp_settings; // 使用临时变量避免修改传入的指针数据
+
     settings->checksum = __checksum(settings);
     settings_save(settings);
+    HAL_Delay(10); // EEPROM写入需要时间
+
+    // 为了确保数据正确写入，再读回来验证一次
+    settings_load(&temp_settings);
+    if (memcmp(&temp_settings, settings, sizeof(Settings_t)) == 0) {
+        return 1;
+    }else {
+        return 0;
+    }
+
 }
 
 

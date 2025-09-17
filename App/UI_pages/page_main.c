@@ -10,7 +10,7 @@
 #include "app_display.h"
 #include "DS3231.h"
 #include "AHT20.h"
-#include "input.h" // 需要包含 input.h 来使用事件枚举
+#include "input.h" 
 
 // 1. 定义页面私有数据结构体
 typedef struct
@@ -21,6 +21,12 @@ typedef struct
     char date_str[12];
     char week_str[5];
     char temp_humi_str[20];
+
+    Time_t current_time;
+    float current_temp;
+    float current_humi;
+    uint32_t last_update_time; 
+
 } Page_main_Data;
 
 // 2. 声明本页面的函数
@@ -40,7 +46,7 @@ Page_Base g_page_main = {
     .exit = NULL,
     .loop = Page_main_Loop,
     .draw = Page_main_Draw,
-    .action = Page_main_Action, // <-- 修正这里的函数名
+    .action = Page_main_Action,
     .page_name = "main",
     .parent_page = NULL,
     .refresh_rate_ms = 100, // 100ms刷新一次足够了
@@ -49,6 +55,9 @@ Page_Base g_page_main = {
 // 4. 函数具体实现
 static void Page_main_Enter(Page_Base *page)
 {
+    Page_main_Data *data = &g_page_main_data;
+    data->last_update_time = 0; // 强制在每次进入主页时都立即刷新一次温湿度
+
     // 立即执行一次数据更新逻辑
     Page_main_Loop(page);
 }
@@ -63,20 +72,26 @@ static void Page_main_Loop(Page_Base *page)
     Page_main_Data *data = &g_page_main_data;
 
     // 获取硬件数据
-    static Time_t current_time;
-    static float current_temp;
-    static float current_humi;
-    DS3231_GetTime(&current_time);
-    AHT20_Read_Temp_Humi(&current_temp, &current_humi);
+    DS3231_GetTime(&data->current_time);
+
+    // 【修改】使用数据结构中的变量，并优化逻辑
+    if (data->last_update_time == 0 || HAL_GetTick() - data->last_update_time > 30000)
+    {
+        data->last_update_time = HAL_GetTick();
+        AHT20_Read_Temp_Humi(&data->current_temp, &data->current_humi);
+    }
 
     // 更新要显示的字符串数据
-    sprintf(data->time_str, "%02d:%02d:%02d", current_time.hour, current_time.minute, current_time.second);
-    sprintf(data->date_str, "%04d-%02d-%02d", current_time.year, current_time.month, current_time.day);
+    sprintf(data->time_str, "%02d:%02d:%02d", data->current_time.hour, data->current_time.minute, data->current_time.second);
+    sprintf(data->date_str, "%04d-%02d-%02d", data->current_time.year, data->current_time.month, data->current_time.day);
 
     const char *week_str_map[] = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
-    strcpy(data->week_str, week_str_map[current_time.week]);
+    // 注意：DS3231的星期范围可能是1-7，请确保 week 成员的值与数组索引对应
+    if (data->current_time.week >= 1 && data->current_time.week <= 7) {
+        strcpy(data->week_str, week_str_map[data->current_time.week - 1]);
+    }
 
-    sprintf(data->temp_humi_str, "T:%.1f\260C H:%.1f%%", current_temp, current_humi);
+    sprintf(data->temp_humi_str, "T:%.1f\260C H:%.1f%%", data->current_temp, data->current_humi);
 }
 
 /**

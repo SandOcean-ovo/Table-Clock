@@ -15,17 +15,20 @@
 
 /* 应用信息 */
 #define APP_NAME "TableClock"
-#define APP_AUTHOR "SandOcean"
+#define APP_AUTHOR "SandOcean."
 #define APP_COPYRIGHT "Copyright (c) 2025"
-#define APP_VERSION_MAJOR "1"
-#define APP_VERSION_MINOR "0"
-#define APP_VERSION_PATCH "0"
+#define APP_VERSION_MAJOR "0"
+#define APP_VERSION_MINOR "1"
+#define APP_VERSION_PATCH "5"
 #define APP_VERSION APP_VERSION_MAJOR "." APP_VERSION_MINOR "." APP_VERSION_PATCH
 
 
 /* 语言配置 */
 #define LANGUAGE_EN 0
 #define LANGUAGE_CN 1
+
+#define ANIM_DURATION_ENTER 800  // 初始停留时间
+#define ANIM_DURATION_ZOOM  600  // 放大/缩小动画时长
 
 
 

@@ -21,6 +21,7 @@ static TIM_HandleTypeDef *g_htim_scan = NULL;
 static volatile int32_t last_encoder_count = 0;
 
 static uint32_t system_tick = 0;
+uint32_t g_last_interaction_time = 0;
 
 static Key_t Key_Back = {INPUT_STATE_IDLE, 0, KEY_BCK_GPIO_Port, KEY_BCK_Pin};
 static Key_t Key_Confirm = {INPUT_STATE_IDLE, 0, KEY_CON_GPIO_Port, KEY_CON_Pin};
@@ -45,6 +46,8 @@ static uint8_t fifo_push_event(Input_Event_t event, int16_t value)
     
     __enable_irq();
 
+    g_last_interaction_time = system_tick; // 更新最后交互时间
+    
     return 1;
 }
 
