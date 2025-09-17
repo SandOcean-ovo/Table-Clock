@@ -1,6 +1,6 @@
 # 墨滴时钟 (Ink-Drop Clock) - 一款基于STM32与U8g2的精致桌面时钟
 
-![墨滴时钟主界面](https://pic1.imgdb.cn/item/68cac34fc5157e1a8812e0b8.gif) *<p align="center">一个展示主时钟界面和流畅动画的GIF动图</p>*
+![墨滴时钟主界面](https://pic1.imgdb.cn/item/68cac34fc5157e1a8812e0b8.gif)
 ## ✨ 项目简介
 
 **墨滴时钟 (Ink-Drop Clock)** 是一款基于STM32和U8g2图形库打造的高性能、高颜值桌面时钟。它不仅仅是一个时间显示器，更是一个追求极致用户体验的嵌入式GUI项目。项目最大的特色在于其**流畅、细腻的动画效果**，例如“老虎机”式的日期时间选择器和带有惯性回弹的滚动列表，旨在为用户带来“墨滴入水”般顺滑自然的操作感受。
@@ -57,17 +57,18 @@
 
 ## 📸 功能演示
 
-*在这里放入更多展示你酷炫功能的图片或GIF！*
-
 **1. "老虎机"式时间设置**
+
 ![老虎机](https://pic1.imgdb.cn/item/68cac34ec5157e1a8812e0b4.gif)
 *<p align="center">从并列视图放大到聚焦视图，并进行滚动选择的完整动画</p>*
 
 **2. 智能滚动列表**
+
 ![滚动](https://pic1.imgdb.cn/item/68cac352c5157e1a8812e0c0.gif)
 *<p align="center">演示了列表在可视区内外的平滑滚动和边界环绕动画</p>*
 
 **3. 保存设置提示**
+
 ![保存提示](https://pic1.imgdb.cn/item/68cac34dc5157e1a8812e0b2.gif)
 *<p align="center">操作完成后给予清晰的视觉反馈</p>*
 
