@@ -17,7 +17,7 @@
 #include "u8g2.h"
 #include "main.h"
 
-extern u8g2_t u8g2; // 全局U8g2实例
+extern u8g2_t u8g2; ///< 全局U8g2实例
 
 /**
  * @brief U8g2的GPIO和延时回调函数

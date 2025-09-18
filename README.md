@@ -1,11 +1,30 @@
 # 墨滴时钟 (Ink-Drop Clock) - 一款基于STM32与U8g2的精致桌面时钟
 
-![墨滴时钟主界面](https://pic1.imgdb.cn/item/68cac34fc5157e1a8812e0b8.gif)
+<div style="text-align: center;">
+  <img src="https://pic1.imgdb.cn/item/68cac34fc5157e1a8812e0b8.gif" alt="墨滴时钟主界面">
+</div>
+
 ## ✨ 项目简介
 
 **墨滴时钟 (Ink-Drop Clock)** 是一款基于STM32和U8g2图形库打造的高性能、高颜值桌面时钟。它不仅仅是一个时间显示器，更是一个追求极致用户体验的嵌入式GUI项目。项目最大的特色在于其**流畅、细腻的动画效果**，例如“老虎机”式的日期时间选择器和带有惯性回弹的滚动列表，旨在为用户带来“墨滴入水”般顺滑自然的操作感受。
 
 本项目从零开始，完整实现了包括**页面管理、动画引擎、输入处理、数据持久化**在内的全套应用框架。
+
+---
+## 📖 项目结构
+
+```
+Table Clock/
+├── 📁 App (应用层)                 # 包含应用层各处理逻辑
+│   └── 📁 UI_pages/                # 各个UI页面的具体实现
+├── 📁 Hardware (驱动层)            # 包含各个硬件驱动
+│   └── 📁 OLED/
+│       └── 📁 u8g2/                # U8g2 图形库移植文件
+├── 📁 Core (核心)
+├── 📁 MDK-ARM (Keil工程)
+│   └── 📄 Table Clock.uvprojx
+└── 📄 README.md                    # 项目说明文档
+```
 
 ---
 
@@ -20,7 +39,6 @@
     *   **时间/日期设置**: 独立的时间和日期设置界面，交互友好。
     *   **自动熄屏**: 支持多种超时选项（30s, 1min, 5min, 10min, 从不），节能环保。
     *   **夏令时 : 支持手动开启/关闭夏令时，自动调整时间显示。
-    *   **语言选择**: 预留多语言支持框架。
 *   **精准可靠的时间系统**:
     *   采用 **DS3231** 高精度实时时钟模块，带温度补偿，走时精准。
 *   **断电记忆**:
@@ -44,14 +62,13 @@
 
 ## 🛠️ 软件与库
 
-*   **开发环境**: STM32CubeIDE / Keil MDK / VSCode + PlatformIO
+*   **开发环境**: 
+    *   STM32CubeMX : 初始化代码
+    *   VS Code : 代码编写
+    *   Keil : 编译和下载 
 *   **核心库**:
     *   **STM32 HAL Lib**: 官方底层硬件抽象库。
     *   **U8g2 Lib**: 功能强大的单色屏图形库，用于UI绘制。
-*   **项目结构**:
-    *   **应用层 (App)**: 包含页面管理、UI逻辑、输入处理等。
-    *   **驱动层 (Driver)**: 封装了DS3231、AT24C32等硬件模块的底层驱动。
-    *   **核心 (Core)**: STM32CubeMX生成的项目核心代码。
 
 ---
 
@@ -59,17 +76,26 @@
 
 **1. "老虎机"式时间设置**
 
-![老虎机](https://pic1.imgdb.cn/item/68cac34ec5157e1a8812e0b4.gif)
+<div style="text-align: center;">
+  <img src="https://pic1.imgdb.cn/item/68cac34ec5157e1a8812e0b4.gif" alt="老虎机">
+</div>
+
 *<p align="center">从并列视图放大到聚焦视图，并进行滚动选择的完整动画</p>*
 
 **2. 智能滚动列表**
 
-![滚动](https://pic1.imgdb.cn/item/68cac352c5157e1a8812e0c0.gif)
+<div style="text-align: center;">
+  <img src="https://pic1.imgdb.cn/item/68cac352c5157e1a8812e0c0.gif" alt="滚动列表">
+</div>
+
 *<p align="center">演示了列表在可视区内外的平滑滚动和边界环绕动画</p>*
 
 **3. 保存设置提示**
 
-![保存提示](https://pic1.imgdb.cn/item/68cac34dc5157e1a8812e0b2.gif)
+<div style="text-align: center;">
+  <img src="https://pic1.imgdb.cn/item/68cac34dc5157e1a8812e0b2.gif" alt="保存提示">
+</div>
+
 *<p align="center">操作完成后给予清晰的视觉反馈</p>*
 
 ---
@@ -108,20 +134,21 @@
     ```bash
     git clone https://github.com/SandOcean-ovo/Table-Clock.git
     ```
-2.  **硬件连接**:
+2.  **U8g2的移植与裁剪**:
+    *   克隆U8g2仓库
+        ```bash
+        git clone https://github.com/olikraus/u8g2.git
+        ```
+    *   在`u8g2/csrc`文件夹中，删去除`u8x8_d_ssd1306_128x64_noname.c`以外的所有`u8x8_d`开头的文件。
+    *   裁剪`u8g2_d_setup.c`文件，留下`u8g2_Setup_ssd1306_i2c_128x64_noname_f`一个函数即可。
+    *   裁剪`u8g2_d_memory.c`文件，留下`u8g2_m_16_8_f`一个函数即可。
+    *   将剩下的**文件**放置在一个命名为`u8g2`的文件夹内，再将此文件夹放置在一个命名为`OLED`的文件夹内，然后将其放置在`Hardware`文件夹内。
+3.  **硬件连接**:
     *   请参照 `docs/hardware_connections.png` 的原理图进行硬件连接。
-3.  **编译与烧录**:
+4.  **编译与烧录**:
     *   使用 Keil 打开`MDK-ARM/Table Clock.uvprojx`。
     *   点击 `Build` 进行编译。
     *   通过 ST-Link 连接核心板并点击 `Run` 进行烧录。
-
----
-
-## 展望
-
-*   [ ] **完善中文支持**: 探索使用压缩字库或外部Flash芯片的方案，实现美观且高效的中文显示。
-*   [ ] **增加物理反馈**: 集成微型震动马达或蜂鸣器，为用户操作提供触觉或听觉反馈。
-*   [ ] **网络功能 (V2.0)**: 升级至ESP32，实现NTP网络校时和天气预报功能。
 
 ---
 
