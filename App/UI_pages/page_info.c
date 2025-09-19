@@ -13,9 +13,9 @@
 #include "input.h"
 
 /* Private function prototypes -----------------------------------------------*/
-static void Page_Info_Enter(Page_Base* page);
-static void Page_Info_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset);
-static void Page_Info_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event);
+static void Page_Info_Enter(Page_Base *page);
+static void Page_Info_Draw(Page_Base *page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset);
+static void Page_Info_Action(Page_Base *page, u8g2_t *u8g2, const Input_Event_Data_t *event);
 
 /* Public variables ----------------------------------------------------------*/
 /**
@@ -29,8 +29,7 @@ Page_Base g_page_info = {
     .action = Page_Info_Action,
     .page_name = "Info",
     .refresh_rate_ms = 10000, // 静态页面，不需要高刷新率
-    .last_refresh_time = 0
-};
+    .last_refresh_time = 0};
 
 /* Function implementations --------------------------------------------------*/
 
@@ -39,7 +38,8 @@ Page_Base g_page_info = {
  * @param[in] page 指向页面基类的指针 (未使用)
  * @return 无
  */
-static void Page_Info_Enter(Page_Base* page) {
+static void Page_Info_Enter(Page_Base *page)
+{
     // 静态页面，进入时无需任何操作
 }
 
@@ -51,9 +51,10 @@ static void Page_Info_Enter(Page_Base* page) {
  * @param[in] y_offset 屏幕的Y方向偏移
  * @return 无
  */
-static void Page_Info_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset) {
+static void Page_Info_Draw(Page_Base *page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset)
+{
     /* 标题和Logo */
-    u8g2_SetFont(u8g2, u8g2_font_open_iconic_app_2x_t); // 符号字体
+    u8g2_SetFont(u8g2, u8g2_font_open_iconic_app_2x_t);        // 符号字体
     u8g2_DrawGlyph(u8g2, 0 + x_offset, 16 + y_offset, 0x0045); // 一个时钟符号作为Logo
     u8g2_SetFont(u8g2, INFO_FONT_BIG);
     u8g2_DrawStr(u8g2, 22 + x_offset, 14 + y_offset, APP_NAME);
@@ -74,14 +75,16 @@ static void Page_Info_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int1
  * @param[in] event 指向输入事件数据的指针
  * @return 无
  */
-static void Page_Info_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event) {
-    switch (event->event) {
-        case INPUT_EVENT_BACK_PRESSED:
-        case INPUT_EVENT_COMFIRM_PRESSED:
-        case INPUT_EVENT_ENCODER_PRESSED:
-            Go_Back_Page();
-            break;
-        default:
-            break;
+static void Page_Info_Action(Page_Base *page, u8g2_t *u8g2, const Input_Event_Data_t *event)
+{
+    switch (event->event)
+    {
+    case INPUT_EVENT_BACK_PRESSED:
+    case INPUT_EVENT_COMFIRM_PRESSED:
+    case INPUT_EVENT_ENCODER_PRESSED:
+        Go_Back_Page();
+        break;
+    default:
+        break;
     }
 }

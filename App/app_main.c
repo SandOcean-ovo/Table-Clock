@@ -16,11 +16,17 @@
 #include "app_display.h"
 #include <stdbool.h>
 
+/**
+ * @defgroup AppMain 主应用逻辑
+ * @brief 实现了应用的主初始化、主循环以及自动熄屏功能
+ * @{
+ */
+
 /* Private variables ---------------------------------------------------------*/
-static uint32_t last_activity_time = 0; // 记录最后一次用户活动的时间戳
-static bool is_screen_on = true;        // 记录当前屏幕状态
-static uint32_t auto_off_timeout_ms = 0;  // 自动熄屏的超时时间 (ms)
-bool g_settings_load_failed = false;
+static uint32_t last_activity_time = 0; ///< 记录最后一次用户活动的时间戳
+static bool is_screen_on = true;        ///< 记录当前屏幕是否点亮
+static uint32_t auto_off_timeout_ms = 0;  ///< 自动熄屏的超时时间 (ms)，0表示永不熄屏
+bool g_settings_load_failed = false;    ///< 指示设置加载是否失败的全局标志
 
 /* Private function prototypes -----------------------------------------------*/
 static void update_auto_off_timeout(void);
@@ -29,6 +35,9 @@ static void handle_auto_off(void);
 
 /**
  * @brief 将设置中的索引转换为具体的超时毫秒数
+ * @details 从全局设置 `g_app_settings` 中读取 `auto_off` 索引，
+ *          并将其转换为对应的毫秒数，存入静态变量 `auto_off_timeout_ms`。
+ * @return 无
  */
 static void update_auto_off_timeout(void)
 {
@@ -44,7 +53,10 @@ static void update_auto_off_timeout(void)
 }
 
 /**
- * @brief 检查是否有用户输入活动
+ * @brief 检查并处理用户输入活动
+ * @details 如果检测到任何用户输入事件，则重置最后活动时间戳。
+ *          如果屏幕当前是关闭的，则此次输入将仅用于唤醒屏幕，事件本身会被清除。
+ * @return 无
  */
 static void check_user_activity(void)
 {
@@ -67,6 +79,9 @@ static void check_user_activity(void)
 
 /**
  * @brief 处理自动熄屏的计时和执行
+ * @details 检查当前时间与最后活动时间的差值是否超过设定的超时阈值。
+ *          如果超时，则调用u8g2的节电函数关闭屏幕，并将页面强制返回主页。
+ * @return 无
  */
 static void handle_auto_off(void)
 {
@@ -85,6 +100,17 @@ static void handle_auto_off(void)
 }
 
 
+/**
+ * @brief 应用主初始化函数
+ * @details 此函数封装了所有硬件和软件模块的初始化过程，包括：
+ *          - DS3231 RTC模块
+ *          - AHT20 温湿度传感器
+ *          - u8g2 显示库
+ *          - 输入设备 (旋钮编码器)
+ *          - 页面管理器
+ *          - 加载应用设置
+ * @return 无
+ */
 void app_main_init(void)
 {
 
@@ -104,6 +130,14 @@ void app_main_init(void)
     is_screen_on = true; // 初始时屏幕点亮
 }
 
+/**
+ * @brief 应用主循环函数
+ * @details 该函数应在STM32主循环 `while(1)` 中被周期性调用。它负责：
+ *          1. 检查用户活动以实现屏幕唤醒和重置自动熄屏计时器。
+ *          2. 处理自动熄屏倒计时和执行熄屏操作。
+ *          3. 在屏幕点亮时，驱动页面管理器的主循环。
+ * @return 无
+ */
 void app_main_loop(void)
 {
     // 1. 检查用户输入，并在有活动时重置计时器
@@ -117,3 +151,7 @@ void app_main_loop(void)
         Page_Manager_Loop();
     }
 }
+
+/**
+ * @}
+ */

@@ -16,51 +16,53 @@
 #include <stdbool.h>
 
 /* Private defines -----------------------------------------------------------*/
-#define TIME_SLOT_ITEM_COUNT 3      ///< 可设置项数量 (时/分/秒)
-#define TIME_SLOT_ITEM_HEIGHT 22    ///< 老虎机动画中每个数字占据的高度
-#define TIME_SLOT_Y_CENTER 32       ///< 聚焦时老虎机的中心Y坐标
+#define TIME_SLOT_ITEM_COUNT 3   ///< 可设置项数量 (时/分/秒)
+#define TIME_SLOT_ITEM_HEIGHT 22 ///< 老虎机动画中每个数字占据的高度
+#define TIME_SLOT_Y_CENTER 32    ///< 聚焦时老虎机的中心Y坐标
 
 /* Private types -------------------------------------------------------------*/
 /**
  * @brief 时间设置页面的动画状态枚举
  */
-typedef enum {
-    TIME_STATE_ENTERING,        ///< 初始显示状态
-    TIME_STATE_ZOOMING_IN,      ///< 放大动画状态
-    TIME_STATE_FOCUSED,         ///< 聚焦交互状态
-    TIME_STATE_ZOOMING_OUT,     ///< 缩小动画状态
-    TIME_STATE_SWITCHING,       ///< 准备切换焦点状态
-    TIME_STATE_SLOT_ROLLING,    ///< 老虎机滚动动画状态
-    TIME_STATE_SHOW_MSG         ///< 显示反馈信息状态
+typedef enum
+{
+    TIME_STATE_ENTERING,     ///< 初始显示状态
+    TIME_STATE_ZOOMING_IN,   ///< 放大动画状态
+    TIME_STATE_FOCUSED,      ///< 聚焦交互状态
+    TIME_STATE_ZOOMING_OUT,  ///< 缩小动画状态
+    TIME_STATE_SWITCHING,    ///< 准备切换焦点状态
+    TIME_STATE_SLOT_ROLLING, ///< 老虎机滚动动画状态
+    TIME_STATE_SHOW_MSG      ///< 显示反馈信息状态
 } Time_Set_State_e;
 
 /**
  * @brief 时间设置页面的私有数据结构体
  */
-typedef struct {
-    Time_t temp_time;           ///< 用于编辑的临时时间数据
-    int8_t focus_index;         ///< 当前焦点: 0=时, 1=分, 2=秒
-    Time_Set_State_e state;     ///< 页面动画状态
+typedef struct
+{
+    Time_t temp_time;       ///< 用于编辑的临时时间数据
+    int8_t focus_index;     ///< 当前焦点: 0=时, 1=分, 2=秒
+    Time_Set_State_e state; ///< 页面动画状态
 
-    uint32_t anim_start_time;   ///< 通用动画起始时间戳
-    float anim_progress;        ///< 通用动画进度 (0.0 to 1.0)
+    uint32_t anim_start_time; ///< 通用动画起始时间戳
+    float anim_progress;      ///< 通用动画进度 (0.0 to 1.0)
 
-    float slot_anim_y_offset;   ///< 老虎机滚动动画的Y轴偏移
-    int16_t slot_anim_direction;///< 老虎机滚动方向
+    float slot_anim_y_offset;      ///< 老虎机滚动动画的Y轴偏移
+    int16_t slot_anim_direction;   ///< 老虎机滚动方向
     uint32_t slot_anim_start_time; ///< 老虎机滚动动画起始时间戳
 
-    const char* msg_text;       ///< 指向要显示的反馈信息字符串
-    uint32_t msg_start_time;    ///< 反馈信息显示的开始时间戳
+    const char *msg_text;    ///< 指向要显示的反馈信息字符串
+    uint32_t msg_start_time; ///< 反馈信息显示的开始时间戳
 } Page_Time_Time_Data_t;
 
 /* Private variables ---------------------------------------------------------*/
 static Page_Time_Time_Data_t g_page_data; ///< 时间设置页面的数据实例
 
 /* Private function prototypes -----------------------------------------------*/
-static void Page_Enter(Page_Base* page);
-static void Page_Loop(Page_Base* page);
-static void Page_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset);
-static void Page_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event);
+static void Page_Enter(Page_Base *page);
+static void Page_Loop(Page_Base *page);
+static void Page_Draw(Page_Base *page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset);
+static void Page_Action(Page_Base *page, u8g2_t *u8g2, const Input_Event_Data_t *event);
 
 /* Public variables ----------------------------------------------------------*/
 /**
@@ -92,7 +94,8 @@ static float lerp(float a, float b, float t) { return a + t * (b - a); }
  * @param[in] page 指向页面基类的指针
  * @return 无
  */
-static void Page_Enter(Page_Base* page) {
+static void Page_Enter(Page_Base *page)
+{
     DS3231_GetTime(&g_page_data.temp_time);
     g_page_data.focus_index = 0;
     g_page_data.state = TIME_STATE_ENTERING;
@@ -106,58 +109,75 @@ static void Page_Enter(Page_Base* page) {
  * @param[in] page 指向页面基类的指针
  * @return 无
  */
-static void Page_Loop(Page_Base* page) {
+static void Page_Loop(Page_Base *page)
+{
     uint32_t elapsed = HAL_GetTick() - g_page_data.anim_start_time;
-    switch (g_page_data.state) {
-        case TIME_STATE_ENTERING:
-            if (elapsed >= ANIM_DURATION_ENTER) {
-                g_page_data.state = TIME_STATE_ZOOMING_IN;
-                g_page_data.anim_start_time = HAL_GetTick();
-            }
-            break;
-        case TIME_STATE_ZOOMING_IN: { // 使用花括号，避免编译器警告
-            if (elapsed >= ANIM_DURATION_ZOOM) {
-                g_page_data.anim_progress = 1.0f;
-                g_page_data.state = TIME_STATE_FOCUSED;
-            } else {
-                g_page_data.anim_progress = (float)elapsed / ANIM_DURATION_ZOOM;
-            }
-            break;
-        }
-        case TIME_STATE_ZOOMING_OUT: {
-            if (elapsed >= ANIM_DURATION_ZOOM) {
-                g_page_data.anim_progress = 0.0f;
-                g_page_data.state = TIME_STATE_SWITCHING; // 应该切换到 SWITCHING 状态
-            } else {
-                g_page_data.anim_progress = 1.0f - ((float)elapsed / ANIM_DURATION_ZOOM);
-            }
-            break;
-        }
-        case TIME_STATE_SWITCHING:
-            g_page_data.focus_index = (g_page_data.focus_index + 1) % TIME_SLOT_ITEM_COUNT;
+    switch (g_page_data.state)
+    {
+    case TIME_STATE_ENTERING:
+        if (elapsed >= ANIM_DURATION_ENTER)
+        {
             g_page_data.state = TIME_STATE_ZOOMING_IN;
             g_page_data.anim_start_time = HAL_GetTick();
-            break;
-        case TIME_STATE_SLOT_ROLLING: {
-            uint32_t slot_elapsed = HAL_GetTick() - g_page_data.slot_anim_start_time;
-            uint32_t slot_duration = 150;
-            if (slot_elapsed >= slot_duration) {
-                g_page_data.slot_anim_y_offset = 0;
-                g_page_data.state = TIME_STATE_FOCUSED;
-            } else {
-                float progress = (float)slot_elapsed / slot_duration;
-                progress = 1.0f - (1.0f - progress) * (1.0f - progress);
-                g_page_data.slot_anim_y_offset = g_page_data.slot_anim_direction * TIME_SLOT_ITEM_HEIGHT * (1.0f - progress);
-            }
-            break;
         }
-        case TIME_STATE_FOCUSED: break;
-        case TIME_STATE_SHOW_MSG:
-            if (HAL_GetTick() - g_page_data.msg_start_time >= 1000) {
-                g_page_data.state = TIME_STATE_FOCUSED;
-                Go_Back_Page();
-            }
-            break;
+        break;
+    case TIME_STATE_ZOOMING_IN:
+    { // 使用花括号，避免编译器警告
+        if (elapsed >= ANIM_DURATION_ZOOM)
+        {
+            g_page_data.anim_progress = 1.0f;
+            g_page_data.state = TIME_STATE_FOCUSED;
+        }
+        else
+        {
+            g_page_data.anim_progress = (float)elapsed / ANIM_DURATION_ZOOM;
+        }
+        break;
+    }
+    case TIME_STATE_ZOOMING_OUT:
+    {
+        if (elapsed >= ANIM_DURATION_ZOOM)
+        {
+            g_page_data.anim_progress = 0.0f;
+            g_page_data.state = TIME_STATE_SWITCHING; // 应该切换到 SWITCHING 状态
+        }
+        else
+        {
+            g_page_data.anim_progress = 1.0f - ((float)elapsed / ANIM_DURATION_ZOOM);
+        }
+        break;
+    }
+    case TIME_STATE_SWITCHING:
+        g_page_data.focus_index = (g_page_data.focus_index + 1) % TIME_SLOT_ITEM_COUNT;
+        g_page_data.state = TIME_STATE_ZOOMING_IN;
+        g_page_data.anim_start_time = HAL_GetTick();
+        break;
+    case TIME_STATE_SLOT_ROLLING:
+    {
+        uint32_t slot_elapsed = HAL_GetTick() - g_page_data.slot_anim_start_time;
+        uint32_t slot_duration = 150;
+        if (slot_elapsed >= slot_duration)
+        {
+            g_page_data.slot_anim_y_offset = 0;
+            g_page_data.state = TIME_STATE_FOCUSED;
+        }
+        else
+        {
+            float progress = (float)slot_elapsed / slot_duration;
+            progress = 1.0f - (1.0f - progress) * (1.0f - progress);
+            g_page_data.slot_anim_y_offset = g_page_data.slot_anim_direction * TIME_SLOT_ITEM_HEIGHT * (1.0f - progress);
+        }
+        break;
+    }
+    case TIME_STATE_FOCUSED:
+        break;
+    case TIME_STATE_SHOW_MSG:
+        if (HAL_GetTick() - g_page_data.msg_start_time >= 1000)
+        {
+            g_page_data.state = TIME_STATE_FOCUSED;
+            Go_Back_Page();
+        }
+        break;
     }
 }
 
@@ -169,35 +189,40 @@ static void Page_Loop(Page_Base* page) {
  * @param[in] y_offset 屏幕的Y方向偏移
  * @return 无
  */
-static void Page_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset) {
+static void Page_Draw(Page_Base *page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset)
+{
     float p = g_page_data.anim_progress;
     p = p < 0.5 ? 2 * p * p : 1 - pow(-2 * p + 2, 2) / 2;
 
-    const int16_t value_positions_x[] = { 21, 64, 107 };
+    const int16_t value_positions_x[] = {21, 64, 107};
     const int16_t value_y_small = 36;
-    const int16_t label_positions_x[] = { 18, 64, 107 };
+    const int16_t label_positions_x[] = {18, 64, 107};
     const int16_t label_y_small = 12;
     const int16_t focused_value_x = 64;
     const int16_t focused_value_y = TIME_SLOT_Y_CENTER;
     const int16_t focused_label_x = 20;
     const int16_t focused_label_y = 12;
 
-    const char* labels[] = {"Hour", "Min", "Sec"};
+    const char *labels[] = {"Hour", "Min", "Sec"};
     char str[6];
 
-    for (int i = 0; i < TIME_SLOT_ITEM_COUNT; i++) {
+    for (int i = 0; i < TIME_SLOT_ITEM_COUNT; i++)
+    {
         bool is_focus_target = (i == g_page_data.focus_index);
         int16_t current_value_x, current_value_y, current_label_x, current_label_y;
         const uint8_t *value_font, *label_font;
 
-        if (is_focus_target) {
+        if (is_focus_target)
+        {
             current_value_x = lerp(value_positions_x[i], focused_value_x, p);
             current_value_y = lerp(value_y_small, focused_value_y, p);
             current_label_x = lerp(label_positions_x[i], focused_label_x, p);
             current_label_y = lerp(label_y_small, focused_label_y, p);
             value_font = (p > 0.5) ? TIME_FONT_VALUE_LARGE : TIME_FONT_VALUE_SMALL;
             label_font = TIME_FONT_LABEL;
-        } else {
+        }
+        else
+        {
             current_value_x = value_positions_x[i];
             current_value_y = value_y_small;
             current_label_x = label_positions_x[i];
@@ -206,32 +231,40 @@ static void Page_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y
             label_font = TIME_FONT_LABEL;
         }
 
-        if (!is_focus_target && p > 0.1) continue;
+        if (!is_focus_target && p > 0.1)
+            continue;
 
         u8g2_SetFont(u8g2, label_font);
         int16_t label_width = u8g2_GetStrWidth(u8g2, labels[i]);
         u8g2_DrawStr(u8g2, current_label_x - (label_width / 2) + x_offset, current_label_y + y_offset, labels[i]);
 
         int value = 0;
-        if (i == 0) value = g_page_data.temp_time.hour;
-        else if (i == 1) value = g_page_data.temp_time.minute;
-        else value = g_page_data.temp_time.second;
+        if (i == 0)
+            value = g_page_data.temp_time.hour;
+        else if (i == 1)
+            value = g_page_data.temp_time.minute;
+        else
+            value = g_page_data.temp_time.second;
 
         u8g2_SetFont(u8g2, value_font);
         sprintf(str, "%02d", value);
         int16_t text_width = u8g2_GetStrWidth(u8g2, str);
         int16_t draw_x = current_value_x - (text_width / 2);
 
-        if (is_focus_target && (g_page_data.state == TIME_STATE_FOCUSED || g_page_data.state == TIME_STATE_SLOT_ROLLING)) {
+        if (is_focus_target && (g_page_data.state == TIME_STATE_FOCUSED || g_page_data.state == TIME_STATE_SLOT_ROLLING))
+        {
             int baseline_offset = 6;
             float y_off = g_page_data.slot_anim_y_offset;
 
             // --- 【关键修复】计算循环边界值 ---
             int value_above, value_below;
-            if (i == 0) { // Hour
+            if (i == 0)
+            { // Hour
                 value_above = (value == 0) ? 23 : value - 1;
                 value_below = (value == 23) ? 0 : value + 1;
-            } else { // Minute or Second
+            }
+            else
+            { // Minute or Second
                 value_above = (value == 0) ? 59 : value - 1;
                 value_below = (value == 59) ? 0 : value + 1;
             }
@@ -240,24 +273,27 @@ static void Page_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y
             // 绘制中心值
             sprintf(str, "%02d", value);
             u8g2_DrawStr(u8g2, draw_x + x_offset, current_value_y + baseline_offset + y_off, str);
-            
+
             // 绘制上方值
             sprintf(str, "%02d", value_above);
             u8g2_DrawStr(u8g2, draw_x + x_offset, current_value_y - TIME_SLOT_ITEM_HEIGHT + baseline_offset + y_off, str);
-            
+
             // 绘制下方值
             sprintf(str, "%02d", value_below);
             u8g2_DrawStr(u8g2, draw_x + x_offset, current_value_y + TIME_SLOT_ITEM_HEIGHT + baseline_offset + y_off, str);
-            
+
             int16_t arrow_width = u8g2_GetStrWidth(u8g2, ">");
             u8g2_DrawStr(u8g2, draw_x - arrow_width - 10 + x_offset, current_value_y + baseline_offset + y_offset, ">");
-        } else {
+        }
+        else
+        {
             int baseline_offset = 5;
             u8g2_DrawStr(u8g2, draw_x + x_offset, current_value_y + baseline_offset, str);
         }
     }
 
-    if (g_page_data.state == TIME_STATE_SHOW_MSG) {
+    if (g_page_data.state == TIME_STATE_SHOW_MSG)
+    {
         u8g2_SetFont(u8g2, PROMPT_FONT);
         uint16_t msg_w = u8g2_GetStrWidth(u8g2, g_page_data.msg_text);
         uint16_t box_w = msg_w + 10;
@@ -279,50 +315,56 @@ static void Page_Draw(Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y
  * @param[in] event 指向输入事件数据的指针
  * @return 无
  */
-static void Page_Action(Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event) {
-    if (g_page_data.state != TIME_STATE_FOCUSED) {
-        if (event->event == INPUT_EVENT_BACK_PRESSED) Go_Back_Page();
+static void Page_Action(Page_Base *page, u8g2_t *u8g2, const Input_Event_Data_t *event)
+{
+    if (g_page_data.state != TIME_STATE_FOCUSED)
+    {
+        if (event->event == INPUT_EVENT_BACK_PRESSED)
+            Go_Back_Page();
         return;
     }
 
-    switch (event->event) {
-        case INPUT_EVENT_ENCODER: {
-            switch (g_page_data.focus_index) {
-                case 0: // 时
-                    g_page_data.temp_time.hour = (g_page_data.temp_time.hour + event->value + 24) % 24;
-                    break;
-                case 1: // 分
-                    g_page_data.temp_time.minute = (g_page_data.temp_time.minute + event->value + 60) % 60;
-                    break;
-                case 2: // 秒
-                    g_page_data.temp_time.second = (g_page_data.temp_time.second + event->value + 60) % 60;
-                    break;
-            }
-            g_page_data.state = TIME_STATE_SLOT_ROLLING;
-            g_page_data.slot_anim_direction = (event->value > 0) ? -1 : 1;
-            g_page_data.slot_anim_start_time = HAL_GetTick();
-            g_page_data.slot_anim_y_offset = g_page_data.slot_anim_direction * TIME_SLOT_ITEM_HEIGHT;
+    switch (event->event)
+    {
+    case INPUT_EVENT_ENCODER:
+    {
+        switch (g_page_data.focus_index)
+        {
+        case 0: // 时
+            g_page_data.temp_time.hour = (g_page_data.temp_time.hour + event->value + 24) % 24;
+            break;
+        case 1: // 分
+            g_page_data.temp_time.minute = (g_page_data.temp_time.minute + event->value + 60) % 60;
+            break;
+        case 2: // 秒
+            g_page_data.temp_time.second = (g_page_data.temp_time.second + event->value + 60) % 60;
             break;
         }
-        case INPUT_EVENT_ENCODER_PRESSED:
-            g_page_data.state = TIME_STATE_ZOOMING_OUT;
-            g_page_data.anim_start_time = HAL_GetTick();
-            break;
-        case INPUT_EVENT_COMFIRM_PRESSED:
-            Time_t now;
-            DS3231_GetTime(&now);
-            now.hour = g_page_data.temp_time.hour;
-            now.minute = g_page_data.temp_time.minute;
-            now.second = g_page_data.temp_time.second;
-            DS3231_SetTime(&now);
-            g_page_data.msg_text = "Time Saved!";
-            g_page_data.state = TIME_STATE_SHOW_MSG;
-            g_page_data.msg_start_time = HAL_GetTick();
-            break;
-        case INPUT_EVENT_BACK_PRESSED:
-            Go_Back_Page();
-            break;
-        default:
-            break;
+        g_page_data.state = TIME_STATE_SLOT_ROLLING;
+        g_page_data.slot_anim_direction = (event->value > 0) ? -1 : 1;
+        g_page_data.slot_anim_start_time = HAL_GetTick();
+        g_page_data.slot_anim_y_offset = g_page_data.slot_anim_direction * TIME_SLOT_ITEM_HEIGHT;
+        break;
+    }
+    case INPUT_EVENT_ENCODER_PRESSED:
+        g_page_data.state = TIME_STATE_ZOOMING_OUT;
+        g_page_data.anim_start_time = HAL_GetTick();
+        break;
+    case INPUT_EVENT_COMFIRM_PRESSED:
+        Time_t now;
+        DS3231_GetTime(&now);
+        now.hour = g_page_data.temp_time.hour;
+        now.minute = g_page_data.temp_time.minute;
+        now.second = g_page_data.temp_time.second;
+        DS3231_SetTime(&now);
+        g_page_data.msg_text = "Time Saved!";
+        g_page_data.state = TIME_STATE_SHOW_MSG;
+        g_page_data.msg_start_time = HAL_GetTick();
+        break;
+    case INPUT_EVENT_BACK_PRESSED:
+        Go_Back_Page();
+        break;
+    default:
+        break;
     }
 }

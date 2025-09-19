@@ -25,18 +25,18 @@
 
 /** @defgroup UI_Fonts UI 字体定义 */
 /** @{ */
-#define CLOCK_FONT u8g2_font_logisoso24_tn /**< 主时钟界面使用的大号数字字体 */
-#define DATE_TEMP_FONT u8g2_font_6x10_tf   /**< 用于显示日期、温度等信息的小号字体 */
-#define MENU_FONT u8g2_font_ncenB10_tr   /**< 菜单选项使用的字体 */
-#define INFO_FONT_SMALL u8g2_font_profont12_tf  /**< 关于页面使用的小字体 */
-#define INFO_FONT_BIG u8g2_font_t0_15_tf /**< 关于页面使用的字体 */
-#define DATE_FONT_LABEL u8g2_font_profont12_tf /**< 日期设置页面标签使用的字体 */
-#define DATE_FONT_VALUE_SMALL u8g2_font_ncenB14_tr /**< 日期设置页面值使用的小字体 */
-#define DATE_FONT_VALUE_LARGE u8g2_font_inb16_mr /**< 日期设置页面值使用的大字体 */
-#define TIME_FONT_LABEL u8g2_font_profont12_tf /**< 时间设置页面标签使用的字体 */
-#define TIME_FONT_VALUE_SMALL u8g2_font_ncenB14_tr /**< 时间设置页面值使用的小字体 */
-#define TIME_FONT_VALUE_LARGE u8g2_font_inb16_mr /**< 时间设置页面值使用的大字体 */
-#define PROMPT_FONT u8g2_font_profont12_tf /**< 用于显示提示信息的字体 */
+#define CLOCK_FONT u8g2_font_logisoso24_tn      ///< 主时钟界面使用的大号数字字体
+#define DATE_TEMP_FONT u8g2_font_6x10_tf        ///< 用于显示日期、温度等信息的小号字体
+#define MENU_FONT u8g2_font_ncenB10_tr        ///< 菜单选项使用的字体
+#define INFO_FONT_SMALL u8g2_font_profont12_tf   ///< 关于页面使用的小字体
+#define INFO_FONT_BIG u8g2_font_t0_15_tf        ///< 关于页面使用的字体
+#define DATE_FONT_LABEL u8g2_font_profont12_tf  ///< 日期设置页面标签使用的字体
+#define DATE_FONT_VALUE_SMALL u8g2_font_ncenB14_tr ///< 日期设置页面值使用的小字体
+#define DATE_FONT_VALUE_LARGE u8g2_font_inb16_mr  ///< 日期设置页面值使用的大字体
+#define TIME_FONT_LABEL u8g2_font_profont12_tf  ///< 时间设置页面标签使用的字体
+#define TIME_FONT_VALUE_SMALL u8g2_font_ncenB14_tr ///< 时间设置页面值使用的小字体
+#define TIME_FONT_VALUE_LARGE u8g2_font_inb16_mr  ///< 时间设置页面值使用的大字体
+#define PROMPT_FONT u8g2_font_profont12_tf      ///< 用于显示提示信息的字体
 /** @} */
 
 /**
@@ -50,36 +50,36 @@ struct Page_Base;
 
 /**
  * @brief 页面进入函数指针类型
- * @param page 指向当前页面实例的指针
+ * @param[in] page 指向当前页面实例的指针
  */
 typedef void (*Page_Enter_f)(struct Page_Base* page);
 
 /**
  * @brief 页面退出函数指针类型
- * @param page 指向当前页面实例的指针
+ * @param[in] page 指向当前页面实例的指针
  */
 typedef void (*Page_Exit_f)(struct Page_Base* page);
 
 /**
  * @brief 页面循环逻辑函数指针类型
- * @param page 指向当前页面实例的指针
+ * @param[in] page 指向当前页面实例的指针
  */
 typedef void (*Page_Loop_f)(struct Page_Base* page);
 
 /**
  * @brief 页面绘制函数指针类型
- * @param page 指向当前页面实例的指针
- * @param u8g2 指向u8g2实例的指针，用于绘图
- * @param x_offset 绘制的X轴偏移量，用于实现动画
- * @param y_offset 绘制的Y轴偏移量，用于实现动画
+ * @param[in] page 指向当前页面实例的指针
+ * @param[in] u8g2 指向u8g2实例的指针，用于绘图
+ * @param[in] x_offset 绘制的X轴偏移量，用于实现动画
+ * @param[in] y_offset 绘制的Y轴偏移量，用于实现动画
  */
 typedef void (*Page_Draw_f)(struct Page_Base* page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset);
 
 /**
  * @brief 页面动作处理函数指针类型
- * @param page 指向当前页面实例的指针
- * @param u8g2 指向u8g2实例的指针
- * @param action_type 触发的动作类型 (例如，来自input模块的事件)
+ * @param[in] page 指向当前页面实例的指针
+ * @param[in] u8g2 指向u8g2实例的指针
+ * @param[in] event 指向输入事件数据的指针
  */
 typedef void (*Page_Action_f)(struct Page_Base* page, u8g2_t *u8g2, const Input_Event_Data_t* event);
 
@@ -89,17 +89,17 @@ typedef void (*Page_Action_f)(struct Page_Base* page, u8g2_t *u8g2, const Input_
  * @brief 页面基类结构体，定义了一个页面的所有行为和属性
  */
 typedef struct Page_Base {
-    Page_Enter_f  enter;    /**< 进入此页面时调用的函数，用于初始化 */
-    Page_Exit_f   exit;     /**< 退出此页面时调用的函数，用于清理资源 */
-    Page_Loop_f   loop;     /**< 页面处于活动状态时，在主循环中调用的函数 */
-    Page_Draw_f   draw;     /**< 绘制此页面的函数，由管理器在需要刷新时调用 */
-    Page_Action_f action;   /**< 处理输入事件或动作的函数 */
+    Page_Enter_f  enter;            ///< 进入此页面时调用的函数，用于初始化
+    Page_Exit_f   exit;             ///< 退出此页面时调用的函数，用于清理资源
+    Page_Loop_f   loop;             ///< 页面处于活动状态时，在主循环中调用的函数
+    Page_Draw_f   draw;             ///< 绘制此页面的函数，由管理器在需要刷新时调用
+    Page_Action_f action;           ///< 处理输入事件或动作的函数
     
-    const char*   page_name;      /**< 页面的名称，用于调试 */
-    struct Page_Base* parent_page;/**< 指向父页面的指针，用于实现“返回”功能 */
+    const char*   page_name;        ///< 页面的名称，用于调试
+    struct Page_Base* parent_page;  ///< 指向父页面的指针，用于实现“返回”功能
     
-    uint32_t      refresh_rate_ms;/**< 页面的建议刷新率（毫秒），0表示尽可能快 */
-    uint32_t      last_refresh_time;/**< 上次刷新的时间戳 */
+    uint32_t      refresh_rate_ms;  ///< 页面的建议刷新率（毫秒），0表示尽可能快
+    uint32_t      last_refresh_time;///< 上次刷新的时间戳
 } Page_Base;
 
 /** @defgroup Global_Pages 全局页面实例声明 */
@@ -123,12 +123,14 @@ extern Page_Base g_page_auto_off;
 /**
  * @brief 初始化页面管理器
  * @param[in] u8g2_ptr 指向已初始化的u8g2实例的指针
+ * @return 无
  */
 void Page_Manager_Init(u8g2_t* u8g2_ptr);
 
 /**
  * @brief 页面管理器的主循环函数
  * @details 此函数应在main的while(1)中被反复调用。它负责驱动当前页面的loop和draw。
+ * @return 无
  */
 void Page_Manager_Loop(void);
 
@@ -136,12 +138,14 @@ void Page_Manager_Loop(void);
  * @brief 切换到指定的页面
  * @details 会调用当前页面的exit函数和新页面的enter函数。
  * @param[in] new_page 指向要切换到的目标页面的指针
+ * @return 无
  */
 void Switch_Page(Page_Base* new_page);
 
 /**
  * @brief 返回到当前页面的父页面
  * @details 如果当前页面没有定义父页面，则此函数无效。
+ * @return 无
  */
 void Go_Back_Page(void);
 
@@ -149,6 +153,7 @@ void Go_Back_Page(void);
  * @brief 强制返回到主页面
  * @details 清空所有页面历史记录，并立即将当前页面设置为主页面，无切换动画。
  *          主要用于自动熄屏后恢复等场景。
+ * @return 无
  */
 void Page_Manager_Go_Home(void);
 

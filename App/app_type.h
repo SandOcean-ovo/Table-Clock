@@ -17,46 +17,30 @@
 #include "stdint.h"
 #include <stdbool.h>
 
-// 向前声明UI管理器结构体，以便页面函数可以接收它作为参数
-struct UI_Manager_s; 
-
 /**
- * @brief UI页面的函数指针定义
- * @param manager 指向UI管理器的指针
- * @param event 指向输入事件的指针 (仅用于input函数)
+ * @brief 自动熄屏时间枚举
+ * @details 定义了自动熄屏设置中可选的时间间隔。
  */
-typedef void (*ui_page_func_t)(struct UI_Manager_s* manager);
-typedef void (*ui_input_func_t)(struct UI_Manager_s* manager, const Input_Event_Data_t* event);
-
-/**
- * @brief 定义了一个UI页面对象
- * @details 每个UI界面都由一个这样的结构体来描述其行为
- */
-typedef struct {
-    ui_page_func_t on_enter;    // 进入此页面时调用的函数 (用于初始化)
-    ui_page_func_t on_exit;     // 退出此页面时调用的函数 (用于清理)
-    ui_page_func_t draw;        // 绘制此页面的函数 (每帧调用)
-    ui_input_func_t process_input; // 处理此页面输入的函数
-} UI_Page_t;
-
 typedef enum {
-    NEVER = 0,
-    TIME_30S,
-    TIME_1MIN,
-    TIME_5MIN,
-    TIME_10MIN,
-} Auto_Off;
+    NEVER = 0,      ///< 从不自动熄屏
+    TIME_30S,       ///< 30秒后自动熄屏
+    TIME_1MIN,      ///< 1分钟后自动熄屏
+    TIME_5MIN,      ///< 5分钟后自动熄屏
+    TIME_10MIN,     ///< 10分钟后自动熄屏
+} Auto_Off_e;
 
+/**
+ * @brief 应用设置结构体
+ * @details 定义了需要持久化保存到EEPROM的所有设置项。
+ */
 typedef struct {
-    uint32_t magic_number;
-    uint8_t language;
-    Auto_Off auto_off;
-    bool dst_enabled;
+    uint32_t magic_number;  ///< 魔法数，用于验证EEPROM中的数据是否有效 (固定为 `APP_SETTINGS_MAGIC_NUMBER`)
+    uint8_t language;       ///< 语言设置 (0: English, 1: Chinese)
+    Auto_Off_e auto_off;    ///< 自动熄屏设置，使用 `Auto_Off_e` 枚举
+    bool dst_enabled;       ///< 夏令时 (Daylight Saving Time) 是否启用
 
-    uint8_t checksum;
+    uint8_t checksum;       ///< 校验和，用于验证数据完整性
 } Settings_t;
-
-
 
 
 #endif /* __APP_TYPE_H */

@@ -1,10 +1,11 @@
 /**
- * @file input.h
- * @brief 输入处理模块头文件
- * @details 定义了输入事件、按键状态机、数据结构以及外部函数原型。
- * @author SandOcean
- * @date 2025-08-26
- * @version 1.0
+ * @file      input.h
+ * @brief     输入处理模块头文件
+ * @details   定义了输入事件、按键状态机、数据结构以及外部函数原型。
+ * @author    SandOcean
+ * @date      2025-08-26
+ * @version   1.0
+ * @copyright Copyright (c) 2025 SandOcean
  */
 
 #ifndef __INPUT_H
@@ -15,8 +16,20 @@
 #include "stdint.h"
 #include "string.h"
 
+/**
+ * @defgroup Input_Driver 输入处理模块
+ * @brief 提供了对旋钮编码器（带按键）的事件驱动式输入处理。
+ *        通过定时器中断扫描硬件，并将输入动作转换为事件存入FIFO队列。
+ * @{
+ */
+
+/** 
+ * @defgroup Input_Config 输入模块配置
+ * @{ 
+ */
 #define INPUT_KEY_DEBOUNCE 2 ///< 按键消抖所需的连续扫描次数
 #define INPUT_FIFO_SIZE    16 ///< 输入事件FIFO队列的大小
+/** @} */
 
 /**
  * @brief 定义了所有可能的输入事件类型
@@ -87,15 +100,20 @@ uint8_t input_get_event(Input_Event_Data_t *event);
 void input_scan_timer_irq_handler(TIM_HandleTypeDef *htim);
 
 /**
- * @brief 获取队列中是否有未处理的输入事件
+ * @brief 获取队列中当前未处理事件的数量
  * @return uint8_t - 返回队列中未处理事件的个数。
  */
 uint8_t input_count_events(void);
 
 /**
  * @brief 清空输入事件队列
+ * @details 在某些场景下（如从休眠唤醒时），可能需要丢弃旧的输入事件。
  * @return 无
  */
 void input_clear_events(void);
+
+/**
+ * @}
+ */
 
 #endif /* __INPUT_H */

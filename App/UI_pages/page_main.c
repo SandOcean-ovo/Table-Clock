@@ -1,7 +1,7 @@
 /**
  * @file      page_main.c
  * @brief     主页面实现文件
- * @details   本文件定义了主页面的行为，包括显示时间、日期、温湿度等信息。 
+ * @details   本文件定义了主页面的行为，包括显示时间、日期、温湿度等信息。
  * @author    SandOcean
  * @date      2025-09-17
  * @version   1.1
@@ -12,7 +12,7 @@
 #include "app_main.h" // 包含 app_main.h 以访问全局标志
 #include "DS3231.h"
 #include "AHT20.h"
-#include "input.h" 
+#include "input.h"
 #include <stdio.h>
 
 /* Private types -------------------------------------------------------------*/
@@ -28,9 +28,9 @@ typedef struct
     char week_str[5];       ///< 格式化的星期字符串
     char temp_humi_str[20]; ///< 格式化的温湿度字符串
 
-    Time_t current_time;    ///< 当前时间数据
-    float current_temp;     ///< 当前温度数据
-    float current_humi;     ///< 当前湿度数据
+    Time_t current_time;       ///< 当前时间数据
+    float current_temp;        ///< 当前温度数据
+    float current_humi;        ///< 当前湿度数据
     uint32_t last_update_time; ///< 上次更新温湿度的时间戳
 
     // 新增成员，用于处理设置加载失败的提示
@@ -43,7 +43,7 @@ typedef struct
 static void Page_main_Enter(Page_Base *page);
 static void Page_main_Loop(Page_Base *page);
 static void Page_main_Draw(Page_Base *page, u8g2_t *u8g2, int16_t x_offset, int16_t y_offset);
-static void Page_main_Action(Page_Base *page, u8g2_t *u8g2, const Input_Event_Data_t* event);
+static void Page_main_Action(Page_Base *page, u8g2_t *u8g2, const Input_Event_Data_t *event);
 
 /* Private variables ---------------------------------------------------------*/
 static Page_main_Data g_page_main_data; ///< 主页面的数据实例
@@ -75,12 +75,15 @@ static void Page_main_Enter(Page_Base *page)
     data->last_update_time = 0; // 强制在每次进入主页时都立即刷新一次温湿度
 
     // 检查设置加载失败的全局标志
-    if (g_settings_load_failed == true) {
+    if (g_settings_load_failed == true)
+    {
         data->show_error_msg = true;
         data->error_msg_start_time = HAL_GetTick();
         // 将全局标志复位，这样下次返回主页时就不会再显示
-        g_settings_load_failed = false; 
-    } else {
+        g_settings_load_failed = false;
+    }
+    else
+    {
         data->show_error_msg = false;
     }
 
@@ -98,8 +101,10 @@ static void Page_main_Loop(Page_Base *page)
     Page_main_Data *data = &g_page_main_data;
 
     // 如果正在显示错误消息，检查是否超过3秒
-    if (data->show_error_msg) {
-        if (HAL_GetTick() - data->error_msg_start_time > 3000) {
+    if (data->show_error_msg)
+    {
+        if (HAL_GetTick() - data->error_msg_start_time > 3000)
+        {
             data->show_error_msg = false; // 3秒后停止显示
         }
     }
@@ -118,7 +123,8 @@ static void Page_main_Loop(Page_Base *page)
     sprintf(data->date_str, "%04d-%02d-%02d", data->current_time.year, data->current_time.month, data->current_time.day);
 
     const char *week_str_map[] = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
-    if (data->current_time.week >= 1 && data->current_time.week <= 7) {
+    if (data->current_time.week >= 1 && data->current_time.week <= 7)
+    {
         strcpy(data->week_str, week_str_map[data->current_time.week - 1]);
     }
 
@@ -155,8 +161,9 @@ static void Page_main_Draw(Page_Base *page, u8g2_t *u8g2, int16_t x_offset, int1
     u8g2_DrawStr(u8g2, 2 + x_offset, 62 + y_offset, data->temp_humi_str);
 
     /* 如果需要，在最上层绘制错误信息弹窗 */
-    if (data->show_error_msg) {
-        const char* msg = "Setting load failed";
+    if (data->show_error_msg)
+    {
+        const char *msg = "Setting load failed";
         u8g2_SetFont(u8g2, PROMPT_FONT); // 假设 PROMPT_FONT 是一个已定义的字体
         uint16_t msg_w = u8g2_GetStrWidth(u8g2, msg);
         uint16_t box_w = msg_w + 10;
@@ -179,7 +186,7 @@ static void Page_main_Draw(Page_Base *page, u8g2_t *u8g2, int16_t x_offset, int1
  * @param[in] event 指向输入事件数据的指针
  * @return 无
  */
-static void Page_main_Action(Page_Base *page, u8g2_t *u8g2, const Input_Event_Data_t* event)
+static void Page_main_Action(Page_Base *page, u8g2_t *u8g2, const Input_Event_Data_t *event)
 {
     if (event->event == INPUT_EVENT_COMFIRM_PRESSED)
     {

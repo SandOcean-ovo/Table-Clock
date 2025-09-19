@@ -1,25 +1,36 @@
 /**
- * @file AHT20.c
- * @brief 温湿度传感器AHT20驱动文件
- * @details 本文件实现了AHT20的各种操作，包括初始化、复位和数据读取。
- * @author SandOcean
- * @date 2025-09-09
- * @version 1.0
+ * @file      AHT20.c
+ * @brief     温湿度传感器AHT20驱动文件
+ * @details   本文件实现了AHT20的各种操作，包括初始化、复位和数据读取。
+ * @author    SandOcean
+ * @date      2025-09-09
+ * @version   1.0
+ * @copyright Copyright (c) 2025 SandOcean
  */
 
 #include "AHT20.h"
 
-// 用于保存I2C句柄的静态指针
+/**
+ * @addtogroup AHT20_Driver
+ * @{
+ */
+
+/* Private variables ---------------------------------------------------------*/
+/**
+ * @brief 用于保存I2C句柄的静态指针
+ * @details 在 AHT20_Init 函数中被初始化，供模块内所有私有函数使用，
+ *          避免了在每个函数调用中都传递 I2C 句柄。
+ */
 static I2C_HandleTypeDef *g_aht20_hi2c = NULL;
 
-// --- 模块私有函数 ---
+/* Private Function implementations ------------------------------------------*/
 
 /**
  * @brief 向AHT20发送命令
- * @param[in] cmd 要发送的命令
- * @param[in] p_data 指向命令参数的指针
- * @param[in] size 参数的长度
- * @return HAL_StatusTypeDef HAL状态码
+ * @param[in] cmd 要发送的命令字节 (e.g., AHT20_CMD_TRIGGER)
+ * @param[in] p_data 指向命令参数数据缓冲区的指针 (可以为NULL)
+ * @param[in] size 参数数据的长度 (字节)
+ * @return HAL_StatusTypeDef - HAL库返回的I2C操作状态
  */
 static HAL_StatusTypeDef AHT20_Send_Cmd(uint8_t cmd, uint8_t *p_data, uint16_t size)
 {
@@ -29,21 +40,27 @@ static HAL_StatusTypeDef AHT20_Send_Cmd(uint8_t cmd, uint8_t *p_data, uint16_t s
         tx_buffer[1] = p_data[0];
         tx_buffer[2] = p_data[1];
     }
-    return HAL_I2C_Master_Transmit(g_aht20_hi2c, (AHT20_ADDRESS << 1), tx_buffer, size + 1, HAL_MAX_DELAY);
+    return HAL_I2C_Master_Transmit(g_aht20_hi2c, AHT20_ADDRESS, tx_buffer, size + 1, HAL_MAX_DELAY);
 }
 
 /**
  * @brief 从AHT20读取状态字节
  * @param[out] p_status 指向用于存储状态字节的变量指针
- * @return HAL_StatusTypeDef HAL状态码
+ * @return HAL_StatusTypeDef - HAL库返回的I2C操作状态
  */
 static HAL_StatusTypeDef AHT20_Read_Status(uint8_t *p_status)
 {
-    return HAL_I2C_Master_Receive(g_aht20_hi2c, (AHT20_ADDRESS << 1) | 0x01, p_status, 1, HAL_MAX_DELAY);
+    return HAL_I2C_Master_Receive(g_aht20_hi2c, AHT20_ADDRESS, p_status, 1, HAL_MAX_DELAY);
 }
 
-// --- 公共函数实现 ---
+/* Public Function implementations -------------------------------------------*/
 
+/**
+ * @brief 初始化AHT20传感器
+ * @details 检查传感器状态，如果传感器未校准，则向其发送初始化命令。
+ * @param[in] hi2c 指向目标I2C外设的HAL句柄指针
+ * @return HAL_StatusTypeDef HAL库的I2C操作状态
+ */
 HAL_StatusTypeDef AHT20_Init(I2C_HandleTypeDef *hi2c)
 {
     g_aht20_hi2c = hi2c;
@@ -67,6 +84,10 @@ HAL_StatusTypeDef AHT20_Init(I2C_HandleTypeDef *hi2c)
     return ret;
 }
 
+/**
+ * @brief 软复位AHT20传感器
+ * @return HAL_StatusTypeDef HAL状态码
+ */
 HAL_StatusTypeDef AHT20_Soft_Reset(void)
 {
     HAL_StatusTypeDef ret = AHT20_Send_Cmd(AHT20_CMD_SOFT_RST, NULL, 0);
@@ -74,6 +95,13 @@ HAL_StatusTypeDef AHT20_Soft_Reset(void)
     return ret;
 }
 
+/**
+ * @brief 读取AHT20的温度和湿度值
+ * @param[out] temperature 指向浮点数的指针，用于存储温度值(℃)
+ * @param[out] humidity 指向浮点数的指针，用于存储相对湿度值(%RH)
+ * @return HAL_StatusTypeDef HAL状态码
+ * @note 此函数会触发一次新的测量，等待测量完成，然后读取并转换数据。
+ */
 HAL_StatusTypeDef AHT20_Read_Temp_Humi(float *temperature, float *humidity)
 {
     if (g_aht20_hi2c == NULL) {
@@ -97,7 +125,7 @@ HAL_StatusTypeDef AHT20_Read_Temp_Humi(float *temperature, float *humidity)
 
     // 3. 循环读取状态，直到传感器不忙
     do {
-        ret = HAL_I2C_Master_Receive(g_aht20_hi2c, (AHT20_ADDRESS << 1) | 0x01, read_buffer, 6, HAL_MAX_DELAY);
+        ret = HAL_I2C_Master_Receive(g_aht20_hi2c, AHT20_ADDRESS, read_buffer, 6, HAL_MAX_DELAY);
         if (ret != HAL_OK) {
             return ret;
         }
@@ -115,3 +143,7 @@ HAL_StatusTypeDef AHT20_Read_Temp_Humi(float *temperature, float *humidity)
 
     return HAL_OK;
 }
+
+/**
+ * @}
+ */

@@ -17,19 +17,24 @@
 #include "stdint.h"
 #include <stdbool.h>
 
-#define APP_SETTINGS_ADDRESS      0x0000      /**< 设置信息在AT24C32中存储的起始地址 */
-#define APP_SETTINGS_MAGIC_NUMBER 0xDEADBEEF  /**< 设置数据的魔法数，用于验证数据有效性 */
+#define APP_SETTINGS_ADDRESS      0x0000      ///< 设置信息在AT24C32中存储的起始地址
+#define APP_SETTINGS_MAGIC_NUMBER 0xDEADBEEF  ///< 设置数据的魔法数，用于验证数据有效性
 
+/**
+ * @brief 全局应用程序设置实例
+ * @details 该变量在内存中维护当前的应用设置。
+ *          通过调用 `app_settings_load()` 从EEPROM加载，
+ *          并通过 `app_settings_save()` 保存回EEPROM。
+ */
 extern Settings_t g_app_settings;
 
 /**
  * @brief 初始化应用设置
- * @details 初始化默认设置值，包括语言、主题、自动关机等参数。
- *          设置默认值：中文(0)、经典主题(0)、关闭自动关机(0)
- * @note 此函数应在系统启动时调用一次
+ * @details 尝试从EEPROM加载现有设置。如果加载失败（例如首次启动或数据损坏），
+ *          则会创建一套默认设置并保存。
  * @return bool 初始化结果
- *        - @retval true 初始化成功，已有有效设置
- *        - @retval false 初始化失败，已重置为默认设置
+ *         - @retval true 已成功加载现有有效设置。
+ *         - @retval false 未找到有效设置，已创建并保存默认设置。
  */
 bool app_settings_init(void);
 
@@ -56,9 +61,9 @@ bool app_settings_save(Settings_t *settings);
  *          - 验证校验和是否匹配
  * @param[out] settings 指向设置结构体的指针，用于存储加载的数据
  * @return bool 加载结果
- *          - @retval false 加载失败，数据无效或已损坏
-*          - @retval true 加载成功，数据有效
- * @note 如果加载失败，建议调用app_settings_init()重新初始化默认设置
+ *         - @retval true 加载成功，数据有效
+ *         - @retval false 加载失败，数据无效或已损坏
+ * @note 如果加载失败，建议调用 `app_settings_init()` 和 `app_settings_save()` 来创建一套新的默认设置。
  */
 bool app_settings_load(Settings_t *settings);
 
